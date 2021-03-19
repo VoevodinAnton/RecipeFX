@@ -1,4 +1,4 @@
-package com.netcracker.recipeproject.client.view;
+package com.netcracker.recipeproject.client.controller;
 
 import java.io.IOException;
 
