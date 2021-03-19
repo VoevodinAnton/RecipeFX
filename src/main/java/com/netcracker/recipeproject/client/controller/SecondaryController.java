@@ -9,7 +9,7 @@ public class SecondaryController {
 
     @FXML
     private void switchToPrimary() throws IOException {
-        App.setRoot("/com/netcracker/recipeproject/primary.fxml");
+        App.setRoot("/com/netcracker/recipeproject/FXML/primary.fxml");
         System.out.println("1");
     }
 }
