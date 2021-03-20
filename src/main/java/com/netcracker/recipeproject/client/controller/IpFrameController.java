@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
+
 public class IpFrameController {
 
     @FXML
@@ -22,8 +24,15 @@ public class IpFrameController {
             int port = 2021;
             InteractionClient client = new InteractionClient(host, port);
             client.process();
-            Message message = new Message(0, null);
-            client.messageRequest(message);
+            Message messageOut = new Message(0, null);//отправляем сообщение о выводе всего списка блюд
+            try {
+                client.messageRequest(messageOut);//отправляем сообщение
+                Message messageIn = client.getMessage();//принимаем ответное сообщение с сервера
+                client.doCommand(messageIn);//выполняем соответствующую команду
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
         });
     }
 
