@@ -37,4 +37,9 @@ public class PrimaryController {
         App.setRoot("/com/netcracker/recipeproject/FXML/secondary.fxml");
         System.out.println("2");
     }
+
+    @FXML
+    private void search(){
+        System.out.println("search");
+    }
 }

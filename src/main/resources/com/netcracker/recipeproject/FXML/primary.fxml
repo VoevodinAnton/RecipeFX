@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="480.0" prefWidth="691.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane  style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.netcracker.recipeproject.client.controller.PrimaryController">
    <children>
-      <Button fx:id="searchButton" layoutX="372.0" layoutY="28.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="74.0" style="-fx-background-color: #FDB687; -fx-background-radius: 10;" text="Поиск">
+      <Button fx:id="searchButton" onAction="#search" layoutX="372.0" layoutY="28.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="74.0" style="-fx-background-color: #FDB687; -fx-background-radius: 10;" text="Поиск">
          <font>
             <Font size="14.0" />
          </font>
