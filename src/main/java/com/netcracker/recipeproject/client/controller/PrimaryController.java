@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import com.netcracker.recipeproject.client.model.DishDictionary;
 import com.netcracker.recipeproject.client.view.App;
 import com.netcracker.recipeproject.library.Dish;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -38,10 +39,11 @@ public class PrimaryController implements Initializable {
         @FXML
         private Button allDishButton21;
 
-        private ObservableArray<Dish> dishObservableArray;
+        private ObservableList<Dish> dishObservableArray;
 
         public PrimaryController(){
-            dishObservableArray = (ObservableArray<Dish>) DishDictionary.dishes;
+            dishObservableArray = FXCollections.observableArrayList();
+            dishObservableArray.addAll(DishDictionary.dishes);
         }
 
 

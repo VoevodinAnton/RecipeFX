@@ -5,7 +5,7 @@ import javafx.collections.ObservableArray;
 
 import java.util.ArrayList;
 
-public class Dish implements ObservableArray<Dish> {
+public class Dish {
     private int id;
     private ArrayList<IngrWithNumber> listOfIngr;
     private String name;
