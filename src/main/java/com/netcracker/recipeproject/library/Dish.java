@@ -1,5 +1,7 @@
 package com.netcracker.recipeproject.library;
 
+import com.netcracker.recipeproject.server.model.DishDictionary;
+
 import java.util.ArrayList;
 
 public class Dish {
@@ -51,5 +53,16 @@ public class Dish {
 
     public void setCookingTime(String cookingTime) {
         this.cookingTime = cookingTime;
+    }
+
+    public boolean contains(String[] ingredients){
+
+        for (IngrWithNumber ingr : listOfIngr){
+            for (int i = 0; i < ingredients.length; i++){
+
+            }
+        }
+        //TODO: create contains
+         return true;
     }
 }

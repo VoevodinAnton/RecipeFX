@@ -1,6 +1,9 @@
 package com.netcracker.recipeproject.library;
 
-public class Message {
+import java.io.Serializable;
+
+public class Message implements Serializable{
+    private static final long serialVersionUID = 5990545414373884974L;
     private int flag;
     private Object obj;
 
