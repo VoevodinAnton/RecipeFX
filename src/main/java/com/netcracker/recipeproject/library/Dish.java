@@ -1,10 +1,11 @@
 package com.netcracker.recipeproject.library;
 
 import com.netcracker.recipeproject.server.model.DishDictionary;
+import javafx.collections.ObservableArray;
 
 import java.util.ArrayList;
 
-public class Dish {
+public class Dish implements ObservableArray<Dish> {
     private int id;
     private ArrayList<IngrWithNumber> listOfIngr;
     private String name;

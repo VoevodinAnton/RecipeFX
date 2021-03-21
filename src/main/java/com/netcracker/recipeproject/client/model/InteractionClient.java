@@ -1,4 +1,6 @@
 package com.netcracker.recipeproject.client.model;
+ import com.netcracker.recipeproject.client.view.App;
+ import com.netcracker.recipeproject.library.Dish;
  import com.netcracker.recipeproject.library.Message;
 
  import java.io.IOException;
@@ -7,6 +9,7 @@ package com.netcracker.recipeproject.client.model;
  import java.io.ObjectOutputStream;
  import java.net.Socket;
  import java.net.UnknownHostException;
+ import java.util.ArrayList;
 
 public class InteractionClient {
 
@@ -46,11 +49,13 @@ public class InteractionClient {
     }
 
 
-    public void doCommand(Message message) {
+    public void doCommand(Message message) throws IOException {
         int flag = message.getFlag();
+        Object obj = message.getObj();
         switch (flag){
             case 0: //пришел список блюд
-                //выводим этот список????
+                ArrayList<Dish> dishArrayList = (ArrayList<Dish>)obj;
+                App.setRoot("/com/netcracker/recipeproject/FXML/primary.fxml");
                 break;
             case 1: //пришел список ингредиентов
                 break;
