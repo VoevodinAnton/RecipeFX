@@ -41,10 +41,10 @@ public class ServerInteraction {
                 objOut.flush();
             }
         } catch (IOException ex) {
-            System.out.println(
+            System.err.println(
                     "Ошибка ввода/вывода при работе с клиентом");
         } catch (ClassNotFoundException ex) {
-            System.out.println("Неизвестный класс в запросе");
+            System.err.println("Неизвестный класс в запросе");
         }
     }
 
@@ -103,7 +103,6 @@ public class ServerInteraction {
         }
 
     }
-
     public static void main(String[] args ){
         int port = 2021;
         ServerInteraction s = new ServerInteraction(port);
