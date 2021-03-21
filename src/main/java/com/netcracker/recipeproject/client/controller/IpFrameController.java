@@ -26,7 +26,7 @@ public class IpFrameController {
             client.process();
             System.out.println("Подключен к серверу");
             //Закомментил чтобы проверить подключение к серверу
-            /*
+
             Message messageOut = new Message(1, null);//отправляем сообщение о выводе всего списка блюд
             try {
                 client.messageRequest(messageOut);//отправляем сообщение
@@ -35,8 +35,6 @@ public class IpFrameController {
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
-
-             */
 
 
 

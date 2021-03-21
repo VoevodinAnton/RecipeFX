@@ -28,7 +28,7 @@ public class ServerInteraction {
     public void messageRequest(Socket socket) {
         try (socket; ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream()); ObjectInputStream objIn = new ObjectInputStream(socket.getInputStream())) {
             Message messageFromClient;
-            while (((Boolean) objIn.readObject()).booleanValue()) {
+            while (((Boolean) objIn.readObject()).booleanValue()) { //он еще вот здесь ругается, на самом делене понимаю, зачем тебе эта строчка
                 messageFromClient = (Message) objIn.readObject();
                 try {
                     doCommand(messageFromClient, objOut);
@@ -99,10 +99,20 @@ public class ServerInteraction {
                     System.err.println("Отправлено исключение");
                     //TODO: create exception
                 }
+                break;
+            /*case 1:
+                try{
+                    Message m = new Message(0, null);
+                    objOut.writeObject(m);
+                    objOut.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
 
         }
 
     }
+
     public static void main(String[] args ){
         int port = 2021;
         ServerInteraction s = new ServerInteraction(port);
