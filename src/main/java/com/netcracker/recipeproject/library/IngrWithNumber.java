@@ -1,8 +1,12 @@
 package com.netcracker.recipeproject.library;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import java.io.Serializable;
 
 public class IngrWithNumber implements Serializable {
+    private static final long serialVersionUID = -6912146482775838759L;
     private Ingredient ingredient;
     private int number;
 
