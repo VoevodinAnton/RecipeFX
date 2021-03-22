@@ -70,12 +70,10 @@ public class Dish implements Serializable {
     }
 
 
-    public boolean contains(String[] ingredientsSearch) {
+    public boolean contains(String ingredientsSearch) {
+        String[] listOfIngredients = ingredientsSearch.split(",\\s*"); //
         ArrayList<String> nameOfingredientsDish = this.nameOfIngredientsToArray();
-        if (nameOfingredientsDish.containsAll(Arrays.asList(ingredientsSearch))) {
-            return true;
-        }
-        return false;
+        return nameOfingredientsDish.containsAll(Arrays.asList(listOfIngredients));
     }
 
 }

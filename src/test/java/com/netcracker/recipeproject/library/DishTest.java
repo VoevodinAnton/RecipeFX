@@ -1,5 +1,6 @@
 package com.netcracker.recipeproject.library;
 
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -13,18 +14,36 @@ public class DishTest {
     IngrWithNumber sausage1 = new IngrWithNumber(sausage, 1);
     IngrWithNumber egg3 = new IngrWithNumber(egg, 3);
     ArrayList<IngrWithNumber> ingredientsOfOmelette = new ArrayList<>();
+    Dish omelette = new Dish(ingredientsOfOmelette, "omelette", "10");
 
+    @BeforeSuite
+    public void initialize(){
+        ingredientsOfOmelette.add(sausage1);
+        ingredientsOfOmelette.add(egg3);
+
+    }
 
     @Test
     public void testContains() {
-        ingredientsOfOmelette.add(sausage1);
-        ingredientsOfOmelette.add(egg3);
-        Dish omelette = new Dish(ingredientsOfOmelette, "omelette", "10");
-        String[] search1 = new String[]{"яйцо"};
-        String[] search2 = new String[]{"яйцо"};
+        String search1 = "яйцо";
+        String search2 = "яйцо, колбаса";
 
         assertTrue(omelette.contains(search1));
         assertTrue(omelette.contains(search2));
+    }
+
+    @Test
+    public void testNameOfIngredientsToArray() {
+        ArrayList<String> nameOfIngredients = new ArrayList();
+        nameOfIngredients.add("колбаса");
+        nameOfIngredients.add("яйцо");
+
+        ArrayList<String> ingredientsOfDish = omelette.nameOfIngredientsToArray();
+
+
+        assertEquals(ingredientsOfDish, nameOfIngredients);
+
+
 
     }
 }

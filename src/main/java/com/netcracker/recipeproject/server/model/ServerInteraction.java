@@ -26,7 +26,7 @@ public class ServerInteraction {
 
 
     public void messageRequest(Socket socket) {
-        try (socket; ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream()); ObjectInputStream objIn = new ObjectInputStream(socket.getInputStream())) {
+        try (ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream()); ObjectInputStream objIn = new ObjectInputStream(socket.getInputStream())) {
             Message messageFromClient;
             while ((Boolean) objIn.readObject()) { //он еще вот здесь ругается, на самом делене понимаю, зачем тебе эта строчка
                 messageFromClient = (Message) objIn.readObject();
@@ -50,8 +50,8 @@ public class ServerInteraction {
 
 
     public void process() {
-        try {
-            ServerSocket serverSocket = new ServerSocket(port);
+        try (ServerSocket serverSocket = new ServerSocket(port)){
+
             System.out.println("Сервер запущен");
             Socket socket;
             while (true) {
@@ -60,6 +60,7 @@ public class ServerInteraction {
                     System.out.println(
                             "Установлено соединение с клиентом");
                     messageRequest(socket);
+                    socket.close();
                 } catch (IOException ex) {
                     System.err.println(
                             "Ошибка при установлении связи");
@@ -77,12 +78,11 @@ public class ServerInteraction {
         switch (flag) {
             case 0:
                 String searchString = (String) object;
-                String[] listOfIngredients = searchString.split(",\\s*"); //
                 DishDictionary dishDictionary = new DishDictionary(); //создается словарь блюд
                 ArrayList<Dish> dishes = dishDictionary.getDishes(); //все блюда словаря
                 ArrayList<Dish> dishesToClient = new ArrayList<>(); //список блюд, который отправляется клиенту
                 for (Dish dish : dishes) {
-                    if (dish.contains(listOfIngredients)) {
+                    if (dish.contains(searchString)) {
                         dishesToClient.add(dish);
                     }
                 }
@@ -90,7 +90,7 @@ public class ServerInteraction {
                     Message messageSearch = new Message(0, dishesToClient);
                     objOut.writeObject(messageSearch);
                     objOut.flush();
-                    System.out.println(
+                    System.err.println(
                             "Отправлен список всех блюд");
                 } catch (Exception ex) {
                     System.err.println("Отправлено исключение");
