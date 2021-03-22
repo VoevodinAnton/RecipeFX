@@ -3,9 +3,10 @@ package com.netcracker.recipeproject.library;
 import com.netcracker.recipeproject.server.model.DishDictionary;
 import javafx.collections.ObservableArray;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Dish {
+public class Dish implements Serializable {
     private int id;
     private ArrayList<IngrWithNumber> listOfIngr;
     private String name;

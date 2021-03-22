@@ -1,6 +1,8 @@
 package com.netcracker.recipeproject.library;
 
-public class IngrWithNumber {
+import java.io.Serializable;
+
+public class IngrWithNumber implements Serializable {
     private Ingredient ingredient;
     private int number;
 
