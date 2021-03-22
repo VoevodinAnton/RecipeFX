@@ -5,20 +5,24 @@ import javafx.collections.ObservableArray;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 public class Dish implements Serializable {
+    private static final long serialVersionUID = 5863963783465074543L;
     private int id;
     private ArrayList<IngrWithNumber> listOfIngr;
     private String name;
     private String cookingTime;
 
-    public Dish(ArrayList<IngrWithNumber> listOfIngr, String name, String cookingTime){
+    public Dish(ArrayList<IngrWithNumber> listOfIngr, String name, String cookingTime) {
         this.listOfIngr = listOfIngr;
         this.name = name;
         this.cookingTime = cookingTime;
     }
 
-    public Dish(int id, ArrayList<IngrWithNumber> listOfIngr, String name, String cookingTime){
+    public Dish(int id, ArrayList<IngrWithNumber> listOfIngr, String name, String cookingTime) {
         this.id = id;
         this.listOfIngr = listOfIngr;
         this.name = name;
@@ -57,14 +61,21 @@ public class Dish implements Serializable {
         this.cookingTime = cookingTime;
     }
 
-    public boolean contains(String[] ingredients){
-
-        for (IngrWithNumber ingr : listOfIngr){
-            for (int i = 0; i < ingredients.length; i++){
-
-            }
+    public ArrayList<String> nameOfIngredientsToArray() {
+        ArrayList<String> listOfIngredient = new ArrayList();
+        for (IngrWithNumber ingrWithNumber : listOfIngr) {
+            listOfIngredient.add(ingrWithNumber.getIngredient().getName());
         }
-        //TODO: create contains
-         return true;
+        return listOfIngredient;
     }
+
+
+    public boolean contains(String[] ingredientsSearch) {
+        ArrayList<String> nameOfingredientsDish = this.nameOfIngredientsToArray();
+        if (nameOfingredientsDish.containsAll(Arrays.asList(ingredientsSearch))) {
+            return true;
+        }
+        return false;
+    }
+
 }

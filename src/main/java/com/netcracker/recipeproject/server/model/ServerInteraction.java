@@ -98,7 +98,7 @@ public class ServerInteraction {
                 }
                 break;
             case 1:
-                try{
+                try {
                     Message m = new Message(0, null);
                     objOut.writeObject(m);
                     objOut.flush();
@@ -110,7 +110,7 @@ public class ServerInteraction {
 
     }
 
-    public static void main(String[] args ){
+    public static void main(String[] args) {
         int port = 2021;
         ServerInteraction s = new ServerInteraction(port);
         s.process();
