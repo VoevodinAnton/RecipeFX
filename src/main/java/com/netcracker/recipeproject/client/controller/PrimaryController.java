@@ -52,12 +52,14 @@ public class PrimaryController implements Initializable {
             dishList.setItems((ObservableList<Dish>) dishObservableArray);
             dishList.setCellFactory(studentListView -> new ListCellController());
 
+            searchButton.setOnAction(actionEvent -> {
+                String search = searchField.getText();
+                if(search != ""){
+                    //TODO: отправляем строку на сервер
+                }
+            });
         }
-        @FXML
-        private void switchToSecondary() throws IOException {
-            App.setRoot("/com/netcracker/recipeproject/FXML/secondary.fxml");
-            System.out.println("2");
-        }
+
 
 
 }
