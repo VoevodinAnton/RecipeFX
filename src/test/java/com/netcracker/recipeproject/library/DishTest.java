@@ -10,7 +10,7 @@ import static org.testng.Assert.*;
 
 public class DishTest {
     Ingredient egg = new Ingredient("яйцо", "шт");
-    Ingredient sausage = new Ingredient("колбаса", "шт");
+    Ingredient sausage = new Ingredient("колбаса", "гр");
     IngrWithNumber sausage1 = new IngrWithNumber(sausage, 1);
     IngrWithNumber egg3 = new IngrWithNumber(egg, 3);
     ArrayList<IngrWithNumber> ingredientsOfOmelette = new ArrayList<>();
