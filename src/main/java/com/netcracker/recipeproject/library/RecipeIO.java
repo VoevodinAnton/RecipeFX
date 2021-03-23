@@ -19,4 +19,6 @@ public class RecipeIO {
     public static ArrayList<Dish> deserializeDishDictionary(BufferedInputStream stream) throws IOException, ClassNotFoundException {
         return (ArrayList<Dish>) new ObjectInputStream(stream).readObject();
     }
+
+
 }

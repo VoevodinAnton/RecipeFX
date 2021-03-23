@@ -3,10 +3,9 @@ package com.netcracker.recipeproject.server.model;
 
 import com.netcracker.recipeproject.library.Dish;
 import com.netcracker.recipeproject.library.Message;
+import com.netcracker.recipeproject.library.RecipeIO;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -78,13 +77,19 @@ public class ServerInteraction {
         switch (flag) {
             case 0:
                 String searchString = (String) object;
-                DishDictionary dishDictionary = new DishDictionary(); //создается словарь блюд
-                ArrayList<Dish> dishes = dishDictionary.getDishes(); //все блюда словаря
+                File libraryOfDishes = new File("LibraryOfOutput/library.bin");
+
                 ArrayList<Dish> dishesToClient = new ArrayList<>(); //список блюд, который отправляется клиенту
-                for (Dish dish : dishes) {
-                    if (dish.contains(searchString)) {
-                        dishesToClient.add(dish);
+
+                try(BufferedInputStream in = new BufferedInputStream(new FileInputStream(libraryOfDishes))){
+                    ArrayList<Dish> dishes = RecipeIO.deserializeDishDictionary(in);
+                    for (Dish dish : dishes) {
+                        if (dish.contains(searchString)) {
+                            dishesToClient.add(dish);
+                        }
                     }
+                } catch (IOException | ClassNotFoundException e){
+                    e.printStackTrace();
                 }
                 try {
                     Message messageSearch = new Message(0, dishesToClient);
