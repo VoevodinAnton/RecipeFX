@@ -5,8 +5,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.netcracker.recipeproject.client.model.DishDictionary;
+import com.netcracker.recipeproject.client.model.InteractionClient;
 import com.netcracker.recipeproject.client.view.App;
 import com.netcracker.recipeproject.library.Dish;
+import com.netcracker.recipeproject.library.Message;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
@@ -55,7 +57,15 @@ public class PrimaryController implements Initializable {
             searchButton.setOnAction(actionEvent -> {
                 String search = searchField.getText();
                 if(search != ""){
-                    //TODO: отправляем строку на сервер
+                    try {
+                        InteractionClient client = InteractionClient.getInstance();
+                        Message messageToServer = new Message(1, search);
+                        client.messageRequest(messageToServer);
+                        Message messageFromServer = client.getMessage();
+                        client.doCommand(messageFromServer);
+                    } catch (IOException | ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }

@@ -8,10 +8,6 @@ public class DishDictionary {
 
         public static ArrayList<Dish> dishes;
 
-        public void addDish(Dish dish){
-            dishes.add(dish);
-        }
-
         public ArrayList<Dish> getDishes() {
             return dishes;
         }

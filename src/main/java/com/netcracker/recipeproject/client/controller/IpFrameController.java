@@ -21,11 +21,10 @@ public class IpFrameController {
         okeyButton.setOnAction(actionEvent -> {
             String host;
             host = ipField.getText();
-            int port = 2021;
-            InteractionClient client = new InteractionClient(host, port);
+            InteractionClient client = InteractionClient.getInstance();
+            client.setHost(host);
             client.process();
             System.out.println("Подключен к серверу");
-            //Закомментил чтобы проверить подключение к серверу
 
             Message messageOut = new Message(1, null);//отправляем сообщение о выводе всего списка блюд
             try {

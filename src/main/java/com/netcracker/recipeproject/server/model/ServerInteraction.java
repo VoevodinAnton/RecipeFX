@@ -28,7 +28,7 @@ public class ServerInteraction {
     public void messageRequest(Socket socket) {
         try (ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream()); ObjectInputStream objIn = new ObjectInputStream(socket.getInputStream())) {
             Message messageFromClient;
-            while ((Boolean) objIn.readObject()) { //он еще вот здесь ругается, на самом делене понимаю, зачем тебе эта строчка
+            while ((Boolean) objIn.readObject()) {
                 messageFromClient = (Message) objIn.readObject();
                 try {
                     doCommand(messageFromClient, objOut);

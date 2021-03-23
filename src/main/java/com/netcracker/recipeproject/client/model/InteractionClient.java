@@ -11,18 +11,24 @@ package com.netcracker.recipeproject.client.model;
  import java.net.UnknownHostException;
  import java.util.ArrayList;
 
-public class InteractionClient {
+public class InteractionClient {//singletone
+
+    private static final InteractionClient INSTANCE = new InteractionClient();
 
     private String host;
-    private int port;
+    private static final int PORT = 2021;
     private Socket s;
 
-    public InteractionClient (String host, int port){
-        this.host = host;
-        this.port = port;
-        s = null;
+    private InteractionClient (){
     }
 
+    public static InteractionClient getInstance(){
+        return INSTANCE;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
 
     public Message getMessage() throws IOException, ClassNotFoundException {
         ObjectInputStream in = new ObjectInputStream(s.getInputStream());
@@ -40,7 +46,7 @@ public class InteractionClient {
 
     public void process() {
         try{
-            s = new Socket(host, port);
+            s = new Socket(host, PORT);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
