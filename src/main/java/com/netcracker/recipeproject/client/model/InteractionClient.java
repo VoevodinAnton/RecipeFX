@@ -7,6 +7,7 @@ package com.netcracker.recipeproject.client.model;
  import java.io.ObjectInput;
  import java.io.ObjectInputStream;
  import java.io.ObjectOutputStream;
+ import java.net.InetSocketAddress;
  import java.net.Socket;
  import java.net.UnknownHostException;
  import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class InteractionClient {//singletone
 
     private String host;
     private static final int PORT = 2021;
-    private Socket s;
+    private Socket socket;
 
     private InteractionClient (){
     }
@@ -31,22 +32,24 @@ public class InteractionClient {//singletone
     }
 
     public Message getMessage() throws IOException, ClassNotFoundException {
-        ObjectInputStream in = new ObjectInputStream(s.getInputStream());
+        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
         Message message = (Message) in.readObject();
+        //in.close();
         return message;
     }
 
 
     public void messageRequest(Message message) throws IOException {
-        ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
+        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         out.writeObject(message);
+        System.out.println("Отправлен объект");
         out.flush();
-        out.close();
+        //out.close();
     }
 
     public void process() {
         try{
-            s = new Socket(host, PORT);
+            socket = new Socket(host, PORT);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -60,8 +63,7 @@ public class InteractionClient {//singletone
         Object obj = message.getObj();
         switch (flag){
             case 0: //пришел список блюд
-                ArrayList<Dish> dishArrayList = (ArrayList<Dish>)obj;
-                App.setRoot("/com/netcracker/recipeproject/FXML/primary.fxml");
+                DishDictionary.dishes = (ArrayList<Dish>)obj;
                 break;
             case 1: //пришел список ингредиентов
                 break;

@@ -25,13 +25,15 @@ public class ServerInteraction {
 
 
     public void messageRequest(Socket socket) {
-        try (ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream()); ObjectInputStream objIn = new ObjectInputStream(socket.getInputStream())) {
+        try (ObjectInputStream objIn = new ObjectInputStream(socket.getInputStream()); ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream())){
+
             Message messageFromClient;
-            while ((Boolean) objIn.readObject()) {
-                messageFromClient = (Message) objIn.readObject();
+            while ((messageFromClient = (Message) objIn.readObject()) != null) {
+                System.out.println("Получен объект");
                 try {
+
                     doCommand(messageFromClient, objOut);
-                    System.out.println(
+                    System.err.println(
                             "Отправлен ответ клиенту");
                 } catch (Exception ex) {
                     objOut.writeObject(ex);
@@ -39,11 +41,12 @@ public class ServerInteraction {
                 }
                 objOut.flush();
             }
+
         } catch (IOException ex) {
-            System.err.println(
-                    "Ошибка ввода/вывода при работе с клиентом");
+            //System.err.println("Ошибка ввода/вывода при работе с клиентом");
+            ex.printStackTrace();
         } catch (ClassNotFoundException ex) {
-            System.err.println("Неизвестный класс в запросе");
+            System.out.println("Неизвестный класс в запросе");
         }
     }
 

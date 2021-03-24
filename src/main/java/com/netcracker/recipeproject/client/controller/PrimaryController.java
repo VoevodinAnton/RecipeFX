@@ -18,7 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
-public class PrimaryController implements Initializable {
+public class PrimaryController{
 
         @FXML
         private Button searchButton;
@@ -36,27 +36,24 @@ public class PrimaryController implements Initializable {
         private Button sortButton;
 
         @FXML
-        private Button allDishButton2;
+        private Button addDishButton;
 
         @FXML
-        private Button allDishButton21;
+        private Button ingredientsButton;
 
+        @FXML
         private ObservableList<Dish> dishObservableArray;
 
-        public PrimaryController(){
-            dishObservableArray = FXCollections.observableArrayList();
-            dishObservableArray.addAll(DishDictionary.dishes);
-        }
 
-
-        @Override
-        public void initialize(URL location, ResourceBundle resources) {
-            dishList.setItems((ObservableList<Dish>) dishObservableArray);
-            dishList.setCellFactory(studentListView -> new ListCellController());
+        @FXML
+        public void initialize(){
+            /*dishList.setItems(FXCollections.observableArrayList(DishDictionary.dishes));
+            dishList.setCellFactory(studentListView -> new ListCellController());*/
 
             searchButton.setOnAction(actionEvent -> {
                 String search = searchField.getText();
                 if(search != ""){
+                    System.out.println("*"+ search);
                     try {
                         InteractionClient client = InteractionClient.getInstance();
                         Message messageToServer = new Message(1, search);
@@ -69,7 +66,7 @@ public class PrimaryController implements Initializable {
                 }
             });
         }
-
-
-
 }
+
+
+
