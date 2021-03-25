@@ -1,7 +1,6 @@
 package com.netcracker.recipeproject.library;
 
 import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -11,9 +10,9 @@ import static org.testng.Assert.*;
 public class DishTest {
     Ingredient egg = new Ingredient("яйцо", "шт");
     Ingredient sausage = new Ingredient("колбаса", "гр");
-    IngrWithNumber sausage1 = new IngrWithNumber(sausage, 1);
-    IngrWithNumber egg3 = new IngrWithNumber(egg, 3);
-    ArrayList<IngrWithNumber> ingredientsOfOmelette = new ArrayList<>();
+    DishComponent sausage1 = new DishComponent(sausage, 1);
+    DishComponent egg3 = new DishComponent(egg, 3);
+    ArrayList<DishComponent> ingredientsOfOmelette = new ArrayList<>();
     Dish omelette = new Dish(ingredientsOfOmelette, "omelette", "10");
 
     @BeforeSuite

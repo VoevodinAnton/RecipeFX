@@ -1,7 +1,6 @@
 package com.netcracker.recipeproject.client.controller;
 
 import com.netcracker.recipeproject.client.model.InteractionClient;
-import com.netcracker.recipeproject.client.view.App;
 import com.netcracker.recipeproject.library.Message;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

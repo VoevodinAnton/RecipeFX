@@ -1,15 +1,17 @@
 package com.netcracker.recipeproject.library;
 
+import com.netcracker.recipeproject.server.model.CommandClass;
+
 import java.io.Serializable;
 
-public class Message implements Serializable{
+public class Message implements Serializable {
     private static final long serialVersionUID = 5990545414373884974L;
     private int flag;
     private Object obj;
 
-    public Message(int flag, Object obj){
+    public Message(int flag, Object obj) {
         this.flag = flag;
-        this. obj = obj;
+        this.obj = obj;
     }
 
     public int getFlag() {
