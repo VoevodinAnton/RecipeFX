@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="401.0" prefWidth="523.0" style="-fx-background-color: ffffff;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.netcracker.recipeproject.client.controller.AddDishController">
+   <children>
+      <ScrollPane layoutY="1.0" prefHeight="400.0" prefWidth="600.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="599.0">
+               <children>
+                  <Button fx:id="addIngredientButton" layoutX="31.0" layoutY="220.0" mnemonicParsing="false" style="-fx-background-color: FDB687; -fx-background-radius: 10;" text="Добавить ингредиент" />
+                  <Label layoutX="31.0" layoutY="14.0" prefHeight="42.0" prefWidth="395.0" text="Добавление блюда">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="37.0" layoutY="69.0" text="Название">
+                     <font>
+                        <Font name="System Italic" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="nameField" layoutX="31.0" layoutY="98.0" prefHeight="26.0" prefWidth="493.0" promptText="Введите название" style="-fx-border-color: FDB687; -fx-border-radius: 10; -fx-background-radius: 10;" />
+                  <Label layoutX="34.0" layoutY="140.0" text="Ингредиенты">
+                     <font>
+                        <Font name="System Italic" size="14.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="IngredientComboBox" layoutX="34.0" layoutY="174.0" prefWidth="150.0" promptText="Выберите ингредиент" />
+                  <TextField fx:id="numberField" layoutX="197.0" layoutY="173.0" prefHeight="27.0" prefWidth="119.0" promptText="Количество" style="-fx-border-color: FDB687; -fx-border-radius: 10; -fx-background-radius: 10;" />
+                  <TextField fx:id="unitField" layoutX="328.0" layoutY="173.0" prefHeight="27.0" prefWidth="133.0" promptText="Единица измерения" style="-fx-border-color: FDB687; -fx-border-radius: 10; -fx-background-radius: 10;" />
+                  <ImageView fx:id="cancelButton" fitHeight="35.0" fitWidth="35.0" layoutX="476.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../assets/images/cancel.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="38.0" layoutY="259.0" text="Время приготовления">
+                     <font>
+                        <Font name="System Italic" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="timeField" layoutX="31.0" layoutY="291.0" prefHeight="26.0" prefWidth="493.0" promptText="Введите время приготовления" style="-fx-border-color: FDB687; -fx-border-radius: 10; -fx-background-radius: 10;" />
+                  <Button fx:id="addButton" layoutX="323.0" layoutY="342.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="206.0" style="-fx-background-color: FDB687; -fx-background-radius: 10;" text="Добавить">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>
