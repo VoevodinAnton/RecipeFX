@@ -26,8 +26,12 @@ public class ServerInteraction {
 
 
     public void messageRequest(Socket socket) {
-        try (ObjectInputStream objIn = new ObjectInputStream(socket.getInputStream()); ObjectOutputStream objOut = new ObjectOutputStream(socket.getOutputStream())){
 
+        ObjectInputStream objIn = null;
+        ObjectOutputStream objOut = null;
+        try {
+            objIn = new ObjectInputStream(socket.getInputStream());
+            objOut = new ObjectOutputStream(socket.getOutputStream());
             Message messageFromClient;
             while ((messageFromClient = (Message) objIn.readObject()) != null) {
                 System.out.println("Получен объект");
@@ -37,11 +41,12 @@ public class ServerInteraction {
                     System.err.println(
                             "Отправлен ответ клиенту");
                 } catch (Exception ex) {
-                    objOut.writeObject(ex);
-                    System.out.println("Отправлено исключение");
+                    ex.printStackTrace();
                 }
                 objOut.flush();
             }
+            objIn.close();
+            objOut.close();
 
         } catch (IOException ex) {
             //System.err.println("Ошибка ввода/вывода при работе с клиентом");
@@ -114,13 +119,15 @@ public class ServerInteraction {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                break;
             case 2:
                 Dish dishEdit = (Dish) object;
                 dishDictionary.setDish(dishEdit);
-
+                break;
             case 3:
                 Dish dishAdd = (Dish) object;
                 dishDictionary.addDish(dishAdd);
+                break;
 
         }
 

@@ -56,7 +56,7 @@ public class PrimaryController{
                     System.out.println("*"+ search);
                     try {
                         InteractionClient client = InteractionClient.getInstance();
-                        Message messageToServer = new Message(1, search);
+                        Message messageToServer = new Message(0, search);
                         client.messageRequest(messageToServer);
                         Message messageFromServer = client.getMessage();
                         client.doCommand(messageFromServer);
