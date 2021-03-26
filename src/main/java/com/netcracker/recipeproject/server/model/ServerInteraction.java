@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 
 public class ServerInteraction {
+    DishDictionary dishDictionary;
 
     int port;
 
@@ -52,7 +53,7 @@ public class ServerInteraction {
 
 
     public void process() {
-        try (ServerSocket serverSocket = new ServerSocket(port)){
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
 
             System.out.println("Сервер запущен");
             Socket socket;
@@ -73,25 +74,25 @@ public class ServerInteraction {
         }
     }
 
-    public void doCommand(Message message, ObjectOutputStream objOut) {
+    public void doCommand(Message message, ObjectOutputStream objOut) { //перенести в другой класс, в модель
         int flag = message.getFlag();
         Object object = message.getObj();
 
-        switch (flag) {
+        switch (flag) { //сделать ENUM
             case 0:
                 String searchString = (String) object;
                 File libraryOfDishes = new File("LibraryOfOutput/library.bin");
 
                 ArrayList<Dish> dishesToClient = new ArrayList<>(); //список блюд, который отправляется клиенту
 
-                try(BufferedInputStream in = new BufferedInputStream(new FileInputStream(libraryOfDishes))){
+                try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(libraryOfDishes))) {
                     ArrayList<Dish> dishes = RecipeIO.deserializeDishDictionary(in);
                     for (Dish dish : dishes) {
                         if (dish.contains(searchString)) {
                             dishesToClient.add(dish);
                         }
                     }
-                } catch (IOException | ClassNotFoundException e){
+                } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
                 try {
@@ -113,15 +114,22 @@ public class ServerInteraction {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            case 2:
+                Dish dishEdit = (Dish) object;
+                dishDictionary.setDish(dishEdit);
+
+            case 3:
+                Dish dishAdd = (Dish) object;
+                dishDictionary.addDish(dishAdd);
 
         }
 
     }
 
-    public static void main(String[] args) {
-        int port = 2021;
-        ServerInteraction s = new ServerInteraction(port);
-        s.process();
+    public static void main(String[] args) { //можно создать класс с константами
+        int port = 2021; //added public static constant
+        ServerInteraction serverInteraction = new ServerInteraction(port);
+        serverInteraction.process();
     }
 }
 

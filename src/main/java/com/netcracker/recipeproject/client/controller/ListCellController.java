@@ -1,7 +1,7 @@
 package com.netcracker.recipeproject.client.controller;
 
 import com.netcracker.recipeproject.library.Dish;
-import com.netcracker.recipeproject.library.IngrWithNumber;
+import com.netcracker.recipeproject.library.DishComponent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -51,7 +51,7 @@ public class ListCellController extends ListCell<Dish> {
             timeLabel.setText(d.getCookingTime());
             String ingrList = "";
             for(int i = 0 ; i < d.getListOfIngr().size(); i++){
-                IngrWithNumber iwn = d.getListOfIngr().get(i);
+                DishComponent iwn = d.getListOfIngr().get(i);
                 ingrList += iwn.getIngredient().getName() + iwn.getNumber() + iwn.getIngredient().getUnit() + '\n';
             }
             ingrLabel.setText(ingrList);

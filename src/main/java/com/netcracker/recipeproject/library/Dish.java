@@ -1,28 +1,37 @@
 package com.netcracker.recipeproject.library;
 
-import com.netcracker.recipeproject.server.model.DishDictionary;
-import javafx.collections.ObservableArray;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.Objects;
 
-public class Dish implements Serializable {
+public class Dish implements Serializable, Comparable<Dish> {
     private static final long serialVersionUID = 5863963783465074543L;
     private int id;
-    private ArrayList<IngrWithNumber> listOfIngr;
+    private ArrayList<DishComponent> listOfIngr;
     private String name;
     private String cookingTime;
 
-    public Dish(ArrayList<IngrWithNumber> listOfIngr, String name, String cookingTime) {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Dish dish = (Dish) o;
+        return id == dish.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    public Dish(ArrayList<DishComponent> listOfIngr, String name, String cookingTime) {
         this.listOfIngr = listOfIngr;
         this.name = name;
         this.cookingTime = cookingTime;
     }
 
-    public Dish(int id, ArrayList<IngrWithNumber> listOfIngr, String name, String cookingTime) {
+    public Dish(int id, ArrayList<DishComponent> listOfIngr, String name, String cookingTime) {
         this.id = id;
         this.listOfIngr = listOfIngr;
         this.name = name;
@@ -37,11 +46,11 @@ public class Dish implements Serializable {
         this.id = id;
     }
 
-    public ArrayList<IngrWithNumber> getListOfIngr() {
+    public ArrayList<DishComponent> getListOfIngr() {
         return listOfIngr;
     }
 
-    public void setListOfIngr(ArrayList<IngrWithNumber> listOfIngr) {
+    public void setListOfIngr(ArrayList<DishComponent> listOfIngr) {
         this.listOfIngr = listOfIngr;
     }
 
@@ -63,17 +72,23 @@ public class Dish implements Serializable {
 
     public ArrayList<String> nameOfIngredientsToArray() {
         ArrayList<String> listOfIngredient = new ArrayList();
-        for (IngrWithNumber ingrWithNumber : listOfIngr) {
-            listOfIngredient.add(ingrWithNumber.getIngredient().getName());
+        for (DishComponent dishComponent : listOfIngr) {
+            listOfIngredient.add(dishComponent.getIngredient().getName());
         }
         return listOfIngredient;
     }
 
 
     public boolean contains(String ingredientsSearch) {
-        String[] listOfIngredients = ingredientsSearch.split(",\\s*"); //
+        String[] listOfIngredients = ingredientsSearch.split("\\s,\\s*"); //
         ArrayList<String> nameOfingredientsDish = this.nameOfIngredientsToArray();
         return nameOfingredientsDish.containsAll(Arrays.asList(listOfIngredients));
     }
 
+    @Override
+    public int compareTo(Dish dish) {
+        Integer thisTime = Integer.parseInt(cookingTime);
+        Integer anotherTime = Integer.parseInt(dish.getCookingTime());
+        return thisTime.compareTo(anotherTime);
+    }
 }
