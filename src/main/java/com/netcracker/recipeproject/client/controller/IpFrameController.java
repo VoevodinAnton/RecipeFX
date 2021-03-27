@@ -37,12 +37,22 @@ public class IpFrameController {
                 client.doCommand(messageIn);//выполняем соответствующую команду
                 Stage stageIp = (Stage) okeyButton.getScene().getWindow();
                 stageIp.close();
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/primary.fxml"));
-                Parent root = loader.load();
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.show();
+                if(messageIn.getObj() != null) {
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/primary.fxml"));
+                    Parent root = loader.load();
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                }
+                else{
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/noDishesFrame.fxml"));
+                    Parent root = loader.load();
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                }
                 //App.setRoot("/com/netcracker/recipeproject/FXML/primary.fxml");
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
