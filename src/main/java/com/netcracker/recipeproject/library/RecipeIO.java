@@ -1,7 +1,5 @@
 package com.netcracker.recipeproject.library;
 
-import com.netcracker.recipeproject.server.model.DishDictionary;
-
 import java.io.*;
 import java.util.ArrayList;
 

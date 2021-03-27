@@ -2,7 +2,7 @@ package com.netcracker.recipeproject.library;
 
 import java.io.Serializable;
 
-public class Ingredient implements Serializable {
+public class Ingredient implements Serializable, Comparable<Ingredient> {
     private static final long serialVersionUID = -202870688583065197L;
     private int id;
     private String name;
@@ -42,5 +42,12 @@ public class Ingredient implements Serializable {
 
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+
+    @Override
+    public int compareTo(Ingredient o) {
+        Integer thisIdBoxed = id;
+        Integer anotherIdBoxed = o.getId();
+        return thisIdBoxed.compareTo(anotherIdBoxed);
     }
 }

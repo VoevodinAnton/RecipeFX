@@ -42,7 +42,7 @@ public class InteractionClient {//singletone
     public void messageRequest(Message message) throws IOException {
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         out.writeObject(message);
-        System.out.println("Отправлен объект");
+        System.out.println((String)message.getObj());
         out.flush();
         //out.close();
     }
@@ -50,8 +50,6 @@ public class InteractionClient {//singletone
     public void process() {
         try{
             socket = new Socket(host, PORT);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,6 +62,7 @@ public class InteractionClient {//singletone
         switch (flag){
             case 0: //пришел список блюд
                 DishDictionary.dishes = (ArrayList<Dish>)obj;
+                System.out.println(DishDictionary.dishes.get(0).getName());
                 break;
             case 1: //пришел список ингредиентов
                 break;

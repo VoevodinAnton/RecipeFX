@@ -48,8 +48,6 @@ public class IpFrameController {
                 e.printStackTrace();
             }
 
-
-
         });
     }
 

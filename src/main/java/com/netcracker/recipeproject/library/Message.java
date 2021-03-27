@@ -1,7 +1,5 @@
 package com.netcracker.recipeproject.library;
 
-import com.netcracker.recipeproject.server.model.CommandClass;
-
 import java.io.Serializable;
 
 public class Message implements Serializable {
