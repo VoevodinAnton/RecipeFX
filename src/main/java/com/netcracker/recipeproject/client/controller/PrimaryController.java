@@ -13,10 +13,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class PrimaryController{
 
@@ -47,8 +51,8 @@ public class PrimaryController{
 
         @FXML
         public void initialize(){
-            /*dishList.setItems(FXCollections.observableArrayList(DishDictionary.dishes));
-            dishList.setCellFactory(studentListView -> new ListCellController());*/
+            dishList.setItems(FXCollections.observableArrayList(DishDictionary.dishes));
+            dishList.setCellFactory(studentListView -> new ListCellController());
 
             searchButton.setOnAction(actionEvent -> {
                 String search = searchField.getText();
@@ -63,6 +67,22 @@ public class PrimaryController{
                     } catch (IOException | ClassNotFoundException e) {
                         e.printStackTrace();
                     }
+                }
+            });
+            ingredientsButton.setOnAction(actionEvent -> {
+                try {
+                    InteractionClient client = InteractionClient.getInstance();
+                    Message messageToServer = new Message(8, null);
+                    client.messageRequest(messageToServer);
+                    Message messageFromServer = client.getMessage();
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/ingredientsFrame.fxml"));
+                    Parent root = loader.load();
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
                 }
             });
         }

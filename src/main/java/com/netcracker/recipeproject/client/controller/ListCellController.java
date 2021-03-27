@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
@@ -26,6 +27,9 @@ public class ListCellController extends ListCell<Dish> {
 
     @FXML
     private ImageView editButton;
+
+    @FXML
+    private AnchorPane pane;
 
     private FXMLLoader loader;
 
@@ -51,13 +55,13 @@ public class ListCellController extends ListCell<Dish> {
             timeLabel.setText(d.getCookingTime());
             String ingrList = "";
             for(int i = 0 ; i < d.getListOfIngr().size(); i++){
-                DishComponent iwn = d.getListOfIngr().get(i);
-                ingrList += iwn.getIngredient().getName() + iwn.getNumber() + iwn.getIngredient().getUnit() + '\n';
+                DishComponent dishComponent = d.getListOfIngr().get(i);
+                ingrList += dishComponent.getIngredient().getName() + " " + dishComponent.getNumber() + " " + dishComponent.getIngredient().getUnit() + '\n';
             }
             ingrLabel.setText(ingrList);
 
             setText(null);
-            setGraphic(null);
+            setGraphic(pane);
         }
     }
 
