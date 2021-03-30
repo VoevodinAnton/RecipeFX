@@ -17,9 +17,6 @@ public class Store {
     public Store() {
         dishDictionary = new DishDictionary();
         ingredientDictionary = new IngredientDictionary();
-    }
-
-    public void doCommand(Message message, ObjectOutputStream objOut) { //перенести в другой класс, в модель
 
 
         /////////////////////////////////
@@ -35,6 +32,12 @@ public class Store {
         Dish omelette = new Dish(ingredientsOfOmelette, "omelette", "10");
         dishDictionary.addDish(omelette);
         //////////////////////////////
+    }
+
+
+    public void doCommand(Message message, ObjectOutputStream objOut) { //перенести в другой класс, в модель
+
+
         int flag = message.getFlag();
         Object object = message.getObj();
 

@@ -3,97 +3,67 @@ package com.netcracker.recipeproject.server.controller;
 
 import com.netcracker.recipeproject.library.*;
 import com.netcracker.recipeproject.server.model.Store;
-import com.netcracker.recipeproject.server.model.DishDictionary;
-import com.netcracker.recipeproject.server.model.IngredientDictionary;
+import com.netcracker.recipeproject.server.model.utils.Constants;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class ServerInteraction {
+    public static ServerInteraction instance;
+    private ExecutorService executorService;
     Store store;
-    int port;
+    ServerSocket serverSocket;
 
 
-    public ServerInteraction(int port) {
-        this.port = port;
+    public ServerInteraction() throws IOException {
+        serverSocket = new ServerSocket(Constants.PORT);
         store = new Store();
+        executorService = Executors.newCachedThreadPool();
 
     }
 
-    public Message getMessage() {
-        return null;
-    }
-
-
-    public void messageRequest(Socket socket) {
-
-        ObjectInputStream objIn;
-        ObjectOutputStream objOut;
-        try {
-            objIn = new ObjectInputStream(socket.getInputStream());
-            objOut = new ObjectOutputStream(socket.getOutputStream());
-            Message messageFromClient = (Message) objIn.readObject();
-            //while ((messageFromClient = (Message) objIn.readObject()) != null) {
-            System.out.println("Получен объект");
-            try {
-
-                store.doCommand(messageFromClient, objOut);
-                System.out.println(
-                        "Отправлен ответ клиенту");
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            objOut.flush();
-            //}
-            objIn.close();
-            objOut.close();
-
-        } catch (IOException ex) {
-            //System.err.println("Ошибка ввода/вывода при работе с клиентом");
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Неизвестный класс в запросе");
+    public static ServerInteraction getInstance() throws IOException {
+        if (instance == null) {
+            instance = new ServerInteraction();
         }
+        return instance;
     }
 
 
-    public void process() {
-        try (ServerSocket serverSocket = new ServerSocket(port)) {
+    public void startServer() {
 
-            System.out.println("Сервер запущен");
-            Socket socket = null;
-            while (true) {
+        for (int i = 0; i < Constants.COUNT_CLIENTS; i++) {
+            System.out.println("Thread #" + i + "starts");
+            executorService.submit(() -> {
                 try {
-                    socket = serverSocket.accept();
-                    System.out.println(
-                            "Установлено соединение с клиентом");
-                    messageRequest(socket);
 
-                } catch (IOException ex) {
-                    System.err.println(
-                            "Ошибка при установлении связи");
-                } finally {
-                    try {
-                        socket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+
+                    while (true) {
+                        System.out.println("Сервер запущен");
+                        Socket socket = serverSocket.accept();
+                        System.out.println("Установлено соединение с клиентом");
+                        ServerFacade serverFacade = new ServerFacade(socket);
+                        Message clientMessage;
+                        while (true) {
+                            clientMessage = serverFacade.getMessage();
+                            serverFacade.messageRequest(clientMessage);
+                        }
+
                     }
-                }
 
-            }
-        } catch (IOException ex) {
-            System.err.println("Невозможно открыть порт");
+                } catch (Exception e) {
+                    System.out.println("Ошибка установления связи с клиентом");
+                }
+            });
+
         }
     }
 
 
-    public static void main(String[] args) { //можно создать класс с константами
-        int port = 2021; //add public static constant
-        ServerInteraction serverInteraction = new ServerInteraction(port);
-        serverInteraction.process();
-    }
 }
 

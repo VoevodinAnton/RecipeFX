@@ -3,10 +3,7 @@ package com.netcracker.recipeproject.client.model;
  import com.netcracker.recipeproject.library.Dish;
  import com.netcracker.recipeproject.library.Message;
 
- import java.io.IOException;
- import java.io.ObjectInput;
- import java.io.ObjectInputStream;
- import java.io.ObjectOutputStream;
+ import java.io.*;
  import java.net.InetSocketAddress;
  import java.net.Socket;
  import java.net.UnknownHostException;
@@ -19,6 +16,8 @@ public class InteractionClient {//singletone
     private String host;
     private static final int PORT = 2021;
     private Socket socket;
+    ObjectOutputStream out;
+    ObjectInputStream in;
 
     private InteractionClient (){
     }
@@ -32,24 +31,24 @@ public class InteractionClient {//singletone
     }
 
     public Message getMessage() throws IOException, ClassNotFoundException {
-        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-        Message message = (Message) in.readObject();
-        //in.close();
-        return message;
+        return (Message) in.readObject();
     }
 
 
     public void messageRequest(Message message) throws IOException {
-        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-        out.writeObject(message);
         System.out.println((String)message.getObj());
+        out.writeObject(message);
+
         out.flush();
         //out.close();
     }
 
     public void process() {
         try{
+
             socket = new Socket(host, PORT);
+            out = new ObjectOutputStream(socket.getOutputStream());
+            in = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
