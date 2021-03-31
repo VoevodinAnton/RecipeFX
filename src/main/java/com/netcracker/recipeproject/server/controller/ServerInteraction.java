@@ -54,6 +54,7 @@ public class ServerInteraction {
                             serverFacade.messageRequest(clientMessage);
                         }
 
+
                     }
 
                 } catch (Exception e) {
