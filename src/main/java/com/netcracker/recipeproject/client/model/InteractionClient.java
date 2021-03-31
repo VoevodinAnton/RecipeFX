@@ -13,8 +13,8 @@ public class InteractionClient {//singletone
     private String host;
     private static final int PORT = 2021;
     private Socket socket;
-    private ObjectOutputStream out;
-    private ObjectInputStream in;
+    ObjectOutputStream out;
+    ObjectInputStream in;
 
     private InteractionClient (){
     }
@@ -32,7 +32,7 @@ public class InteractionClient {//singletone
     }
 
     public void messageRequest(Message message) throws IOException {
-        //System.out.println((String)message.getObj());
+        System.out.println((String)message.getObj());
         out.writeObject(message);
         out.flush();
         //out.close();

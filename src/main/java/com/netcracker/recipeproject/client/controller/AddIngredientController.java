@@ -35,10 +35,10 @@ public class AddIngredientController {
     @FXML
     void initialize() {
          addButton.setOnAction(actionEvent -> {
-             if(nameField.getText().equals("")) {
+             if(!nameField.getText().equals("")) {
                  errorLabel.setText("");
                  String name = nameField.getText();
-                 if(unitField.getText().equals("")){
+                 if(!unitField.getText().equals("")){
                      errorLabel.setText("");
                      String unit = unitField.getText();
                      Ingredient ingredient = new Ingredient(name, unit);

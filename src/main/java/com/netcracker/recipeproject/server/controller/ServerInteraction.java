@@ -60,10 +60,7 @@ public class ServerInteraction {
                     System.out.println("Ошибка установления связи с клиентом");
                 }
             });
-
         }
     }
-
-
 }
 

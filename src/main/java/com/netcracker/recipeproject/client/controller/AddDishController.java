@@ -78,10 +78,10 @@ public class AddDishController {
                     }
                 }
                 addButton.setOnAction(actionEvent -> {
-                    if(nameField.getText().equals("")) {
+                    if(!nameField.getText().equals("")) {
                         errorLabel.setText("");
                         String name = nameField.getText();
-                        if(numberField.getText().equals("")){
+                        if(!numberField.getText().equals("")){
                             errorLabel.setText("");
                             //int number = (int)numberField.getText();
                         }

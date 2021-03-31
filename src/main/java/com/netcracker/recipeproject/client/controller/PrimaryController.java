@@ -54,7 +54,7 @@ public class PrimaryController{
 
             searchButton.setOnAction(actionEvent -> {
                 String search = searchField.getText();
-                if(search.equals("")){
+                if(!search.equals("")){
                     System.out.println("*"+ search);
                     try {
                         InteractionClient client = InteractionClient.getInstance();
