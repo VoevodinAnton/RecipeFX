@@ -1,6 +1,8 @@
 package com.netcracker.recipeproject.client.controller;
 
+import com.netcracker.recipeproject.client.model.Dictionary;
 import com.netcracker.recipeproject.client.model.InteractionClient;
+import com.netcracker.recipeproject.library.Dish;
 import com.netcracker.recipeproject.library.Message;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class IpFrameController {
 
@@ -34,7 +37,7 @@ public class IpFrameController {
             try {
                 client.messageRequest(messageOut);//отправляем сообщение
                 Message messageIn = client.getMessage();//принимаем ответное сообщение с сервера
-                client.doCommand(messageIn);//выполняем соответствующую команду
+                Dictionary.setDishes((ArrayList<Dish>)messageIn.getObj());//выполняем соответствующую команду
                 Stage stageIp = (Stage) okeyButton.getScene().getWindow();
                 stageIp.close();
                 if(messageIn.getObj() != null) {
@@ -53,7 +56,6 @@ public class IpFrameController {
                     stage.setScene(new Scene(root));
                     stage.show();
                 }
-                //App.setRoot("/com/netcracker/recipeproject/FXML/primary.fxml");
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }

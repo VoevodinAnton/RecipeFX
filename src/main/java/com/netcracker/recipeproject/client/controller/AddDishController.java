@@ -61,24 +61,38 @@ public class AddDishController {
             client.messageRequest(messageOut);
             Message messageIn = client.getMessage();
             ArrayList<Ingredient> ingredientArrayList = (ArrayList<Ingredient>)messageIn.getObj();
-            ArrayList<String> namesArray = new ArrayList<String>();
-            for(int i = 0; i < ingredientArrayList.size(); i++) {
-                namesArray.add(ingredientArrayList.get(i).getName());
+            ArrayList<String> namesArray = new ArrayList<>();
+            for(Ingredient ingredient : ingredientArrayList) {
+                namesArray.add(ingredient.getName());
             }
-            IngredientComboBox = new ComboBox<String>(FXCollections.observableList(namesArray));
+                IngredientComboBox = new ComboBox<>(FXCollections.observableList(namesArray));
+                StringBuffer ingredientNameBuffer = new StringBuffer();
+                IngredientComboBox.setOnAction(actionEvent -> {
+                    ingredientNameBuffer.append(IngredientComboBox.getValue());
+                });
+                String nameIngredient = ingredientNameBuffer.toString();
+                Ingredient ingredient = null;
+                for(Ingredient ingredientItem : ingredientArrayList){
+                    if(ingredientItem.getName().equals(nameIngredient)){
+                        ingredient = ingredientItem;
+                    }
+                }
+                addButton.setOnAction(actionEvent -> {
+                    if(nameField.getText().equals("")) {
+                        errorLabel.setText("");
+                        String name = nameField.getText();
+                        if(numberField.getText().equals("")){
+                            errorLabel.setText("");
+                            //int number = (int)numberField.getText();
+                        }
+                    }
+                    else{
+                        errorLabel.setText("Введите название");
+                    }
+                });
         }catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        addButton.setOnAction(actionEvent -> {
-            if(nameField.getText() != "") {
-                errorLabel.setText("");
-                String name = nameField.getText();
-
-                }
-            else{
-                errorLabel.setText("Введите название");
-            }
-        });
 
     }
 }

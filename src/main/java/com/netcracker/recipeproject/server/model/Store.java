@@ -29,7 +29,7 @@ public class Store {
         ArrayList<DishComponent> ingredientsOfOmelette = new ArrayList<>();
         ingredientsOfOmelette.add(sausage1);
         ingredientsOfOmelette.add(egg3);
-        Dish omelette = new Dish(ingredientsOfOmelette, "omelette", "10");
+        Dish omelette = new Dish(ingredientsOfOmelette, "omelette", "10 минут");
         dishDictionary.addDish(omelette);
         //////////////////////////////
     }

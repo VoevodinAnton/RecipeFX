@@ -35,10 +35,10 @@ public class AddIngredientController {
     @FXML
     void initialize() {
          addButton.setOnAction(actionEvent -> {
-             if(nameField.getText() != "") {
+             if(nameField.getText().equals("")) {
                  errorLabel.setText("");
                  String name = nameField.getText();
-                 if(unitField.getText() != ""){
+                 if(unitField.getText().equals("")){
                      errorLabel.setText("");
                      String unit = unitField.getText();
                      Ingredient ingredient = new Ingredient(name, unit);
@@ -46,6 +46,7 @@ public class AddIngredientController {
                          InteractionClient client = InteractionClient.getInstance();
                          Message messageOut = new Message(6, ingredient);
                          client.messageRequest(messageOut);
+                         //TODO: принимать ответное сообщение об успешном добавлении или о дубликате и обрабатывать
                      }catch (IOException e)
                      {
                          e.printStackTrace();
