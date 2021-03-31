@@ -11,8 +11,8 @@ import java.net.Socket;
 public class ServerFacade {
 
     private Socket socket;
-    ObjectInputStream objIn;
-    ObjectOutputStream objOut;
+    private ObjectInputStream objIn;
+    private ObjectOutputStream objOut;
     private Store store;
 
     public ServerFacade(Socket socket) throws IOException {
@@ -28,7 +28,9 @@ public class ServerFacade {
 
     public void messageRequest(Message message) {
         try {
-            store.doCommand(message, objOut);
+            Message messageFromClient = store.doCommand(message);
+            objOut.writeObject(messageFromClient);
+            objOut.flush();
             System.out.println("Отправлен ответ клиенту");
         } catch (Exception ex) {
             ex.printStackTrace();

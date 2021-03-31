@@ -25,7 +25,7 @@ public class DishTest {
     @Test
     public void testContains() {
         String search1 = "яйцо";
-        String search2 = "яйцо, колбаса";
+        String search2 = "яйцо  , колбаса";
 
         assertTrue(omelette.contains(search1));
         assertTrue(omelette.contains(search2));

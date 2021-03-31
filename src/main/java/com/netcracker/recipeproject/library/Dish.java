@@ -80,9 +80,9 @@ public class Dish implements Serializable, Comparable<Dish> {
 
 
     public boolean contains(String ingredientsSearch) {
-        String[] listOfIngredients = ingredientsSearch.split(",\\s*"); //
-        ArrayList<String> nameOfingredientsDish = this.nameOfIngredientsToArray();
-        return nameOfingredientsDish.containsAll(Arrays.asList(listOfIngredients));
+        String[] listOfIngredients = ingredientsSearch.split("\\s*,\\s*"); //
+        ArrayList<String> nameOfIngredientsDish = this.nameOfIngredientsToArray();
+        return nameOfIngredientsDish.containsAll(Arrays.asList(listOfIngredients));
     }
 
     @Override

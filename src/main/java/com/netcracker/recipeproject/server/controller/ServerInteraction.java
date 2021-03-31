@@ -8,7 +8,6 @@ import com.netcracker.recipeproject.server.model.utils.Constants;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -35,14 +34,11 @@ public class ServerInteraction {
     }
 
 
-    public void startServer() {
-
+    public void startServer() throws IOException {
         for (int i = 0; i < Constants.COUNT_CLIENTS; i++) {
             System.out.println("Thread #" + i + "starts");
             executorService.submit(() -> {
                 try {
-
-
                     while (true) {
                         System.out.println("Сервер запущен");
                         Socket socket = serverSocket.accept();
@@ -53,15 +49,13 @@ public class ServerInteraction {
                             clientMessage = serverFacade.getMessage();
                             serverFacade.messageRequest(clientMessage);
                         }
-
-
                     }
-
                 } catch (Exception e) {
                     System.out.println("Ошибка установления связи с клиентом");
                 }
             });
         }
+
     }
 }
 
