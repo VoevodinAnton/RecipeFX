@@ -33,33 +33,19 @@ public class IpFrameController {
             client.process();
             System.out.println("Подключен к серверу");
 
-            Message messageOut = new Message(1, null);//отправляем сообщение о выводе всего списка блюд
+            Stage stageIp = (Stage) okeyButton.getScene().getWindow();
+            stageIp.close();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/primary.fxml"));
+            Parent root = null;
             try {
-                client.messageRequest(messageOut);//отправляем сообщение
-                Message messageIn = client.getMessage();//принимаем ответное сообщение с сервера
-                Dictionary.setDishes((ArrayList<Dish>)messageIn.getObj());//выполняем соответствующую команду
-                Stage stageIp = (Stage) okeyButton.getScene().getWindow();
-                stageIp.close();
-                if(messageIn.getObj() != null) {
-                    FXMLLoader loader = new FXMLLoader();
-                    loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/primary.fxml"));
-                    Parent root = loader.load();
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.show();
-                }
-                else{
-                    FXMLLoader loader = new FXMLLoader();
-                    loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/noDishesFrame.fxml"));
-                    Parent root = loader.load();
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.show();
-                }
-            } catch (IOException | ClassNotFoundException e) {
+                root = loader.load();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
         });
     }
 

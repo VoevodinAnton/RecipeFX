@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
@@ -44,13 +45,30 @@ public class PrimaryController{
         private Button ingredientsButton;
 
         @FXML
-        private ObservableList<Dish> dishObservableArray;
+        private Label errorLabel;
 
 
         @FXML
         public void initialize(){
-            dishList.setItems(FXCollections.observableArrayList(Dictionary.getDishes()));
-            dishList.setCellFactory(studentListView -> new ListCellController());
+            try {
+                InteractionClient client = InteractionClient.getInstance();
+                Message messageOut = new Message(1, null);
+                client.messageRequest(messageOut);
+                Message messageIn = client.getMessage();
+                if(messageIn.getObj() != null){
+                    errorLabel.setText("");
+                    dishList.setVisible(true);
+                    dishList.setItems(FXCollections.observableArrayList((ArrayList<Dish>)messageIn.getObj()));
+                    dishList.setCellFactory(studentListView -> new ListCellController());
+                }
+                else{
+                    dishList.setVisible(false);
+                    errorLabel.setText("Сейчас в нашей базе данных нет блюд! \nВы можете добавить свое!");
+                }
+            }catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
 
             searchButton.setOnAction(actionEvent -> {
                 String search = searchField.getText();
@@ -62,9 +80,16 @@ public class PrimaryController{
                         client.messageRequest(messageToServer);
                         Message messageFromServer = client.getMessage();
                         dishList.getItems().clear();
-                        Dictionary.setDishes((ArrayList<Dish>)messageFromServer.getObj());
-                        dishList.setItems(FXCollections.observableArrayList(Dictionary.getDishes()));
-                        dishList.setCellFactory(studentListView -> new ListCellController());
+                        if(!((ArrayList<Dish>)messageFromServer.getObj()).isEmpty()){
+                            dishList.setVisible(true);
+                            errorLabel.setText("");
+                            dishList.setItems(FXCollections.observableArrayList((ArrayList<Dish>)messageFromServer.getObj()));
+                            dishList.setCellFactory(studentListView -> new ListCellController());
+                        }
+                        else{
+                            dishList.setVisible(false);
+                            errorLabel.setText("По вашему запросу ничего не найдено");
+                        }
                     } catch (IOException | ClassNotFoundException e) {
                         e.printStackTrace();
                     }
