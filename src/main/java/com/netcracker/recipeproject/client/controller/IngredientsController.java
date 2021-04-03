@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import com.netcracker.recipeproject.client.model.Dictionary;
 import com.netcracker.recipeproject.client.model.InteractionClient;
 import com.netcracker.recipeproject.library.Ingredient;
 import com.netcracker.recipeproject.library.Message;

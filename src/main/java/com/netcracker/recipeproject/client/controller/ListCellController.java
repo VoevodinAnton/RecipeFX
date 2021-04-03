@@ -4,10 +4,14 @@ import com.netcracker.recipeproject.library.Dish;
 import com.netcracker.recipeproject.library.DishComponent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -32,6 +36,11 @@ public class ListCellController extends ListCell<Dish> {
     private AnchorPane pane;
 
     private FXMLLoader loader;
+
+    public ListCellController(){
+        super();
+
+    }
 
     @Override
     protected void updateItem(Dish d, boolean empty){
@@ -62,6 +71,42 @@ public class ListCellController extends ListCell<Dish> {
 
             setText(null);
             setGraphic(pane);
+
+            deleteButton.setOnMouseClicked(mouseEvent -> {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/deleteFrame.fxml"));
+                Parent root = null;
+                try {
+                    root = loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.initModality(Modality.WINDOW_MODAL);
+                stage.initOwner(this.deleteButton.getScene().getWindow());
+                DeleteDishController controllerDeleteDish = loader.getController(); //получаем контроллер для второй формы
+                controllerDeleteDish.setDish(d); // передаем необходимые параметры
+                stage.showAndWait();
+            });
+
+            editButton.setOnMouseClicked(mouseEvent -> {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/editDishFrame.fxml"));
+                Parent root = null;
+                try {
+                    root = loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.initModality(Modality.WINDOW_MODAL);
+                stage.initOwner(this.deleteButton.getScene().getWindow());
+                DeleteDishController controllerDeleteDish = loader.getController(); //получаем контроллер для второй формы
+                controllerDeleteDish.setDish(d); // передаем необходимые параметры
+                stage.showAndWait();
+            });
         }
     }
 
