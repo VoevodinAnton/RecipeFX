@@ -17,13 +17,11 @@ public class IngredientDictionaryTest {
         ingredientDictionary.addIngredient(egg);
         ingredientDictionary.addIngredient(milk);
         ingredientDictionary.addIngredient(water);
-
-        System.out.println(milk.getName());
-
     }
 
     @Test
     public void testLastId() {
         assertEquals(ingredientDictionary.lastId(), ingredientDictionary.getIngredients().size());
+        System.out.println(ingredientDictionary.lastId());
     }
 }

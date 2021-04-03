@@ -8,7 +8,7 @@ import com.netcracker.recipeproject.server.Exceptions.DuplicateFoundException;
 import java.util.*;
 
 public class IngredientDictionary implements Ingredients {
-    ArrayList<Ingredient> ingredients;
+    private ArrayList<Ingredient> ingredients;
 
     public IngredientDictionary() {
         ingredients = new ArrayList<>();
@@ -44,7 +44,7 @@ public class IngredientDictionary implements Ingredients {
             return 0;
         }
         Comparator<Ingredient> ingredientComparator = Comparator.comparingInt(Ingredient::getId);
-        Collections.sort(ingredients);
+        ingredients.sort(ingredientComparator);
         return ingredients.get(ingredients.size() - 1).getId();
     }
 
