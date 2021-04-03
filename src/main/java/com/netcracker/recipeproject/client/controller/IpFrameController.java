@@ -1,9 +1,6 @@
 package com.netcracker.recipeproject.client.controller;
 
-import com.netcracker.recipeproject.client.model.Dictionary;
 import com.netcracker.recipeproject.client.model.InteractionClient;
-import com.netcracker.recipeproject.library.Dish;
-import com.netcracker.recipeproject.library.Message;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class IpFrameController {
 

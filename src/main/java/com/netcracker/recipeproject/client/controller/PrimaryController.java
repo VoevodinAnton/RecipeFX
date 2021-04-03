@@ -3,13 +3,10 @@ package com.netcracker.recipeproject.client.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.netcracker.recipeproject.client.model.Dictionary;
 import com.netcracker.recipeproject.client.model.InteractionClient;
 import com.netcracker.recipeproject.library.Dish;
-import com.netcracker.recipeproject.library.Ingredient;
 import com.netcracker.recipeproject.library.Message;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -128,9 +125,10 @@ public class PrimaryController{
                     Message messageToServer = new Message(1, null);
                     client.messageRequest(messageToServer);
                     Message messageFromServer = client.getMessage();
+                    dishList.setVisible(true);
+                    errorLabel.setText("");
                     dishList.getItems().clear();
-                    Dictionary.setDishes((ArrayList<Dish>)messageFromServer.getObj());
-                    dishList.setItems(FXCollections.observableArrayList(Dictionary.getDishes()));
+                    dishList.setItems(FXCollections.observableArrayList((ArrayList<Dish>)messageFromServer.getObj()));
                     dishList.setCellFactory(studentListView -> new ListCellController());
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
