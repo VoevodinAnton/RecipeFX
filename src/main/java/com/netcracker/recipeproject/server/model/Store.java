@@ -21,7 +21,8 @@ public class Store {
                 new SearchCommand(dishDictionary),
                 new OutputOfAllDishesCommand(dishDictionary),
                 new EditDishCommand(dishDictionary),
-                new AddDishCommand(dishDictionary));
+                new AddDishCommand(dishDictionary),
+                new AddIngredientCommand(ingredientDictionary));
 
 
         /////////////////////////////////
@@ -55,9 +56,8 @@ public class Store {
                 return developer.editDish(message);
             case 3: //add a dish
                 return developer.addDish(message);
-            case 6:
-
-                 //доделать
+            case 6: //add ingredient
+                return developer.addIngredient(message);
             case 8:
                 System.out.println("Размер ингредиентов " + ingredientDictionary.getIngredients().size());
                 return new Message(1, ingredientDictionary.getIngredients());

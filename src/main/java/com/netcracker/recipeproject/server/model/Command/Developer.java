@@ -7,12 +7,14 @@ public class Developer {
    Command outputOfAllDishes;
    Command editDishCommand;
    Command addDishCommand;
+   Command addIngredientCommand;
 
-    public Developer(Command search, Command outputOfAllDishes, Command editDishCommand, Command addDishCommand) {
+    public Developer(Command search, Command outputOfAllDishes, Command editDishCommand, Command addDishCommand, Command addIngredientCommand) {
         this.search = search;
         this.outputOfAllDishes = outputOfAllDishes;
         this.editDishCommand = editDishCommand;
         this.addDishCommand = addDishCommand;
+        this.addIngredientCommand = addIngredientCommand;
     }
 
     public Message searchDish(Message message){
@@ -29,5 +31,9 @@ public class Developer {
 
     public Message addDish(Message message){
         return addDishCommand.execute(message);
+    }
+
+    public Message addIngredient(Message message){
+        return addIngredientCommand.execute(message);
     }
 }
