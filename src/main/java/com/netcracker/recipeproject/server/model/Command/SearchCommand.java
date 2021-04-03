@@ -14,7 +14,7 @@ public class SearchCommand implements Command{
     }
 
     @Override
-    public Message Execute(Message message) {
+    public Message execute(Message message) {
         Object object = message.getObj();
         String searchString = (String) object;
 

@@ -14,12 +14,16 @@ public class IngredientDictionaryTest {
 
     @Test
     public void testAdd() {
-        ingredientDictionary.add(egg);
-        ingredientDictionary.add(milk);
-        ingredientDictionary.add(water);
+        ingredientDictionary.addIngredient(egg);
+        ingredientDictionary.addIngredient(milk);
+        ingredientDictionary.addIngredient(water);
 
         System.out.println(milk.getName());
-        System.out.println(ingredientDictionary.getIngredients().size());
 
+    }
+
+    @Test
+    public void testLastId() {
+        assertEquals(ingredientDictionary.lastId(), ingredientDictionary.getIngredients().size());
     }
 }

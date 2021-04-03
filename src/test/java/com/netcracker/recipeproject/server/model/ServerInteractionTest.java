@@ -20,5 +20,6 @@ public class ServerInteractionTest {
 
     @Test
     public void testDoCommand() {
+
     }
 }

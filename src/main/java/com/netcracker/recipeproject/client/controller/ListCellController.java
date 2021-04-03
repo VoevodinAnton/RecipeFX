@@ -63,8 +63,8 @@ public class ListCellController extends ListCell<Dish> {
             nameDishLabel.setText(d.getName());
             timeLabel.setText(d.getCookingTime());
             String ingrList = "";
-            for(int i = 0 ; i < d.getListOfIngr().size(); i++){
-                DishComponent dishComponent = d.getListOfIngr().get(i);
+            for(int i = 0; i < d.getListOfIngredients().size(); i++){
+                DishComponent dishComponent = d.getListOfIngredients().get(i);
                 ingrList += dishComponent.getIngredient().getName() + " " + dishComponent.getNumber() + " " + dishComponent.getIngredient().getUnit() + '\n';
             }
             ingrLabel.setText(ingrList);

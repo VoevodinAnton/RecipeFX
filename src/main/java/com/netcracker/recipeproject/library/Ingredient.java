@@ -1,6 +1,7 @@
 package com.netcracker.recipeproject.library;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Ingredient implements Serializable, Comparable<Ingredient> {
     private static final long serialVersionUID = -202870688583065197L;
@@ -45,9 +46,23 @@ public class Ingredient implements Serializable, Comparable<Ingredient> {
     }
 
     @Override
-    public int compareTo(Ingredient o) {
-        Integer thisIdBoxed = id;
-        Integer anotherIdBoxed = o.getId();
-        return thisIdBoxed.compareTo(anotherIdBoxed);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ingredient that = (Ingredient) o;
+        return name.equalsIgnoreCase(that.name);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
+    @Override
+    public int compareTo(Ingredient o) {
+        String thisName = this.getName();
+        String anotherName = o.getName();
+        return thisName.compareToIgnoreCase(anotherName);
+    }
+    //подумать нужен ли метод
 }

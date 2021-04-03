@@ -1,13 +1,11 @@
 package com.netcracker.recipeproject.server.model;
 
+import com.netcracker.recipeproject.library.Dish;
 import com.netcracker.recipeproject.library.Ingredient;
 import com.netcracker.recipeproject.library.Message;
 import com.netcracker.recipeproject.server.Exceptions.DuplicateFoundException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.TreeSet;
+import java.util.*;
 
 public class IngredientDictionary implements Ingredients {
     ArrayList<Ingredient> ingredients;
@@ -17,7 +15,7 @@ public class IngredientDictionary implements Ingredients {
     }
 
     @Override
-    public void add(Ingredient ingredient) {
+    public void addIngredient(Ingredient ingredient) {
         if (!ingredients.isEmpty()) {
             for (Ingredient thisIngredient : ingredients) {
                 if (thisIngredient.getName().equalsIgnoreCase(ingredient.getName())) {
@@ -30,14 +28,22 @@ public class IngredientDictionary implements Ingredients {
     }
 
     @Override
-    public void set(Ingredient ingredient) {
+    public void removeIngredient(Ingredient ingredient) {
 
     }
 
+    @Override
+    public void editIngredient(Ingredient ingredient) {
+
+    }
+
+
+    @Override
     public int lastId() {
         if (ingredients.isEmpty()) {
             return 0;
         }
+        Comparator<Ingredient> ingredientComparator = Comparator.comparingInt(Ingredient::getId);
         Collections.sort(ingredients);
         return ingredients.get(ingredients.size() - 1).getId();
     }

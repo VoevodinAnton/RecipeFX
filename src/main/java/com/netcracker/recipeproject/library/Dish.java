@@ -1,14 +1,13 @@
 package com.netcracker.recipeproject.library;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Dish implements Serializable, Comparable<Dish> {
     private static final long serialVersionUID = 5863963783465074543L;
     private int id;
-    private ArrayList<DishComponent> listOfIngr;
+    private ArrayList<DishComponent> listOfIngredients;
     private String name;
     private String cookingTime;
 
@@ -17,23 +16,26 @@ public class Dish implements Serializable, Comparable<Dish> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Dish dish = (Dish) o;
-        return id == dish.id;
+        Collections.sort(listOfIngredients);
+        Collections.sort(dish.listOfIngredients);
+
+        return listOfIngredients.equals(dish.listOfIngredients) && name.equalsIgnoreCase(dish.name) && cookingTime.equals(dish.cookingTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(listOfIngredients, name, cookingTime);
     }
 
-    public Dish(ArrayList<DishComponent> listOfIngr, String name, String cookingTime) {
-        this.listOfIngr = listOfIngr;
+    public Dish(ArrayList<DishComponent> listOfIngredients, String name, String cookingTime) {
+        this.listOfIngredients = listOfIngredients;
         this.name = name;
         this.cookingTime = cookingTime;
     }
 
-    public Dish(int id, ArrayList<DishComponent> listOfIngr, String name, String cookingTime) {
+    public Dish(int id, ArrayList<DishComponent> listOfIngredients, String name, String cookingTime) {
         this.id = id;
-        this.listOfIngr = listOfIngr;
+        this.listOfIngredients = listOfIngredients;
         this.name = name;
         this.cookingTime = cookingTime;
     }
@@ -46,12 +48,12 @@ public class Dish implements Serializable, Comparable<Dish> {
         this.id = id;
     }
 
-    public ArrayList<DishComponent> getListOfIngr() {
-        return listOfIngr;
+    public ArrayList<DishComponent> getListOfIngredients() {
+        return listOfIngredients;
     }
 
-    public void setListOfIngr(ArrayList<DishComponent> listOfIngr) {
-        this.listOfIngr = listOfIngr;
+    public void setListOfIngredients(ArrayList<DishComponent> listOfIngredients) {
+        this.listOfIngredients = listOfIngredients;
     }
 
     public String getName() {
@@ -70,9 +72,11 @@ public class Dish implements Serializable, Comparable<Dish> {
         this.cookingTime = cookingTime;
     }
 
+
+
     public ArrayList<String> nameOfIngredientsToArray() {
         ArrayList<String> listOfIngredient = new ArrayList();
-        for (DishComponent dishComponent : listOfIngr) {
+        for (DishComponent dishComponent : this.listOfIngredients) {
             listOfIngredient.add(dishComponent.getIngredient().getName());
         }
         return listOfIngredient;
@@ -80,9 +84,12 @@ public class Dish implements Serializable, Comparable<Dish> {
 
 
     public boolean contains(String ingredientsSearch) {
-        String[] listOfIngredients = ingredientsSearch.split("\\s*,\\s*"); //
-        ArrayList<String> nameOfIngredientsDish = this.nameOfIngredientsToArray();
-        return nameOfIngredientsDish.containsAll(Arrays.asList(listOfIngredients));
+        List<String> listOfIngredients = Arrays.asList(ingredientsSearch.split("\\s*,\\s*")); //
+        List<String> nameOfIngredientsDish = this.nameOfIngredientsToArray();
+
+        Set<String> aset = listOfIngredients.stream().map(String::toLowerCase).collect(Collectors.toCollection(HashSet::new));
+        Set<String> bset = nameOfIngredientsDish.stream().map(String::toLowerCase).collect(Collectors.toCollection(HashSet::new));
+        return bset.containsAll(aset);
     }
 
     @Override

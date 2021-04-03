@@ -5,12 +5,8 @@ import com.netcracker.recipeproject.library.DishComponent;
 import com.netcracker.recipeproject.library.Ingredient;
 import com.netcracker.recipeproject.library.Message;
 import com.netcracker.recipeproject.server.Exceptions.DuplicateFoundException;
-import com.netcracker.recipeproject.server.model.Command.Developer;
-import com.netcracker.recipeproject.server.model.Command.OutputOfAllDishesCommand;
-import com.netcracker.recipeproject.server.model.Command.SearchCommand;
+import com.netcracker.recipeproject.server.model.Command.*;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 public class Store {
@@ -23,14 +19,16 @@ public class Store {
         ingredientDictionary = new IngredientDictionary();
         developer = new Developer(
                 new SearchCommand(dishDictionary),
-                new OutputOfAllDishesCommand(dishDictionary));
+                new OutputOfAllDishesCommand(dishDictionary),
+                new EditDishCommand(dishDictionary),
+                new AddDishCommand(dishDictionary));
 
 
         /////////////////////////////////
         Ingredient egg = new Ingredient("яйцо", "шт");
         Ingredient sausage = new Ingredient("колбаса", "гр");
-        ingredientDictionary.add(egg);
-        ingredientDictionary.add(sausage);
+        ingredientDictionary.addIngredient(egg);
+        ingredientDictionary.addIngredient(sausage);
         DishComponent sausage1 = new DishComponent(sausage, 1);
         DishComponent egg3 = new DishComponent(egg, 3);
         ArrayList<DishComponent> ingredientsOfOmelette = new ArrayList<>();
@@ -53,31 +51,18 @@ public class Store {
             case 1: //output of all dishes
                 System.out.println("Размер списка блюд " + dishDictionary.getDishes().size());
                 return developer.dishesOutput(message);
-            case 2:
-                Dish dishEdit = (Dish) object;
-                dishDictionary.setDish(dishEdit);
-                return null;
-
-            case 3:
-                Dish dishAdd = (Dish) object;
-                dishDictionary.addDish(dishAdd);
-                return null;
+            case 2: //edit dish
+                return developer.editDish(message);
+            case 3: //add a dish
+                return developer.addDish(message);
             case 6:
-                Ingredient ingredientAdd = (Ingredient) object;
-                try {
-                    ingredientDictionary.add(ingredientAdd);
-                } catch (DuplicateFoundException e) {
-                    System.err.println("Обнаружен дупликат");
-                    return new Message(3, ingredientAdd);
-                } catch (RuntimeException e) {
-                    e.printStackTrace();
-                }
+
+                 //доделать
             case 8:
                 System.out.println("Размер ингредиентов " + ingredientDictionary.getIngredients().size());
                 return new Message(1, ingredientDictionary.getIngredients());
             default:
                 return null;
-
         }
 
     }

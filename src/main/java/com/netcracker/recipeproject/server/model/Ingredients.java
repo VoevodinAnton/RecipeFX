@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 public interface Ingredients {
-    void add(Ingredient ingredient);
-    void set(Ingredient ingredient);
+    void addIngredient(Ingredient ingredient);
+    void removeIngredient(Ingredient ingredient);
+    void editIngredient(Ingredient ingredient);
     ArrayList<Ingredient> getIngredients();
+    int lastId();
 
 }

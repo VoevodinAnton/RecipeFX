@@ -15,10 +15,20 @@ public class DishTest {
     ArrayList<DishComponent> ingredientsOfOmelette = new ArrayList<>();
     Dish omelette = new Dish(ingredientsOfOmelette, "omelette", "10");
 
+    Ingredient eggDuplicate = new Ingredient("ЯйЦо", "шт");
+    Ingredient sausageDuplicate = new Ingredient("колбаса", "гр");
+    DishComponent sausage1Duplicate = new DishComponent(sausageDuplicate, 1);
+    DishComponent egg3Duplicate = new DishComponent(eggDuplicate, 3);
+    ArrayList<DishComponent> ingredientsOfOmeletteDuplicate = new ArrayList<>();
+    Dish omeletteA = new Dish(ingredientsOfOmeletteDuplicate, "omelette", "10");
+
     @BeforeSuite
     public void initialize(){
         ingredientsOfOmelette.add(sausage1);
         ingredientsOfOmelette.add(egg3);
+
+        ingredientsOfOmeletteDuplicate.add(egg3Duplicate);
+        ingredientsOfOmeletteDuplicate.add(sausage1Duplicate);
 
     }
 
@@ -44,5 +54,11 @@ public class DishTest {
 
 
 
+    }
+
+    @Test
+    public void testTestEquals() {
+        assertTrue(omelette.equals(omelette));
+        assertTrue(omelette.equals(omeletteA));
     }
 }

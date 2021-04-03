@@ -6,7 +6,9 @@ import java.util.ArrayList;
 
 public interface Dishes {
     void addDish(Dish dish);
-    void setDish(Dish dish);
+    void removeDish(Dish dish);
+    void editDish(Dish dish);
     ArrayList<Dish> getDishes();
+    int lastId();
 
 }

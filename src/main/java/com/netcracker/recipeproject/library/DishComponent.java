@@ -4,8 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import java.io.Serializable;
+import java.util.Objects;
 
-public class DishComponent implements Serializable {
+public class DishComponent implements Serializable, Comparable<DishComponent> {
     private static final long serialVersionUID = -6912146482775838759L;
     private Ingredient ingredient;
     private int number;
@@ -15,7 +16,18 @@ public class DishComponent implements Serializable {
         this.number = number;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DishComponent that = (DishComponent) o;
+        return ingredient.equals(that.ingredient);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(ingredient);
+    }
 
     public Ingredient getIngredient() {
         return ingredient;
@@ -33,4 +45,11 @@ public class DishComponent implements Serializable {
         this.number = number;
     }
 
+    @Override
+    public int compareTo(DishComponent o) {
+        Ingredient thisIngredient = this.getIngredient();
+        Ingredient anotherIngredient = o.getIngredient();
+
+        return thisIngredient.compareTo(anotherIngredient);
+    }
 }
