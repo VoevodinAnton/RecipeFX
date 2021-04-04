@@ -23,7 +23,6 @@ public class DishDictionary implements Dishes {
                     throw new DuplicateFoundException();
                 }
             }
-
         }
         dish.setId(this.lastId() + 1);
         dishes.add(dish);
@@ -31,7 +30,7 @@ public class DishDictionary implements Dishes {
 
     @Override
     public void removeDish(Dish dish) {
-
+        dishes.remove(dish);
     }
 
 

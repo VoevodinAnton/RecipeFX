@@ -7,13 +7,25 @@ public class Developer {
    Command outputOfAllDishes;
    Command editDishCommand;
    Command addDishCommand;
+   Command removeDishCommand;
+   Command removeIngredientCommand;
    Command addIngredientCommand;
 
-    public Developer(Command search, Command outputOfAllDishes, Command editDishCommand, Command addDishCommand, Command addIngredientCommand) {
+
+
+    public Developer(Command search,
+                     Command outputOfAllDishes,
+                     Command editDishCommand,
+                     Command addDishCommand,
+                     Command removeDishCommand,
+                     Command removeIngredientCommand,
+                     Command addIngredientCommand) {
         this.search = search;
         this.outputOfAllDishes = outputOfAllDishes;
         this.editDishCommand = editDishCommand;
         this.addDishCommand = addDishCommand;
+        this.removeDishCommand = removeDishCommand;
+        this.removeIngredientCommand = removeIngredientCommand;
         this.addIngredientCommand = addIngredientCommand;
     }
 
@@ -33,7 +45,12 @@ public class Developer {
         return addDishCommand.execute(message);
     }
 
+    public Message removeDish(Message message){return removeDishCommand.execute(message);}
+
+    public Message removeIngredient(Message message){return removeIngredientCommand.execute(message);}
+
     public Message addIngredient(Message message){
         return addIngredientCommand.execute(message);
     }
+
 }
