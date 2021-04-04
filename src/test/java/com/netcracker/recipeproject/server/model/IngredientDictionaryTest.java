@@ -17,11 +17,18 @@ public class IngredientDictionaryTest {
         ingredientDictionary.addIngredient(egg);
         ingredientDictionary.addIngredient(milk);
         ingredientDictionary.addIngredient(water);
+
     }
 
     @Test
     public void testLastId() {
         assertEquals(ingredientDictionary.lastId(), ingredientDictionary.getIngredients().size());
         System.out.println(ingredientDictionary.lastId());
+    }
+
+    @Test
+    public void testRemoveIngredient() {
+        ingredientDictionary.removeIngredient(egg);
+        assertEquals(ingredientDictionary.getIngredients().size(), ingredientDictionary.lastId()-1);
     }
 }

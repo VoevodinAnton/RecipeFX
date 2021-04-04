@@ -22,6 +22,8 @@ public class Store {
                 new OutputOfAllDishesCommand(dishDictionary),
                 new EditDishCommand(dishDictionary),
                 new AddDishCommand(dishDictionary),
+                new RemoveDishCommand(dishDictionary),
+                new RemoveIngredientCommand(ingredientDictionary),
                 new AddIngredientCommand(ingredientDictionary));
 
 
@@ -44,7 +46,6 @@ public class Store {
     public Message doCommand(Message message) { //перенести в другой класс, в модель
 
         int flag = message.getFlag();
-        Object object = message.getObj();
 
         switch (flag) { //сделать ENUM
             case 0: //Search
@@ -52,10 +53,14 @@ public class Store {
             case 1: //output of all dishes
                 System.out.println("Размер списка блюд " + dishDictionary.getDishes().size());
                 return developer.dishesOutput(message);
-            case 2: //edit dish
+            case 2: //edit a dish
                 return developer.editDish(message);
             case 3: //add a dish
                 return developer.addDish(message);
+            case 4: //remove a dish
+                return developer.removeDish(message);
+            case 5: //remove a ingredient
+                return developer.removeIngredient(message);
             case 6: //add ingredient
                 return developer.addIngredient(message);
             case 8:

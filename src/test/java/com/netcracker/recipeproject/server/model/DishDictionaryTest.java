@@ -22,7 +22,7 @@ public class DishDictionaryTest {
     Dish omelette = new Dish(ingredientsOfOmelette, "Омлет", "10");
 
     Ingredient eggDuplicate = new Ingredient("ЯйЦо", "шт");
-    Ingredient sausageDuplicate = new Ingredient("колбаса", "гр");
+    Ingredient sausageDuplicate = new Ingredient("молоко", "гр");
     DishComponent sausage1Duplicate = new DishComponent(sausageDuplicate, 1);
     DishComponent egg3Duplicate = new DishComponent(eggDuplicate, 3);
     ArrayList<DishComponent> ingredientsOfOmeletteDuplicate = new ArrayList<>();
@@ -41,6 +41,7 @@ public class DishDictionaryTest {
         ingredientsOfOmeletteDuplicate.add(sausage1Duplicate);
 
         dishDictionary.addDish(omelette);
+        dishDictionary.addDish(omeletteDuplicate);
     }
 
 
@@ -52,5 +53,12 @@ public class DishDictionaryTest {
     @Test
     public void testLastId() {
         assertEquals(dishDictionary.lastId(), dishDictionary.getDishes().size());
+    }
+
+    @Test
+    public void testRemoveDish() {
+        dishDictionary.removeDish(omelette);
+        dishDictionary.removeDish(omeletteDuplicate);
+        assertEquals(dishDictionary.getDishes().size(), 0);
     }
 }

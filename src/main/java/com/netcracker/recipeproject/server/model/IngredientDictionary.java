@@ -29,7 +29,7 @@ public class IngredientDictionary implements Ingredients {
 
     @Override
     public void removeIngredient(Ingredient ingredient) {
-
+        ingredients.remove(ingredient);
     }
 
     @Override
