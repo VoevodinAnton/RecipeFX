@@ -22,9 +22,9 @@
                      </font>
                   </Label>
                   <Circle fill="#ffb485" layoutX="53.0" layoutY="34.0" radius="17.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-                  <ImageView fx:id="backButton" fitHeight="34.0" fitWidth="34.0" layoutX="36.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="refreshButton" fitHeight="34.0" fitWidth="34.0" layoutX="36.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../assets/images/back.png" />
+                        <Image url="@../../../../assets/images/refresh.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="66.0" fitWidth="66.0" layoutX="507.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
@@ -37,7 +37,7 @@
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <ListView fx:id="ingredientsList" layoutX="36.0" layoutY="75.0" prefHeight="293.0" prefWidth="526.0" />
+                  <ListView fx:id="ingredientsList" layoutX="36.0" layoutY="75.0" prefHeight="293.0" prefWidth="526.0" style="-fx-border-color: ffffff;" />
                </children>
             </AnchorPane>
         </content>

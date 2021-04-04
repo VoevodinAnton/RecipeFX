@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class AddIngredientController {
 
@@ -46,8 +47,14 @@ public class AddIngredientController {
                          InteractionClient client = InteractionClient.getInstance();
                          Message messageOut = new Message(6, ingredient);
                          client.messageRequest(messageOut);
-                         //TODO: принимать ответное сообщение об успешном добавлении или о дубликате и обрабатывать
-                     }catch (IOException e)
+                         Message messageIn = client.getMessage();
+                         if(messageIn.getFlag() == 5) {
+                             Stage stageIp = (Stage) addButton.getScene().getWindow();
+                             stageIp.close();
+                         }
+                         else
+                             errorLabel.setText("Такой ингредиент уже существует");
+                     }catch (IOException | ClassNotFoundException e)
                      {
                          e.printStackTrace();
                      }

@@ -78,16 +78,14 @@ public class AddDishController {
                     }
                 }
                 addButton.setOnAction(actionEvent -> {
-                    if(!nameField.getText().equals("")) {
+                    if(!nameField.getText().equals("") || !numberField.getText().equals("")) {
                         errorLabel.setText("");
                         String name = nameField.getText();
-                        if(!numberField.getText().equals("")){
-                            errorLabel.setText("");
-                            //int number = (int)numberField.getText();
-                        }
+                        int number = Integer.parseInt(numberField.getText());
+
                     }
                     else{
-                        errorLabel.setText("Введите название");
+                        errorLabel.setText("Заполнены не все поля");
                     }
                 });
         }catch (IOException | ClassNotFoundException e) {

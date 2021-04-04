@@ -56,7 +56,7 @@ public class PrimaryController{
                     errorLabel.setText("");
                     dishList.setVisible(true);
                     dishList.setItems(FXCollections.observableArrayList((ArrayList<Dish>)messageIn.getObj()));
-                    dishList.setCellFactory(studentListView -> new ListCellController());
+                    dishList.setCellFactory(dishListView -> new ListCellController());
                 }
                 else{
                     dishList.setVisible(false);
@@ -81,7 +81,7 @@ public class PrimaryController{
                             dishList.setVisible(true);
                             errorLabel.setText("");
                             dishList.setItems(FXCollections.observableArrayList((ArrayList<Dish>)messageFromServer.getObj()));
-                            dishList.setCellFactory(studentListView -> new ListCellController());
+                            dishList.setCellFactory(dishListView -> new ListCellController());
                         }
                         else{
                             dishList.setVisible(false);
@@ -129,7 +129,7 @@ public class PrimaryController{
                     errorLabel.setText("");
                     dishList.getItems().clear();
                     dishList.setItems(FXCollections.observableArrayList((ArrayList<Dish>)messageFromServer.getObj()));
-                    dishList.setCellFactory(studentListView -> new ListCellController());
+                    dishList.setCellFactory(dishListView -> new ListCellController());
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
