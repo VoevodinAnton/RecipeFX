@@ -32,7 +32,7 @@ public class InteractionClient {//singletone
     }
 
     public void messageRequest(Message message) throws IOException {
-        //System.out.println((String)message.getObj());
+        //System.out.println((String) message.getObj());
         out.writeObject(message);
         out.flush();
         //out.close();

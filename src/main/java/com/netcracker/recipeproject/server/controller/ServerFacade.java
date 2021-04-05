@@ -28,8 +28,8 @@ public class ServerFacade {
 
     public void messageRequest(Message message) {
         try {
-            Message messageFromClient = store.doCommand(message);
-            objOut.writeObject(messageFromClient);
+            Message messageToClient = store.doCommand(message);
+            objOut.writeObject(messageToClient);
             objOut.flush();
             System.out.println("Отправлен ответ клиенту");
         } catch (Exception ex) {

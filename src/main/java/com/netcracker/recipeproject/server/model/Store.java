@@ -43,7 +43,7 @@ public class Store {
     }
 
 
-    public Message doCommand(Message message) { //перенести в другой класс, в модель
+    public Message doCommand(Message message) {
 
         int flag = message.getFlag();
 
@@ -64,7 +64,7 @@ public class Store {
             case 6: //add ingredient
                 return developer.addIngredient(message);
             case 8:
-                System.out.println("Размер ингредиентов " + ingredientDictionary.getIngredients().size());
+                System.out.println("Размер списка ингредиентов: " + ingredientDictionary.getIngredients().size());
                 return new Message(1, ingredientDictionary.getIngredients());
             default:
                 return null;

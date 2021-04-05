@@ -12,14 +12,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-public class ServerInteraction {
-    public static ServerInteraction instance;
-    private ExecutorService executorService;
-    Store store;
-    ServerSocket serverSocket;
+ class ServerInteraction {
+    private static ServerInteraction instance;
+    private final ExecutorService executorService;
+    private Store store;
+    private final ServerSocket serverSocket;
 
 
-    public ServerInteraction() throws IOException {
+    private ServerInteraction() throws IOException {
         serverSocket = new ServerSocket(Constants.PORT);
         store = new Store();
         executorService = Executors.newCachedThreadPool();

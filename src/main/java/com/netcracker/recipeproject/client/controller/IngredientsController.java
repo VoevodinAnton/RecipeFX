@@ -49,9 +49,7 @@ public class IngredientsController {
             //ObservableArray<Ingredient> items = FXCollections.observableArrayList((ArrayList<Ingredient>) messageFromServer.getObj())
             ingredientsList.setItems(FXCollections.observableArrayList((ArrayList<Ingredient>) messageFromServer.getObj()));
             ingredientsList.setCellFactory(ingredientListView -> new IngredientCellController());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
             /*refreshButton.setOnMouseClicked(mouseEvent -> {
@@ -64,9 +62,7 @@ public class IngredientsController {
                     ingredientsList.getItems().clear();
                     ingredientsList.setItems(FXCollections.observableArrayList((ArrayList<Ingredient>) messageIn.getObj()));
                     ingredientsList.setCellFactory(ingredientListView -> new IngredientCellController());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
             });*/
@@ -99,9 +95,7 @@ public class IngredientsController {
             ingredientsList.getItems().removeAll();
             ingredientsList.setItems(FXCollections.observableArrayList((ArrayList<Ingredient>) messageIn.getObj()));
             ingredientsList.setCellFactory(ingredientListView -> new IngredientCellController());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
