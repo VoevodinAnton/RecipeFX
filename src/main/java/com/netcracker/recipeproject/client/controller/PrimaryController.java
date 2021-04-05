@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import com.netcracker.recipeproject.client.model.InteractionClient;
 import com.netcracker.recipeproject.library.Dish;
 import com.netcracker.recipeproject.library.Message;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -44,6 +46,7 @@ public class PrimaryController{
         @FXML
         private Label errorLabel;
 
+        private ObservableList<Dish> dishObservableList = FXCollections.observableArrayList();
 
         @FXML
         public void initialize(){
@@ -55,7 +58,9 @@ public class PrimaryController{
                 if(messageIn.getObj() != null){
                     errorLabel.setText("");
                     dishList.setVisible(true);
-                    dishList.setItems(FXCollections.observableArrayList((ArrayList<Dish>)messageIn.getObj()));
+                    dishObservableList.removeAll();
+                    dishObservableList.addAll((ArrayList<Dish>)messageIn.getObj());
+                    dishList.setItems(dishObservableList);
                     dishList.setCellFactory(dishListView -> new ListCellController());
                 }
                 else{
@@ -80,7 +85,10 @@ public class PrimaryController{
                         if(!((ArrayList<Dish>)messageFromServer.getObj()).isEmpty()){
                             dishList.setVisible(true);
                             errorLabel.setText("");
-                            dishList.setItems(FXCollections.observableArrayList((ArrayList<Dish>)messageFromServer.getObj()));
+                            dishList.getItems().clear();
+                            dishObservableList.removeAll();
+                            dishObservableList.addAll((ArrayList<Dish>)messageFromServer.getObj());
+                            dishList.setItems(dishObservableList);
                             dishList.setCellFactory(dishListView -> new ListCellController());
                         }
                         else{
@@ -125,11 +133,19 @@ public class PrimaryController{
                     Message messageToServer = new Message(1, null);
                     client.messageRequest(messageToServer);
                     Message messageFromServer = client.getMessage();
-                    dishList.setVisible(true);
-                    errorLabel.setText("");
-                    dishList.getItems().clear();
-                    dishList.setItems(FXCollections.observableArrayList((ArrayList<Dish>)messageFromServer.getObj()));
-                    dishList.setCellFactory(dishListView -> new ListCellController());
+                    if(!((ArrayList<Dish>)messageFromServer.getObj()).isEmpty()){
+                        dishList.setVisible(true);
+                        //errorLabel.setText("*");
+                        dishList.getItems().clear();
+                        dishObservableList.removeAll();
+                        dishObservableList.addAll((ArrayList<Dish>)messageFromServer.getObj());
+                        dishList.setItems(dishObservableList);
+                        dishList.setCellFactory(dishListView -> new ListCellController());
+                    }
+                    else {
+                        dishList.setVisible(false);
+                        errorLabel.setText("Сейчас в нашей базе данных нет блюд! \nВы можете добавить свое!");
+                    }
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
