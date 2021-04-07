@@ -22,13 +22,13 @@ public class IngredientDictionaryTest {
 
     @Test
     public void testLastId() {
-        assertEquals(ingredientDictionary.lastId(), ingredientDictionary.getIngredients().size());
+        assertEquals(ingredientDictionary.lastId(), ingredientDictionary.getAllIngredients().size());
         System.out.println(ingredientDictionary.lastId());
     }
 
     @Test
     public void testRemoveIngredient() {
         ingredientDictionary.removeIngredient(egg);
-        assertEquals(ingredientDictionary.getIngredients().size(), ingredientDictionary.lastId()-1);
+        assertEquals(ingredientDictionary.getAllIngredients().size(), ingredientDictionary.lastId()-1);
     }
 }

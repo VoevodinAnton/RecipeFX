@@ -10,8 +10,8 @@ import com.netcracker.recipeproject.server.model.Command.*;
 import java.util.ArrayList;
 
 public class Store {
-    DishDictionary dishDictionary;
-    IngredientDictionary ingredientDictionary;
+    private DishDictionary dishDictionary;
+    private IngredientDictionary ingredientDictionary;
     Developer developer;
 
     public Store() {
@@ -24,8 +24,8 @@ public class Store {
                 new AddDishCommand(dishDictionary),
                 new RemoveDishCommand(dishDictionary),
                 new RemoveIngredientCommand(ingredientDictionary),
-                new AddIngredientCommand(ingredientDictionary));
-
+                new AddIngredientCommand(ingredientDictionary),
+                new OutputOfAllIngredientsCommand(ingredientDictionary));
 
         /////////////////////////////////
         Ingredient egg = new Ingredient("яйцо", "шт");
@@ -42,16 +42,13 @@ public class Store {
         //////////////////////////////
     }
 
-
     public Message doCommand(Message message) {
-
         int flag = message.getFlag();
-
         switch (flag) { //сделать ENUM
             case 0: //Search
                 return developer.searchDish(message);
             case 1: //output of all dishes
-                System.out.println("Размер списка блюд " + dishDictionary.getDishes().size());
+                System.out.println("Размер списка блюд " + dishDictionary.getAllDishes().size());
                 return developer.dishesOutput(message);
             case 2: //edit a dish
                 return developer.editDish(message);
@@ -62,14 +59,25 @@ public class Store {
             case 5: //remove a ingredient
                 return developer.removeIngredient(message);
             case 6: //add ingredient
-                return developer.addIngredient(message);
-            case 8:
-                System.out.println("Размер списка ингредиентов: " + ingredientDictionary.getIngredients().size());
-                return new Message(1, ingredientDictionary.getIngredients());
+                Object object = message.getObj();
+                Ingredient ingredientAdd = (Ingredient) object;
+                try {
+                    ingredientDictionary.addIngredient(ingredientAdd);
+                } catch (DuplicateFoundException e) {
+                    System.err.println("Обнаружен дупликат");
+                    return new Message(3, ingredientAdd);
+                } catch (RuntimeException e) {
+                    e.printStackTrace();
+                }
+                return new Message(5, null);
+                //return developer.addIngredient(message);
+            case 8: //output of all ingredients
+                System.out.println("Размер списка ингредиентов: " + ingredientDictionary.getAllIngredients().size());
+                return new Message(1, ingredientDictionary.getAllIngredients());
+                //return developer.ingredientsOutput(message);
             default:
                 return null;
         }
-
     }
 }
 

@@ -49,7 +49,7 @@ public class IngredientDictionary implements Ingredients {
     }
 
     @Override
-    public ArrayList<Ingredient> getIngredients() {
+    public ArrayList<Ingredient> getAllIngredients() {
         return ingredients;
     }
 }

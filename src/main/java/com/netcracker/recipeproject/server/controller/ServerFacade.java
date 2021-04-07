@@ -38,8 +38,8 @@ public class ServerFacade {
     }
 
     public void close() throws IOException {
-        socket.close();
         objIn.close();
         objOut.close();
+        socket.close();
     }
 }

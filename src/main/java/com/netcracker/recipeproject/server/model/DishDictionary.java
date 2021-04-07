@@ -45,7 +45,7 @@ public class DishDictionary implements Dishes {
         }
     }
 
-    public ArrayList<Dish> getDishes() {
+    public ArrayList<Dish> getAllDishes() {
         return dishes;
     }
 

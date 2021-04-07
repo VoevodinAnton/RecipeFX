@@ -52,13 +52,13 @@ public class DishDictionaryTest {
 
     @Test
     public void testLastId() {
-        assertEquals(dishDictionary.lastId(), dishDictionary.getDishes().size());
+        assertEquals(dishDictionary.lastId(), dishDictionary.getAllDishes().size());
     }
 
     @Test
     public void testRemoveDish() {
         dishDictionary.removeDish(omelette);
         dishDictionary.removeDish(omeletteDuplicate);
-        assertEquals(dishDictionary.getDishes().size(), 0);
+        assertEquals(dishDictionary.getAllDishes().size(), 0);
     }
 }

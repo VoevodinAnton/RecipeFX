@@ -9,7 +9,7 @@ public interface Ingredients {
     void addIngredient(Ingredient ingredient);
     void removeIngredient(Ingredient ingredient);
     void editIngredient(Ingredient ingredient);
-    ArrayList<Ingredient> getIngredients();
+    ArrayList<Ingredient> getAllIngredients();
     int lastId();
 
 }

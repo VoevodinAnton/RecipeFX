@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
- class ServerInteraction {
+class ServerInteraction {
     private static ServerInteraction instance;
     private final ExecutorService executorService;
     private Store store;
@@ -22,7 +22,7 @@ import java.util.concurrent.Executors;
     private ServerInteraction() throws IOException {
         serverSocket = new ServerSocket(Constants.PORT);
         store = new Store();
-        executorService = Executors.newCachedThreadPool();
+        executorService = Executors.newFixedThreadPool(2);
 
     }
 
@@ -35,6 +35,27 @@ import java.util.concurrent.Executors;
 
 
     public void startServer() throws IOException {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+            System.out.println("Server socket created, command console reader for listen to server commands");
+            while (!serverSocket.isClosed()) {
+                Socket socket = serverSocket.accept();
+                if (br.ready()) {
+                    System.out.println("Main Server found any messages in channel, let's look at them.");
+                    String serverCommand = br.readLine();
+                    if (serverCommand.equalsIgnoreCase("quit")) {
+                        System.out.println("Main Server initiate exiting...");
+                        serverSocket.close();
+                        break;
+                    }
+                }
+                executorService.execute(new MonoThreadClientHandler(socket));
+                System.out.print("Connection accepted.");
+            }
+        } catch (IOException e){
+            serverSocket.close();
+            e.printStackTrace();
+        }
+        /*
         for (int i = 0; i < Constants.COUNT_CLIENTS; i++) {
             System.out.println("Thread #" + i + "starts");
             executorService.submit(() -> {
@@ -54,8 +75,9 @@ import java.util.concurrent.Executors;
                     System.out.println("Ошибка установления связи с клиентом");
                 }
             });
-        }
 
+         */
+
+        }
     }
-}
 

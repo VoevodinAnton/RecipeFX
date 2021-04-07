@@ -10,6 +10,7 @@ public class Developer {
    Command removeDishCommand;
    Command removeIngredientCommand;
    Command addIngredientCommand;
+   Command outputOfAllIngredients;
 
 
 
@@ -19,7 +20,8 @@ public class Developer {
                      Command addDishCommand,
                      Command removeDishCommand,
                      Command removeIngredientCommand,
-                     Command addIngredientCommand) {
+                     Command addIngredientCommand,
+                     Command outputOfAllIngredients) {
         this.search = search;
         this.outputOfAllDishes = outputOfAllDishes;
         this.editDishCommand = editDishCommand;
@@ -27,6 +29,7 @@ public class Developer {
         this.removeDishCommand = removeDishCommand;
         this.removeIngredientCommand = removeIngredientCommand;
         this.addIngredientCommand = addIngredientCommand;
+        this.outputOfAllIngredients = outputOfAllIngredients;
     }
 
     public Message searchDish(Message message){
@@ -52,5 +55,7 @@ public class Developer {
     public Message addIngredient(Message message){
         return addIngredientCommand.execute(message);
     }
+
+    public Message ingredientsOutput(Message message){return outputOfAllIngredients.execute(message);}
 
 }

@@ -8,7 +8,7 @@ public interface Dishes {
     void addDish(Dish dish);
     void removeDish(Dish dish);
     void editDish(Dish dish);
-    ArrayList<Dish> getDishes();
+    ArrayList<Dish> getAllDishes();
     int lastId();
 
 }

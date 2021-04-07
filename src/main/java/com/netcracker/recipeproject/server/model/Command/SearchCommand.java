@@ -21,7 +21,7 @@ public class SearchCommand implements Command{
         System.out.println(searchString);
         ArrayList<Dish> dishesToClient = new ArrayList<>(); //список блюд, который отправляется клиенту
 
-        ArrayList<Dish> dishes = dishDictionary.getDishes();
+        ArrayList<Dish> dishes = dishDictionary.getAllDishes();
         for (Dish dish : dishes) {
             if (dish.contains(searchString)) {
                 dishesToClient.add(dish);

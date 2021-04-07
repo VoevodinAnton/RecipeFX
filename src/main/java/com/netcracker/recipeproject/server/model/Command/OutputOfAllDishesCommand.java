@@ -12,6 +12,6 @@ public class OutputOfAllDishesCommand implements Command{
 
     @Override
     public Message execute(Message message) {
-        return new Message(0, dishDictionary.getDishes());
+        return new Message(0, dishDictionary.getAllDishes());
     }
 }
