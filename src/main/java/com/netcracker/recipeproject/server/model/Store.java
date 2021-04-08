@@ -12,7 +12,7 @@ public class Store {
     private static Store instance;
     private DishDictionary dishDictionary;
     private IngredientDictionary ingredientDictionary;
-    Developer developer;
+    private Developer developer;
 
     private Store() {
         dishDictionary = new DishDictionary();
@@ -39,6 +39,17 @@ public class Store {
         ingredientsOfOmelette.add(egg3);
         Dish omelette = new Dish(ingredientsOfOmelette, "omelette", "10 минут");
         dishDictionary.addDish(omelette);
+
+
+        Ingredient ingredient1 = new Ingredient("cпаггети", "шт");
+        Ingredient ingredient2 = new Ingredient("курица", "гр");
+        DishComponent dishComponent1 = new DishComponent(ingredient1, 1);
+        DishComponent dishComponent2 = new DishComponent(ingredient2, 3);
+        ArrayList<DishComponent> ingredientsOfOmeletteDuplicate = new ArrayList<>();
+        ingredientsOfOmeletteDuplicate.add(dishComponent1);
+        ingredientsOfOmeletteDuplicate.add(dishComponent2);
+        Dish paste = new Dish(ingredientsOfOmeletteDuplicate, "Паста с курицей", "20 минут");
+        dishDictionary.addDish(paste);
         //////////////////////////////
     }
 
@@ -76,7 +87,7 @@ public class Store {
                 return developer.removeIngredient(message);
             case ADD_AN_INGREDIENT: //add an ingredient
                 Object object = message.getObj();
-                Ingredient ingredientAdd = (Ingredient) object;
+                Ingredient ingredientAdd = (Ingredient) object; //вывести в консоль
                 try {
                     ingredientDictionary.addIngredient(ingredientAdd);
                 } catch (DuplicateFoundException e) {
@@ -90,7 +101,10 @@ public class Store {
             case EDIT_A_INGREDIENT: // edit a ingredient
 
             case OUTPUT_OF_ALL_INGREDIENTS: //output of all ingredients
-                System.out.println("Размер списка ингредиентов: " + ingredientDictionary.getAllIngredients().size());
+                int i=0;
+                for (Ingredient ingredient: ingredientDictionary.getAllIngredients()){
+                    System.out.println("Ингредиент " + ++i +": " + ingredient.getName());
+                }
                 return new Message(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, ingredientDictionary.getAllIngredients());
                 //return developer.ingredientsOutput(message);
             default:

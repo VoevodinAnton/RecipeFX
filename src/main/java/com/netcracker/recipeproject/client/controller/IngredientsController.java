@@ -92,7 +92,11 @@ public class IngredientsController {
             Message messageOut = new Message(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
             client.messageRequest(messageOut);
             Message messageIn = client.getMessage();
-            System.out.println("Принят список ингредиентов. Размер списка: " + ((ArrayList<Ingredient>) messageIn.getObj()).size());
+
+            int i = 0;
+            for(Ingredient ingredient: (ArrayList<Ingredient>) messageIn.getObj()){
+                System.out.println("Ингредиент " + ++i +": " + ingredient.getName());
+            }
             ingredientsList.getItems().removeAll();
             ingredientsList.setItems(FXCollections.observableArrayList((ArrayList<Ingredient>) messageIn.getObj()));
             ingredientsList.setCellFactory(ingredientListView -> new IngredientCellController());
