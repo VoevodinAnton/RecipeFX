@@ -1,5 +1,6 @@
 package com.netcracker.recipeproject.server.model.Command;
 
+import com.netcracker.recipeproject.library.CommandEnum;
 import com.netcracker.recipeproject.library.Dish;
 import com.netcracker.recipeproject.library.Ingredient;
 import com.netcracker.recipeproject.library.Message;
@@ -21,6 +22,6 @@ public class RemoveIngredientCommand implements Command{
         Object object = message.getObj();
         Ingredient ingredient = (Ingredient) object;
         ingredientDictionary.removeIngredient(ingredient);
-        return new Message(5, null);
+        return new Message(CommandEnum.OK, null);
     }
 }

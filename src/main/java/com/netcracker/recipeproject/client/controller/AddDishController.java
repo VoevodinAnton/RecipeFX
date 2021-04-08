@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import com.netcracker.recipeproject.client.model.InteractionClient;
+import com.netcracker.recipeproject.library.CommandEnum;
 import com.netcracker.recipeproject.library.DishComponent;
 import com.netcracker.recipeproject.library.Ingredient;
 import com.netcracker.recipeproject.library.Message;
@@ -57,7 +58,7 @@ public class AddDishController {
     void initialize() {
         try {
             InteractionClient client = InteractionClient.getInstance();
-            Message messageOut = new Message(8, null);
+            Message messageOut = new Message(CommandEnum.OUTPUT_OF_ALL_DISHES, null);
             client.messageRequest(messageOut);
             Message messageIn = client.getMessage();
             ArrayList<Ingredient> ingredientArrayList = (ArrayList<Ingredient>)messageIn.getObj();
@@ -67,9 +68,7 @@ public class AddDishController {
             }
                 IngredientComboBox = new ComboBox<>(FXCollections.observableList(namesArray));
                 StringBuffer ingredientNameBuffer = new StringBuffer();
-                IngredientComboBox.setOnAction(actionEvent -> {
-                    ingredientNameBuffer.append(IngredientComboBox.getValue());
-                });
+                IngredientComboBox.setOnAction(actionEvent -> ingredientNameBuffer.append(IngredientComboBox.getValue()));
                 String nameIngredient = ingredientNameBuffer.toString();
                 Ingredient ingredient = null;
                 for(Ingredient ingredientItem : ingredientArrayList){

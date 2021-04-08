@@ -1,5 +1,6 @@
 package com.netcracker.recipeproject.server.model.Command;
 
+import com.netcracker.recipeproject.library.CommandEnum;
 import com.netcracker.recipeproject.library.Dish;
 import com.netcracker.recipeproject.library.Message;
 import com.netcracker.recipeproject.server.Exceptions.DuplicateFoundException;
@@ -20,8 +21,8 @@ public class AddDishCommand implements Command{
             dishDictionary.addDish(dishAdd);
         } catch (DuplicateFoundException e){
             System.out.println("Обнаружен  дупликат");
-            return new Message(2, dishAdd);
+            return new Message(CommandEnum.ADDING_A_DUPLICATE_DISH, dishAdd);
         }
-        return new Message(5, null);
+        return new Message(CommandEnum.OK, null);
     }
 }

@@ -1,5 +1,6 @@
 package com.netcracker.recipeproject.server.model.Command;
 
+import com.netcracker.recipeproject.library.CommandEnum;
 import com.netcracker.recipeproject.library.Ingredient;
 import com.netcracker.recipeproject.library.Message;
 import com.netcracker.recipeproject.server.Exceptions.DuplicateFoundException;
@@ -20,10 +21,10 @@ public class AddIngredientCommand implements Command{
             ingredientDictionary.addIngredient(ingredientAdd);
         } catch (DuplicateFoundException e) {
             System.err.println("Обнаружен дупликат");
-            return new Message(3, ingredientAdd);
+            return new Message(CommandEnum.ADDING_A_DUPLICATE_INGREDIENT, ingredientAdd);
         } catch (RuntimeException e) {
             e.printStackTrace();
         }
-        return new Message(5, null);
+        return new Message(CommandEnum.OK, null);
     }
 }

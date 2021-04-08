@@ -12,18 +12,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-class ServerInteraction {
+public class ServerInteraction {
     private static ServerInteraction instance;
     private final ExecutorService executorService;
-    private Store store;
-    private final ServerSocket serverSocket;
 
-
-    private ServerInteraction() throws IOException {
-        serverSocket = new ServerSocket(Constants.PORT);
-        store = new Store();
+    private ServerInteraction() {
         executorService = Executors.newFixedThreadPool(2);
-
     }
 
     public static ServerInteraction getInstance() throws IOException {
@@ -35,9 +29,9 @@ class ServerInteraction {
 
 
     public void startServer() throws IOException {
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
+        try (ServerSocket serverSocket = new ServerSocket(Constants.PORT); BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
             System.out.println("Server socket created, command console reader for listen to server commands");
-            while (!serverSocket.isClosed()) {
+            while (true) {
                 Socket socket = serverSocket.accept();
                 if (br.ready()) {
                     System.out.println("Main Server found any messages in channel, let's look at them.");
@@ -51,10 +45,11 @@ class ServerInteraction {
                 executorService.execute(new MonoThreadClientHandler(socket));
                 System.out.print("Connection accepted.");
             }
+            executorService.shutdown();
         } catch (IOException e){
-            serverSocket.close();
-            e.printStackTrace();
+            System.err.println("Ошибка установления связи с клиентом");
         }
+
         /*
         for (int i = 0; i < Constants.COUNT_CLIENTS; i++) {
             System.out.println("Thread #" + i + "starts");
@@ -76,8 +71,9 @@ class ServerInteraction {
                 }
             });
 
-         */
 
         }
-    }
 
+         */
+    }
+}

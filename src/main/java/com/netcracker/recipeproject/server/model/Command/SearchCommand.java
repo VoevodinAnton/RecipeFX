@@ -1,5 +1,6 @@
 package com.netcracker.recipeproject.server.model.Command;
 
+import com.netcracker.recipeproject.library.CommandEnum;
 import com.netcracker.recipeproject.library.Dish;
 import com.netcracker.recipeproject.library.Message;
 import com.netcracker.recipeproject.server.model.DishDictionary;
@@ -29,6 +30,6 @@ public class SearchCommand implements Command{
         }
         System.out.println(
                 "Отправлен список всех блюд");
-        return new Message(0, dishesToClient);
+        return new Message(CommandEnum.SEARCH, dishesToClient);
     }
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.netcracker.recipeproject.client.model.InteractionClient;
+import com.netcracker.recipeproject.library.CommandEnum;
 import com.netcracker.recipeproject.library.Dish;
 import com.netcracker.recipeproject.library.Message;
 import javafx.beans.Observable;
@@ -52,7 +53,7 @@ public class PrimaryController{
         public void initialize(){
             try {
                 InteractionClient client = InteractionClient.getInstance();
-                Message messageOut = new Message(1, null);
+                Message messageOut = new Message(CommandEnum.OUTPUT_OF_ALL_DISHES, null);
                 client.messageRequest(messageOut);
                 Message messageIn = client.getMessage();
                 if(messageIn.getObj() != null){
@@ -78,7 +79,7 @@ public class PrimaryController{
                     System.out.println("*"+ search);
                     try {
                         InteractionClient client = InteractionClient.getInstance();
-                        Message messageToServer = new Message(0, search);
+                        Message messageToServer = new Message(CommandEnum.SEARCH, search);
                         client.messageRequest(messageToServer);
                         Message messageFromServer = client.getMessage();
                         dishList.getItems().clear();
@@ -130,7 +131,7 @@ public class PrimaryController{
             allDishButton.setOnAction(actionEvent -> {
                 try {
                     InteractionClient client = InteractionClient.getInstance();
-                    Message messageToServer = new Message(1, null);
+                    Message messageToServer = new Message(CommandEnum.OUTPUT_OF_ALL_DISHES, null);
                     client.messageRequest(messageToServer);
                     Message messageFromServer = client.getMessage();
                     if(!((ArrayList<Dish>)messageFromServer.getObj()).isEmpty()){

@@ -3,23 +3,22 @@ package com.netcracker.recipeproject.server.controller;
 import com.netcracker.recipeproject.library.Message;
 import com.netcracker.recipeproject.server.model.Store;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ServerFacade {
+public class ServerFacade implements Closeable {
 
     private Socket socket;
     private ObjectInputStream objIn;
     private ObjectOutputStream objOut;
-    private Store store;
 
     public ServerFacade(Socket socket) throws IOException {
         this.socket = socket;
         objIn = new ObjectInputStream(socket.getInputStream());
         objOut = new ObjectOutputStream(socket.getOutputStream());
-        store = new Store();
     }
 
     public Message getMessage() throws IOException, ClassNotFoundException {
@@ -28,7 +27,7 @@ public class ServerFacade {
 
     public void messageRequest(Message message) {
         try {
-            Message messageToClient = store.doCommand(message);
+            Message messageToClient = Store.getInstance().doCommand(message);
             objOut.writeObject(messageToClient);
             objOut.flush();
             System.out.println("Отправлен ответ клиенту");
@@ -37,6 +36,7 @@ public class ServerFacade {
         }
     }
 
+    @Override
     public void close() throws IOException {
         objIn.close();
         objOut.close();

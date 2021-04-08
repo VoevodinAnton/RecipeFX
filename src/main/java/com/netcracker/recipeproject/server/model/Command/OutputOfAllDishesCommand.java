@@ -1,5 +1,6 @@
 package com.netcracker.recipeproject.server.model.Command;
 
+import com.netcracker.recipeproject.library.CommandEnum;
 import com.netcracker.recipeproject.library.Message;
 import com.netcracker.recipeproject.server.model.DishDictionary;
 
@@ -12,6 +13,6 @@ public class OutputOfAllDishesCommand implements Command{
 
     @Override
     public Message execute(Message message) {
-        return new Message(0, dishDictionary.getAllDishes());
+        return new Message(CommandEnum.OUTPUT_OF_ALL_DISHES, dishDictionary.getAllDishes());
     }
 }

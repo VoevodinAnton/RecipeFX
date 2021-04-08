@@ -4,19 +4,19 @@ import java.io.Serializable;
 
 public class Message implements Serializable {
     private static final long serialVersionUID = 5990545414373884974L;
-    private int flag;
+    private CommandEnum flag;
     private Object obj;
 
-    public Message(int flag, Object obj) {
+    public Message(CommandEnum flag, Object obj) {
         this.flag = flag;
         this.obj = obj;
     }
 
-    public int getFlag() {
+    public CommandEnum getFlag() {
         return flag;
     }
 
-    public void setFlag(int flag) {
+    public void setFlag(CommandEnum flag) {
         this.flag = flag;
     }
 

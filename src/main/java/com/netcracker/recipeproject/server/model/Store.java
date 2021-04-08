@@ -1,20 +1,20 @@
 package com.netcracker.recipeproject.server.model;
 
-import com.netcracker.recipeproject.library.Dish;
-import com.netcracker.recipeproject.library.DishComponent;
-import com.netcracker.recipeproject.library.Ingredient;
-import com.netcracker.recipeproject.library.Message;
+import com.netcracker.recipeproject.library.*;
 import com.netcracker.recipeproject.server.Exceptions.DuplicateFoundException;
+
 import com.netcracker.recipeproject.server.model.Command.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Store {
+    private static Store instance;
     private DishDictionary dishDictionary;
     private IngredientDictionary ingredientDictionary;
     Developer developer;
 
-    public Store() {
+    private Store() {
         dishDictionary = new DishDictionary();
         ingredientDictionary = new IngredientDictionary();
         developer = new Developer(
@@ -42,38 +42,56 @@ public class Store {
         //////////////////////////////
     }
 
+    public static Store getInstance() throws IOException {
+        if (instance == null) {
+            instance = new Store();
+        }
+        return instance;
+    }
+
+    public DishDictionary getDishDictionary() {
+        return dishDictionary;
+    }
+
+
+    public IngredientDictionary getIngredientDictionary() {
+        return ingredientDictionary;
+    }
+
     public Message doCommand(Message message) {
-        int flag = message.getFlag();
+        CommandEnum flag = message.getFlag();
         switch (flag) { //сделать ENUM
-            case 0: //Search
+            case SEARCH: //Search
                 return developer.searchDish(message);
-            case 1: //output of all dishes
+            case OUTPUT_OF_ALL_DISHES: //output of all dishes
                 System.out.println("Размер списка блюд " + dishDictionary.getAllDishes().size());
                 return developer.dishesOutput(message);
-            case 2: //edit a dish
+            case EDIT_A_DISH: //edit a dish
                 return developer.editDish(message);
-            case 3: //add a dish
+            case ADD_A_DISH: //add a dish
                 return developer.addDish(message);
-            case 4: //remove a dish
+            case REMOVE_A_DISH: //remove a dish
                 return developer.removeDish(message);
-            case 5: //remove a ingredient
+            case REMOVE_A_INGREDIENT: //remove a ingredient
                 return developer.removeIngredient(message);
-            case 6: //add ingredient
+            case ADD_AN_INGREDIENT: //add an ingredient
                 Object object = message.getObj();
                 Ingredient ingredientAdd = (Ingredient) object;
                 try {
                     ingredientDictionary.addIngredient(ingredientAdd);
                 } catch (DuplicateFoundException e) {
                     System.err.println("Обнаружен дупликат");
-                    return new Message(3, ingredientAdd);
+                    return new Message(CommandEnum.ADDING_A_DUPLICATE_INGREDIENT, ingredientAdd);
                 } catch (RuntimeException e) {
                     e.printStackTrace();
                 }
-                return new Message(5, null);
+                return new Message(CommandEnum.OK, null);
                 //return developer.addIngredient(message);
-            case 8: //output of all ingredients
+            case EDIT_A_INGREDIENT: // edit a ingredient
+
+            case OUTPUT_OF_ALL_INGREDIENTS: //output of all ingredients
                 System.out.println("Размер списка ингредиентов: " + ingredientDictionary.getAllIngredients().size());
-                return new Message(1, ingredientDictionary.getAllIngredients());
+                return new Message(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, ingredientDictionary.getAllIngredients());
                 //return developer.ingredientsOutput(message);
             default:
                 return null;
