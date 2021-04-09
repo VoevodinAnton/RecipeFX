@@ -1,5 +1,6 @@
 package com.netcracker.recipeproject.server.controller;
 
+import com.netcracker.recipeproject.library.CommandEnum;
 import com.netcracker.recipeproject.library.Message;
 
 import java.io.IOException;
@@ -14,12 +15,11 @@ public class MonoThreadClientHandler implements Runnable{
     }
     @Override
     public void run() {
-        try {
-            ServerFacade serverFacade = new ServerFacade(socket);
+        try (ServerFacade serverFacade = new ServerFacade(socket)){
             Message clientMessage;
             while (!socket.isClosed()) {
                 clientMessage = serverFacade.getMessage();
-                if (clientMessage.getFlag() == 10) {
+                if (clientMessage.getFlag() == CommandEnum.OK) { //заменить условие
                     System.out.println("Client initialize connections suicide ...");
                     Thread.sleep(3000);
                     break;
@@ -28,9 +28,8 @@ public class MonoThreadClientHandler implements Runnable{
             }
             System.out.println("Client disconnected");
             System.out.println("Closing connections & channels.");
-            serverFacade.close();
         } catch (IOException | ClassNotFoundException | InterruptedException e) {
-            e.printStackTrace();
+            System.err.println("Клиент закрыл соединение");
         }
     }
 }

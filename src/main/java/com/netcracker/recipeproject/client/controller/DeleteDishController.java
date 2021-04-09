@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.netcracker.recipeproject.client.model.InteractionClient;
+import com.netcracker.recipeproject.library.CommandEnum;
 import com.netcracker.recipeproject.library.Dish;
 import com.netcracker.recipeproject.library.Message;
 import javafx.fxml.FXML;
@@ -32,7 +33,7 @@ public class DeleteDishController {
         yesButton.setOnAction(actionEvent -> {
             try {
                 InteractionClient client = InteractionClient.getInstance();
-                Message messageOut = new Message(4, dish);
+                Message messageOut = new Message(CommandEnum.REMOVE_A_DISH, dish);
                 client.messageRequest(messageOut);
                 Message messageIn = client.getMessage();
                 //сделать условие, если удаление прошло успешно

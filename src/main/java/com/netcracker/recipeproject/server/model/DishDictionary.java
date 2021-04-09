@@ -16,7 +16,7 @@ public class DishDictionary implements Dishes {
     }
 
 
-    public void addDish(Dish dish) {  //сделать проверку на дубликат
+    public void addDish(Dish dish) {
         if (!(dishes.isEmpty())) {
             for (Dish thisDish : dishes) {
                 if (thisDish.equals(dish)) {
@@ -33,9 +33,8 @@ public class DishDictionary implements Dishes {
         dishes.remove(dish);
     }
 
-
     @Override
-    public void editDish(Dish dish) {
+    public void editDish(Dish dish) { //TODO: Разделить функцию поиска и функцию редакктирования
         int i = 0;
         for (Dish thisDish : dishes) {
             if (thisDish.getId() == dish.getId()) {

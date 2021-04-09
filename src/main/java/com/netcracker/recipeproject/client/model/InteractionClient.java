@@ -13,8 +13,8 @@ public class InteractionClient {//singletone
     private String host;
     private static final int PORT = 2021;
     private Socket socket;
-    ObjectOutputStream out;
-    ObjectInputStream in;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
 
     private InteractionClient (){
     }

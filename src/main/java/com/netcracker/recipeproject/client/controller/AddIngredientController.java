@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.netcracker.recipeproject.client.model.InteractionClient;
+import com.netcracker.recipeproject.library.CommandEnum;
 import com.netcracker.recipeproject.library.Ingredient;
 import com.netcracker.recipeproject.library.Message;
 import javafx.fxml.FXML;
@@ -45,10 +46,10 @@ public class AddIngredientController {
                      Ingredient ingredient = new Ingredient(name, unit);
                      try {
                          InteractionClient client = InteractionClient.getInstance();
-                         Message messageOut = new Message(6, ingredient);
+                         Message messageOut = new Message(CommandEnum.ADD_AN_INGREDIENT, ingredient);
                          client.messageRequest(messageOut);
                          Message messageIn = client.getMessage();
-                         if(messageIn.getFlag() == 5) {
+                         if(messageIn.getFlag() == CommandEnum.OK) {
                              Stage stageIp = (Stage) addButton.getScene().getWindow();
                              stageIp.close();
                          }

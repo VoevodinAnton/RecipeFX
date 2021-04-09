@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import com.netcracker.recipeproject.client.model.InteractionClient;
+import com.netcracker.recipeproject.library.CommandEnum;
 import com.netcracker.recipeproject.library.Dish;
 import com.netcracker.recipeproject.library.Ingredient;
 import com.netcracker.recipeproject.library.Message;
@@ -42,7 +43,7 @@ public class IngredientsController {
     void initialize() {
         try {
             InteractionClient client = InteractionClient.getInstance();
-            Message messageToServer = new Message(8, null);
+            Message messageToServer = new Message(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
             client.messageRequest(messageToServer);
             Message messageFromServer = client.getMessage();
             ingredientsList.getItems().clear();
@@ -88,10 +89,14 @@ public class IngredientsController {
     void refreshOnMouseClicked(){
         try {
             InteractionClient client = InteractionClient.getInstance();
-            Message messageOut = new Message(8, null);
+            Message messageOut = new Message(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
             client.messageRequest(messageOut);
             Message messageIn = client.getMessage();
-            System.out.println("Принят список ингредиентов. Размер списка: " + ((ArrayList<Ingredient>) messageIn.getObj()).size());
+
+            int i = 0;
+            for(Ingredient ingredient: (ArrayList<Ingredient>) messageIn.getObj()){
+                System.out.println("Ингредиент " + ++i +": " + ingredient.getName());
+            }
             ingredientsList.getItems().removeAll();
             ingredientsList.setItems(FXCollections.observableArrayList((ArrayList<Ingredient>) messageIn.getObj()));
             ingredientsList.setCellFactory(ingredientListView -> new IngredientCellController());

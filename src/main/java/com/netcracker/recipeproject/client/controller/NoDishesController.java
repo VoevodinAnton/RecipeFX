@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.netcracker.recipeproject.client.model.InteractionClient;
+import com.netcracker.recipeproject.library.CommandEnum;
 import com.netcracker.recipeproject.library.Message;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,7 +33,7 @@ public class NoDishesController {
     void initialize() {
             try{
                 InteractionClient client = InteractionClient.getInstance();
-                Message messageOut = new Message(1, null);//get Dish Dictionary
+                Message messageOut = new Message(CommandEnum.OUTPUT_OF_ALL_DISHES, null);//get Dish Dictionary
                 client.messageRequest(messageOut);
                 Message messageIn = client.getMessage();
                 if(messageIn.getObj() != null){

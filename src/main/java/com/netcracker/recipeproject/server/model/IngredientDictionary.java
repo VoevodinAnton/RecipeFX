@@ -20,7 +20,7 @@ public class IngredientDictionary implements Ingredients {
             for (Ingredient thisIngredient : ingredients) {
                 if (thisIngredient.getName().equalsIgnoreCase(ingredient.getName())) {
                     throw new DuplicateFoundException();
-                } //TODO: add class of exceptions
+                }
             }
         }
         ingredient.setId(this.lastId() + 1);
@@ -30,7 +30,7 @@ public class IngredientDictionary implements Ingredients {
     @Override
     public void removeIngredient(Ingredient ingredient) {
         ingredients.remove(ingredient);
-    }
+    } //TODO: сделать удаление блюд с этим ингредиентов
 
     @Override
     public void editIngredient(Ingredient ingredient) {
