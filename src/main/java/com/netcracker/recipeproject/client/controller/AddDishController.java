@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import com.netcracker.recipeproject.client.model.InteractionClient;
-import com.netcracker.recipeproject.library.DishComponent;
-import com.netcracker.recipeproject.library.Ingredient;
-import com.netcracker.recipeproject.library.Message;
+import com.netcracker.recipeproject.library.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.fxml.FXML;
@@ -17,6 +15,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 public class AddDishController {
 
@@ -57,7 +56,7 @@ public class AddDishController {
     void initialize() {
         try {
             InteractionClient client = InteractionClient.getInstance();
-            Message messageOut = new Message(8, null);
+            Message messageOut = new Message(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
             client.messageRequest(messageOut);
             Message messageIn = client.getMessage();
             ArrayList<Ingredient> ingredientArrayList = (ArrayList<Ingredient>)messageIn.getObj();
@@ -65,29 +64,55 @@ public class AddDishController {
             for(Ingredient ingredient : ingredientArrayList) {
                 namesArray.add(ingredient.getName());
             }
-                IngredientComboBox = new ComboBox<>(FXCollections.observableList(namesArray));
-                StringBuffer ingredientNameBuffer = new StringBuffer();
-                IngredientComboBox.setOnAction(actionEvent -> {
-                    ingredientNameBuffer.append(IngredientComboBox.getValue());
-                });
+            IngredientComboBox.setItems(FXCollections.observableList(namesArray));
+            StringBuffer ingredientNameBuffer = new StringBuffer();
+            IngredientComboBox.setOnAction(actionEvent -> {
+                String nameOfIngredient1 = IngredientComboBox.getValue();
+                ingredientNameBuffer.append(nameOfIngredient1);
                 String nameIngredient = ingredientNameBuffer.toString();
-                Ingredient ingredient = null;
                 for(Ingredient ingredientItem : ingredientArrayList){
                     if(ingredientItem.getName().equals(nameIngredient)){
-                        ingredient = ingredientItem;
+                        unitField.setText(ingredientItem.getUnit());
                     }
                 }
-                addButton.setOnAction(actionEvent -> {
-                    if(!nameField.getText().equals("") || !numberField.getText().equals("")) {
-                        errorLabel.setText("");
-                        String name = nameField.getText();
-                        int number = Integer.parseInt(numberField.getText());
 
+            });
+
+            //TODO:сделать добавление нескольких ингредиентов
+            addButton.setOnAction(actionEvent -> {
+                if(!nameField.getText().equals("") && !numberField.getText().equals("") && !timeField.getText().equals("")) {
+                    errorLabel.setText("");
+                    String name = nameField.getText();
+                    String time = timeField.getText();
+                    Ingredient ingredient = null;
+                    for(Ingredient ingredientItem : ingredientArrayList){
+                        if(ingredientItem.getName().equals(IngredientComboBox.getValue())){
+                            ingredient = ingredientItem;
+                        }
                     }
-                    else{
-                        errorLabel.setText("Заполнены не все поля");
+                    DishComponent dishComponent = new DishComponent(ingredient, Integer.parseInt(numberField.getText()));
+                    ArrayList<DishComponent> dishComponentArrayList = new ArrayList<DishComponent>();
+                    dishComponentArrayList.add(dishComponent);
+                    Dish dish = new Dish(dishComponentArrayList, name, time);
+                    Message messageToServer = new Message(CommandEnum.ADD_A_DISH, dish);
+                    try {
+                        client.messageRequest(messageToServer);
+                        Message messageFromServer = client.getMessage();
+                        if(messageFromServer.getFlag() == CommandEnum.OK) {
+                            Stage stageAdd = (Stage) addButton.getScene().getWindow();
+                            stageAdd.close();
+                        }
+                        else
+                            errorLabel.setText("Такое блюдо уже существует");
+
+                    } catch (IOException | ClassNotFoundException e) {
+                        e.printStackTrace();
                     }
-                });
+                }
+                else{
+                    errorLabel.setText("Заполнены не все поля");
+                }
+            });
         }catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

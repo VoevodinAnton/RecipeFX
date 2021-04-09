@@ -37,14 +37,16 @@ public class Store {
         ArrayList<DishComponent> ingredientsOfOmelette = new ArrayList<>();
         ingredientsOfOmelette.add(sausage1);
         ingredientsOfOmelette.add(egg3);
-        Dish omelette = new Dish(ingredientsOfOmelette, "omelette", "10 минут");
+        Dish omelette = new Dish(ingredientsOfOmelette, "Омлет", "10 минут");
         dishDictionary.addDish(omelette);
 
 
-        Ingredient ingredient1 = new Ingredient("cпаггети", "шт");
+        Ingredient ingredient1 = new Ingredient("cпаггети", "гр");
         Ingredient ingredient2 = new Ingredient("курица", "гр");
-        DishComponent dishComponent1 = new DishComponent(ingredient1, 1);
-        DishComponent dishComponent2 = new DishComponent(ingredient2, 3);
+        ingredientDictionary.addIngredient(ingredient1);
+        ingredientDictionary.addIngredient(ingredient2);
+        DishComponent dishComponent1 = new DishComponent(ingredient1, 200);
+        DishComponent dishComponent2 = new DishComponent(ingredient2, 300);
         ArrayList<DishComponent> ingredientsOfOmeletteDuplicate = new ArrayList<>();
         ingredientsOfOmeletteDuplicate.add(dishComponent1);
         ingredientsOfOmeletteDuplicate.add(dishComponent2);
@@ -75,8 +77,13 @@ public class Store {
             case SEARCH: //Search
                 return developer.searchDish(message);
             case OUTPUT_OF_ALL_DISHES: //output of all dishes
-                System.out.println("Размер списка блюд " + dishDictionary.getAllDishes().size());
-                return developer.dishesOutput(message);
+                int i = 0;
+                ArrayList<Dish> dishes = new ArrayList<>();
+                for (Dish dish: dishDictionary.getAllDishes()){
+                    System.out.println("Ингредиент " + ++i +": " + dish.getName());
+                    dishes.add(dish);
+                }
+                return new Message(CommandEnum.OUTPUT_OF_ALL_DISHES, dishes);
             case EDIT_A_DISH: //edit a dish
                 return developer.editDish(message);
             case ADD_A_DISH: //add a dish
@@ -101,11 +108,13 @@ public class Store {
             case EDIT_A_INGREDIENT: // edit a ingredient
 
             case OUTPUT_OF_ALL_INGREDIENTS: //output of all ingredients
-                int i=0;
+                int j = 0;
+                ArrayList<Ingredient> ingredients = new ArrayList<>();
                 for (Ingredient ingredient: ingredientDictionary.getAllIngredients()){
-                    System.out.println("Ингредиент " + ++i +": " + ingredient.getName());
+                    System.out.println("Ингредиент " + ++j +": " + ingredient.getName());
+                    ingredients.add(ingredient);
                 }
-                return new Message(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, ingredientDictionary.getAllIngredients());
+                return new Message(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, ingredients);
                 //return developer.ingredientsOutput(message);
             default:
                 return null;

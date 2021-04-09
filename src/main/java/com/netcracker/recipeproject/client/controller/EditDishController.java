@@ -1,10 +1,7 @@
 package com.netcracker.recipeproject.client.controller;
 
 import com.netcracker.recipeproject.client.model.InteractionClient;
-import com.netcracker.recipeproject.library.Dish;
-import com.netcracker.recipeproject.library.DishComponent;
-import com.netcracker.recipeproject.library.Ingredient;
-import com.netcracker.recipeproject.library.Message;
+import com.netcracker.recipeproject.library.*;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -68,7 +65,7 @@ public class EditDishController {
                 timeField.setText(this.dish.getCookingTime());
                 //вывести ингредиенты
                 InteractionClient client = InteractionClient.getInstance();
-                Message messageOut = new Message(8, null);
+                Message messageOut = new Message(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
                 client.messageRequest(messageOut);
                 Message messageIn = client.getMessage();
                 ArrayList<Ingredient> ingredientArrayList = (ArrayList<Ingredient>)messageIn.getObj();
@@ -106,11 +103,11 @@ public class EditDishController {
                         ArrayList<DishComponent> dishComponentArrayList = new ArrayList<DishComponent>();
                         dishComponentArrayList.add(dishComponent);
                         Dish dish = new Dish(this.dish.getId(), dishComponentArrayList, name, time);
-                        Message messageToServer = new Message(2, dish);
+                        Message messageToServer = new Message(CommandEnum.EDIT_A_DISH, dish);
                         try {
                             client.messageRequest(messageToServer);
                             Message messageFromServer = client.getMessage();
-                            if(messageFromServer.getFlag() == 5) {
+                            if(messageFromServer.getFlag() == CommandEnum.OK) {
                                 Stage stageAdd = (Stage) editButton.getScene().getWindow();
                                 stageAdd.close();
                             }

@@ -28,7 +28,10 @@ public class InteractionClient {//singletone
     }
 
     public Message getMessage() throws IOException, ClassNotFoundException {
-        return (Message) in.readObject();
+        Message message = (Message) in.readObject();
+        if(message.getObj() != null)
+            System.out.println(message.getObj().toString());
+        return message;
     }
 
     public void messageRequest(Message message) throws IOException {

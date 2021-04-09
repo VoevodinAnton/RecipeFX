@@ -2,6 +2,7 @@ package com.netcracker.recipeproject.client.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.netcracker.recipeproject.client.model.InteractionClient;
 import com.netcracker.recipeproject.library.CommandEnum;
@@ -62,7 +63,7 @@ public class PrimaryController{
                     errorLabel.setText("");
                     dishList.setVisible(true);
                     dishObservableList.removeAll();
-                    dishObservableList.addAll((ArrayList<Dish>)messageIn.getObj());
+                    dishObservableList.addAll((List<Dish>)messageIn.getObj());
                     dishList.setItems(dishObservableList);
                     dishList.setCellFactory(dishListView -> new ListCellController());
                 }
@@ -92,12 +93,12 @@ public class PrimaryController{
                         client.messageRequest(messageToServer);
                         Message messageFromServer = client.getMessage();
                         dishList.getItems().clear();
-                        if(!((ArrayList<Dish>)messageFromServer.getObj()).isEmpty()){
+                        if(!((List<Dish>)messageFromServer.getObj()).isEmpty()){
                             dishList.setVisible(true);
                             errorLabel.setText("");
                             dishList.getItems().clear();
                             dishObservableList.removeAll();
-                            dishObservableList.addAll((ArrayList<Dish>)messageFromServer.getObj());
+                            dishObservableList.addAll((List<Dish>)messageFromServer.getObj());
                             dishList.setItems(dishObservableList);
                             dishList.setCellFactory(dishListView -> new ListCellController());
                         }
@@ -143,12 +144,12 @@ public class PrimaryController{
                     Message messageToServer = new Message(CommandEnum.OUTPUT_OF_ALL_DISHES, null);
                     client.messageRequest(messageToServer);
                     Message messageFromServer = client.getMessage();
-                    if(!((ArrayList<Dish>)messageFromServer.getObj()).isEmpty()){
+                    if(!((List<Dish>)messageFromServer.getObj()).isEmpty()){
                         dishList.setVisible(true);
                         //errorLabel.setText("*");
                         dishList.getItems().clear();
                         dishObservableList.removeAll();
-                        dishObservableList.addAll((ArrayList<Dish>)messageFromServer.getObj());
+                        dishObservableList.addAll((List<Dish>)messageFromServer.getObj());
                         dishList.setItems(dishObservableList);
                         dishList.setCellFactory(dishListView -> new ListCellController());
                     }

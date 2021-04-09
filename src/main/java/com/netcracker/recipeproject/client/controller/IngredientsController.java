@@ -3,6 +3,7 @@ package com.netcracker.recipeproject.client.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import com.netcracker.recipeproject.client.model.InteractionClient;
@@ -41,32 +42,30 @@ public class IngredientsController {
 
     @FXML
     void initialize() {
+        InteractionClient client = InteractionClient.getInstance();
         try {
-            InteractionClient client = InteractionClient.getInstance();
             Message messageToServer = new Message(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
             client.messageRequest(messageToServer);
             Message messageFromServer = client.getMessage();
             ingredientsList.getItems().clear();
-            //ObservableArray<Ingredient> items = FXCollections.observableArrayList((ArrayList<Ingredient>) messageFromServer.getObj())
-            ingredientsList.setItems(FXCollections.observableArrayList((ArrayList<Ingredient>) messageFromServer.getObj()));
+            ingredientsList.setItems(FXCollections.observableArrayList((List<Ingredient>) messageFromServer.getObj()));
             ingredientsList.setCellFactory(ingredientListView -> new IngredientCellController());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-            /*refreshButton.setOnMouseClicked(mouseEvent -> {
+            refreshButton.setOnMouseClicked(mouseEvent -> {
                 try {
-                    InteractionClient client = InteractionClient.getInstance();
-                    Message messageOut = new Message(8, null);
+                    Message messageOut = new Message(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
                     client.messageRequest(messageOut);
                     Message messageIn = client.getMessage();
-                    System.out.println("Принят список ингредиентов. Размер списка: " + ((ArrayList<Ingredient>) messageIn.getObj()).size());
+                    System.out.println("Принят список ингредиентов. Размер списка: " + ((List<Ingredient>) messageIn.getObj()).size());
                     ingredientsList.getItems().clear();
-                    ingredientsList.setItems(FXCollections.observableArrayList((ArrayList<Ingredient>) messageIn.getObj()));
+                    ingredientsList.setItems(FXCollections.observableArrayList((List<Ingredient>) messageIn.getObj()));
                     ingredientsList.setCellFactory(ingredientListView -> new IngredientCellController());
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-            });*/
+            });
             addButton.setOnAction(actionEvent -> {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/addIngredientFrame.fxml"));
@@ -85,7 +84,7 @@ public class IngredientsController {
 
 
     }
-    @FXML
+    /*@FXML
     void refreshOnMouseClicked(){
         try {
             InteractionClient client = InteractionClient.getInstance();
@@ -94,14 +93,14 @@ public class IngredientsController {
             Message messageIn = client.getMessage();
 
             int i = 0;
-            for(Ingredient ingredient: (ArrayList<Ingredient>) messageIn.getObj()){
+            for(Ingredient ingredient: (List<Ingredient>) messageIn.getObj()){
                 System.out.println("Ингредиент " + ++i +": " + ingredient.getName());
             }
             ingredientsList.getItems().removeAll();
-            ingredientsList.setItems(FXCollections.observableArrayList((ArrayList<Ingredient>) messageIn.getObj()));
+            ingredientsList.setItems(FXCollections.observableArrayList((List<Ingredient>) messageIn.getObj()));
             ingredientsList.setCellFactory(ingredientListView -> new IngredientCellController());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

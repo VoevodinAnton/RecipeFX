@@ -28,6 +28,8 @@ public class ServerFacade implements Closeable {
     public void messageRequest(Message message) {
         try {
             Message messageToClient = Store.getInstance().doCommand(message);
+            if(messageToClient.getObj() != null)
+                System.out.println(messageToClient.getObj().toString());
             objOut.writeObject(messageToClient);
             objOut.flush();
             System.out.println("Отправлен ответ клиенту");
