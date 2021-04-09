@@ -13,7 +13,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class DeleteDishController {
-    private Dish dish;
+    private static Dish dish;
 
     @FXML
     private ResourceBundle resources;
@@ -50,8 +50,8 @@ public class DeleteDishController {
 
     }
 
-    public void setDish(Dish dish){
-        this.dish = dish;
+    public static void setDish(Dish dish1){
+        dish = dish1;
     }
 }
 

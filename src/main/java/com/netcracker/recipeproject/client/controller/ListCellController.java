@@ -37,10 +37,6 @@ public class ListCellController extends ListCell<Dish> {
 
     private FXMLLoader loader;
 
-    public ListCellController(){
-        super();
-
-    }
 
     @Override
     protected void updateItem(Dish d, boolean empty){
@@ -72,7 +68,7 @@ public class ListCellController extends ListCell<Dish> {
             setText(null);
             setGraphic(pane);
 
-            deleteButton.setOnMouseClicked(mouseEvent -> {
+            /*deleteButton.setOnMouseClicked(mouseEvent -> {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/deleteFrame.fxml"));
                 Parent root = null;
@@ -85,8 +81,6 @@ public class ListCellController extends ListCell<Dish> {
                 stage.setScene(new Scene(root));
                 stage.initModality(Modality.WINDOW_MODAL);
                 stage.initOwner(this.deleteButton.getScene().getWindow());
-                DeleteDishController controllerDeleteDish = loader.getController(); //получаем контроллер для второй формы
-                controllerDeleteDish.setDish(d); // передаем необходимые параметры
                 stage.showAndWait();
             });
 
@@ -103,10 +97,8 @@ public class ListCellController extends ListCell<Dish> {
                 stage.setScene(new Scene(root));
                 stage.initModality(Modality.WINDOW_MODAL);
                 stage.initOwner(this.deleteButton.getScene().getWindow());
-                DeleteDishController controllerDeleteDish = loader.getController(); //получаем контроллер для второй формы
-                controllerDeleteDish.setDish(d); // передаем необходимые параметры
                 stage.showAndWait();
-            });
+            });*/
         }
     }
 

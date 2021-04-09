@@ -7,6 +7,8 @@ import com.netcracker.recipeproject.client.model.InteractionClient;
 import com.netcracker.recipeproject.library.Dish;
 import com.netcracker.recipeproject.library.Message;
 import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -71,7 +73,14 @@ public class PrimaryController{
                 e.printStackTrace();
             }
 
-
+            dishList.getSelectionModel().selectedItemProperty().addListener(
+                    new ChangeListener<Dish>() {
+                        @Override
+                        public void changed(ObservableValue<? extends Dish> observableValue, Dish dish, Dish t1) {
+                            DeleteDishController.setDish(t1);
+                            EditDishController.setDish(t1);
+                        }
+            });
             searchButton.setOnAction(actionEvent -> {
                 String search = searchField.getText();
                 if(!search.equals("")){

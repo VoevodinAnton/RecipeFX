@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="401.0" prefWidth="523.0" style="-fx-background-color: ffffff;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.netcracker.recipeproject.client.controller.EditDishController">
+<AnchorPane prefHeight="401.0" prefWidth="523.0" style="-fx-background-color: ffffff;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.netcracker.recipeproject.client.controller.EditDishController">
     <children>
         <ScrollPane layoutY="1.0" prefHeight="400.0" prefWidth="600.0">
             <content>
@@ -28,9 +33,9 @@
                                 <Font name="System Italic" size="14.0" />
                             </font>
                         </Label>
-                        <ComboBox fx:id="ingredientComboBox" layoutX="34.0" layoutY="174.0" prefWidth="150.0" promptText="Выберите ингредиент" />
+                        <ComboBox fx:id="IngredientComboBox" layoutX="34.0" layoutY="174.0" prefWidth="150.0" promptText="Выберите ингредиент" />
                         <TextField fx:id="numberField" layoutX="197.0" layoutY="173.0" prefHeight="27.0" prefWidth="119.0" promptText="Количество" style="-fx-border-color: FDB687; -fx-border-radius: 10; -fx-background-radius: 10;" />
-                        <TextField fx:id="unitField" layoutX="328.0" layoutY="173.0" prefHeight="27.0" prefWidth="133.0" promptText="Единица измерения" style="-fx-border-color: FDB687; -fx-border-radius: 10; -fx-background-radius: 10;" />
+                        <TextField fx:id="unitField" disable="true" layoutX="328.0" layoutY="173.0" prefHeight="27.0" prefWidth="133.0" promptText="Единица измерения" style="-fx-border-color: FDB687; -fx-border-radius: 10; -fx-background-radius: 10;" />
                         <ImageView fx:id="cancelButton" fitHeight="35.0" fitWidth="35.0" layoutX="476.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../../../assets/images/cancel.png" />

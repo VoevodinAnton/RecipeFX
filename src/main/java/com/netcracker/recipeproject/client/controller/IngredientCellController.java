@@ -62,7 +62,7 @@ public class IngredientCellController extends ListCell<Ingredient> {
             setGraphic(pane);
         }
 
-        /*deleteButton.setOnMouseClicked(mouseEvent -> {
+        deleteButton.setOnMouseClicked(mouseEvent -> {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/deleteFrame.fxml"));
             Parent root = null;
@@ -96,6 +96,6 @@ public class IngredientCellController extends ListCell<Ingredient> {
             DeleteDishController controllerDeleteDish = loader.getController(); //получаем контроллер для второй формы
             //controllerDeleteDish.setDish(d); // передаем необходимые параметры
             stage.showAndWait();
-        });*/
+        });
     }
 }
