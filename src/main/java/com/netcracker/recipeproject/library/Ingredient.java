@@ -21,7 +21,11 @@ public class Ingredient implements Serializable, Comparable<Ingredient> {
         this.unit = unit;
     }
 
-    public Ingredient() {}
+    public Ingredient() {
+        id = -1;
+        name = "";
+        unit = "";
+    }
 
     public int getId() {
         return id;

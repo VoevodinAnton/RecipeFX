@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        Font.loadFont(getClass().getResourceAsStream("/resources/assets/fonts/Monserrat-Light.ttf"), 14);
         scene = new Scene(loadFXML("/com/netcracker/recipeproject/FXML/ipFrame.fxml"), 400, 180);
         stage.setScene(scene);
         stage.show();

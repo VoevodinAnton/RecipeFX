@@ -11,6 +11,10 @@ public class DishComponent implements Serializable, Comparable<DishComponent> {
     private Ingredient ingredient;
     private int number;
 
+    public DishComponent() {
+        this.ingredient = new Ingredient();
+        this.number = 0;
+    }
     public DishComponent(Ingredient ingredient, int number) {
         this.ingredient = ingredient;
         this.number = number;

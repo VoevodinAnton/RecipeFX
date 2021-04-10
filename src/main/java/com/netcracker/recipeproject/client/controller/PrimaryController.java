@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.netcracker.recipeproject.client.model.InteractionClient;
+import com.netcracker.recipeproject.client.utils.Messaging;
 import com.netcracker.recipeproject.library.CommandEnum;
 import com.netcracker.recipeproject.library.Dish;
 import com.netcracker.recipeproject.library.Message;
@@ -54,16 +55,12 @@ public class PrimaryController{
 
         @FXML
         public void initialize(){
-            try {
-                InteractionClient client = InteractionClient.getInstance();
-                Message messageOut = new Message(CommandEnum.OUTPUT_OF_ALL_DISHES, null);
-                client.messageRequest(messageOut);
-                Message messageIn = client.getMessage();
-                if(messageIn.getObj() != null){
+                Object obj = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_DISHES, null).getObj();
+                if(obj != null){
                     errorLabel.setText("");
                     dishList.setVisible(true);
                     dishObservableList.removeAll();
-                    dishObservableList.addAll((List<Dish>)messageIn.getObj());
+                    dishObservableList.addAll((List<Dish>)obj);
                     dishList.setItems(dishObservableList);
                     dishList.setCellFactory(dishListView -> new ListCellController());
                 }
@@ -71,9 +68,6 @@ public class PrimaryController{
                     dishList.setVisible(false);
                     errorLabel.setText("Сейчас в нашей базе данных нет блюд! \nВы можете добавить свое!");
                 }
-            }catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
 
             dishList.getSelectionModel().selectedItemProperty().addListener(
                     new ChangeListener<Dish>() {
@@ -86,19 +80,14 @@ public class PrimaryController{
             searchButton.setOnAction(actionEvent -> {
                 String search = searchField.getText();
                 if(!search.equals("")){
-                    System.out.println("*"+ search);
-                    try {
-                        InteractionClient client = InteractionClient.getInstance();
-                        Message messageToServer = new Message(CommandEnum.SEARCH, search);
-                        client.messageRequest(messageToServer);
-                        Message messageFromServer = client.getMessage();
+                        Object object = Messaging.execute(CommandEnum.SEARCH, search).getObj();
                         dishList.getItems().clear();
-                        if(!((List<Dish>)messageFromServer.getObj()).isEmpty()){
+                        if(!((List<Dish>)object).isEmpty()){
                             dishList.setVisible(true);
                             errorLabel.setText("");
                             dishList.getItems().clear();
                             dishObservableList.removeAll();
-                            dishObservableList.addAll((List<Dish>)messageFromServer.getObj());
+                            dishObservableList.addAll((List<Dish>)object);
                             dishList.setItems(dishObservableList);
                             dishList.setCellFactory(dishListView -> new ListCellController());
                         }
@@ -106,9 +95,6 @@ public class PrimaryController{
                             dishList.setVisible(false);
                             errorLabel.setText("По вашему запросу ничего не найдено");
                         }
-                    } catch (IOException | ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
                 }
             });
             ingredientsButton.setOnAction(actionEvent -> {
@@ -139,17 +125,13 @@ public class PrimaryController{
 
             });
             allDishButton.setOnAction(actionEvent -> {
-                try {
-                    InteractionClient client = InteractionClient.getInstance();
-                    Message messageToServer = new Message(CommandEnum.OUTPUT_OF_ALL_DISHES, null);
-                    client.messageRequest(messageToServer);
-                    Message messageFromServer = client.getMessage();
-                    if(!((List<Dish>)messageFromServer.getObj()).isEmpty()){
+                    Object object = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_DISHES, null).getObj();
+                    if(!((List<Dish>)object).isEmpty()){
                         dishList.setVisible(true);
-                        //errorLabel.setText("*");
+                        errorLabel.setText("");
                         dishList.getItems().clear();
                         dishObservableList.removeAll();
-                        dishObservableList.addAll((List<Dish>)messageFromServer.getObj());
+                        dishObservableList.addAll((List<Dish>)object);
                         dishList.setItems(dishObservableList);
                         dishList.setCellFactory(dishListView -> new ListCellController());
                     }
@@ -157,9 +139,6 @@ public class PrimaryController{
                         dishList.setVisible(false);
                         errorLabel.setText("Сейчас в нашей базе данных нет блюд! \nВы можете добавить свое!");
                     }
-                } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
             });
         }
 }
