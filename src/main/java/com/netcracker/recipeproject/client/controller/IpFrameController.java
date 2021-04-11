@@ -26,22 +26,28 @@ public class IpFrameController {
             host = ipField.getText();
             InteractionClient client = InteractionClient.getInstance();
             client.setHost(host);
-            client.process();
-            System.out.println("Подключен к серверу");
+            String error = client.process();
+            if(error.equals("")) {
+                System.out.println("Подключен к серверу");
 
-            Stage stageIp = (Stage) okeyButton.getScene().getWindow();
-            stageIp.close();
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/primary.fxml"));
-            Parent root = null;
-            try {
-                root = loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
+                Stage stageIp = (Stage) okeyButton.getScene().getWindow();
+                stageIp.close();
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/primary.fxml"));
+                Parent root = null;
+                try {
+                    root = loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.show();
             }
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
+            else {
+                ipField.setText(error);
+            }
+
         });
     }
 

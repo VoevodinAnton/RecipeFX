@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 
 public class Checks {
 
-    public static String checkingIngredient(TextField number, String name){
+    public static String checkingComponent(TextField number, String name){
         String error = "";
         if(number.getText().equals(""))
             error += "Введите количество ингредиента\n";
@@ -26,4 +26,14 @@ public class Checks {
 
         return error;
     }
+
+    public static String checkingIngredient(TextField name, TextField unit){
+        String error = "";
+        if(name.getText().equals(""))
+            error += "Введите название ингредиента\n";
+        if(unit.getText().equals(""))
+            error += "Введите единицу измерения\n";
+        return error;
+    }
+
 }

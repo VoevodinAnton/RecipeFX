@@ -86,13 +86,13 @@ public class AddDishController {
         addIngredientButton.setOnAction(actionEvent -> {
             String name = ingredientNameBuffer.toString();
             ingredientNameBuffer.setLength(0);
-            if(Checks.checkingIngredient(numberField, name).equals(""))
+            if(Checks.checkingComponent(numberField, name).equals(""))
             {
                 int number = Integer.parseInt(numberField.getText());
                 String unit = unitField.getText();
                 observableList.add(new DishComponent(new Ingredient(name, unit), number));
             }
-            errorLabel.setText(Checks.checkingIngredient(numberField, name));
+            errorLabel.setText(Checks.checkingComponent(numberField, name));
         });
         DishComponent component = null;
 

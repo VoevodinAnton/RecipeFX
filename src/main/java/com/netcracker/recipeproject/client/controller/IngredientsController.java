@@ -7,10 +7,13 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import com.netcracker.recipeproject.client.model.InteractionClient;
+import com.netcracker.recipeproject.client.utils.Messaging;
 import com.netcracker.recipeproject.library.CommandEnum;
 import com.netcracker.recipeproject.library.Dish;
 import com.netcracker.recipeproject.library.Ingredient;
 import com.netcracker.recipeproject.library.Message;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.fxml.FXML;
@@ -42,65 +45,45 @@ public class IngredientsController {
 
     @FXML
     void initialize() {
-        InteractionClient client = InteractionClient.getInstance();
-        try {
-            Message messageToServer = new Message(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
-            client.messageRequest(messageToServer);
-            Message messageFromServer = client.getMessage();
+            Message response = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
             ingredientsList.getItems().clear();
-            ingredientsList.setItems(FXCollections.observableArrayList((List<Ingredient>) messageFromServer.getObj()));
+            ingredientsList.setItems(FXCollections.observableArrayList((List<Ingredient>) response.getObj()));
             ingredientsList.setCellFactory(ingredientListView -> new IngredientCellController());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+
             refreshButton.setOnMouseClicked(mouseEvent -> {
-                try {
-                    Message messageOut = new Message(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
-                    client.messageRequest(messageOut);
-                    Message messageIn = client.getMessage();
+                    Message messageIn = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
                     System.out.println("Принят список ингредиентов. Размер списка: " + ((List<Ingredient>) messageIn.getObj()).size());
                     ingredientsList.getItems().clear();
                     ingredientsList.setItems(FXCollections.observableArrayList((List<Ingredient>) messageIn.getObj()));
                     ingredientsList.setCellFactory(ingredientListView -> new IngredientCellController());
-                } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
             });
-            addButton.setOnAction(actionEvent -> {
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/addIngredientFrame.fxml"));
-                Parent root = null;
-                try {
-                    root = loader.load();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.initModality(Modality.WINDOW_MODAL);
-                stage.initOwner(this.addButton.getScene().getWindow());
-                stage.showAndWait();
-            });
+
+        ingredientsList.getSelectionModel().selectedItemProperty().addListener(
+                new ChangeListener<Ingredient>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Ingredient> observableValue, Ingredient ingredient, Ingredient t1) {
+                        EditIngredientController.setIngredient(t1);
+                        DeleteIngredientController.setIngredient(t1);
+                    }
+                });
+
+
+                addButton.setOnAction(actionEvent -> {
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/addIngredientFrame.fxml"));
+                    Parent root = null;
+                    try {
+                        root = loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.initModality(Modality.WINDOW_MODAL);
+                    stage.initOwner(this.addButton.getScene().getWindow());
+                    stage.showAndWait();
+                });
 
 
     }
-    /*@FXML
-    void refreshOnMouseClicked(){
-        try {
-            InteractionClient client = InteractionClient.getInstance();
-            Message messageOut = new Message(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
-            client.messageRequest(messageOut);
-            Message messageIn = client.getMessage();
-
-            int i = 0;
-            for(Ingredient ingredient: (List<Ingredient>) messageIn.getObj()){
-                System.out.println("Ингредиент " + ++i +": " + ingredient.getName());
-            }
-            ingredientsList.getItems().removeAll();
-            ingredientsList.setItems(FXCollections.observableArrayList((List<Ingredient>) messageIn.getObj()));
-            ingredientsList.setCellFactory(ingredientListView -> new IngredientCellController());
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }*/
 }

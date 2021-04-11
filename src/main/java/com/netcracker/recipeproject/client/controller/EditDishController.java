@@ -1,131 +1,138 @@
 package com.netcracker.recipeproject.client.controller;
 
-import com.netcracker.recipeproject.client.model.InteractionClient;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import com.netcracker.recipeproject.client.utils.Checks;
+import com.netcracker.recipeproject.client.utils.Messaging;
 import com.netcracker.recipeproject.library.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 public class EditDishController {
 
     private static Dish dish;
 
-    public static void setDish(Dish dish1) {
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
+
+    @FXML
+    private TextField nameField;
+
+    @FXML
+    private TextField timeField;
+
+    @FXML
+    private Button editButton;
+
+    @FXML
+    private Label errorLabel;
+
+    @FXML
+    private ListView<DishComponent> listView;
+
+    @FXML
+    private ComboBox<String> ingredientsComboBox;
+
+    @FXML
+    private TextField numberField;
+
+    @FXML
+    private TextField unitField;
+
+    @FXML
+    private Button addIngredientButton;
+
+    @FXML
+    private Button deleteIngredientButton;
+
+    ObservableList<DishComponent> observableList = FXCollections.observableArrayList();
+
+    @FXML
+    void initialize() {
+        observableList.addAll(dish.getListOfIngredients());
+        listView.setItems(observableList);
+        listView.setCellFactory(dishComponentListView -> new ComponentCellController());
+        nameField.setText(dish.getName());
+        timeField.setText(dish.getCookingTime());
+
+        List<Ingredient> ingredientArrayList = (List<Ingredient>) Messaging.execute(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null).getObj();
+        ArrayList<String> namesArray = new ArrayList<>();
+        for(Ingredient ingredient : ingredientArrayList) {
+            namesArray.add(ingredient.getName());
+        }
+        ingredientsComboBox.setItems(FXCollections.observableList(namesArray));
+        StringBuffer ingredientNameBuffer = new StringBuffer();
+
+        ingredientsComboBox.setOnAction(actionEvent -> {
+            String nameIngredient = ingredientsComboBox.getValue();
+            ingredientNameBuffer.append(nameIngredient);
+            for(Ingredient ingredientItem : ingredientArrayList){
+                if(ingredientItem.getName().equals(nameIngredient)){
+                    unitField.setText(ingredientItem.getUnit());
+                }
+            }
+        });
+
+        addIngredientButton.setOnAction(actionEvent -> {
+            String name = ingredientNameBuffer.toString();
+            ingredientNameBuffer.setLength(0);
+            if(Checks.checkingComponent(numberField, name).equals(""))
+            {
+                int number = Integer.parseInt(numberField.getText());
+                String unit = unitField.getText();
+                observableList.add(new DishComponent(new Ingredient(name, unit), number));
+            }
+            errorLabel.setText(Checks.checkingComponent(numberField, name));
+        });
+        DishComponent component = null;
+
+        deleteIngredientButton.setOnAction(actionEvent -> {
+            listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<DishComponent>() {
+                @Override
+                public void changed(ObservableValue<? extends DishComponent> observableValue, DishComponent component, DishComponent t1) {
+                    component = t1;
+                }
+            });
+            observableList.remove(component);
+        });
+
+        editButton.setOnAction(actionEvent -> {
+            String error = Checks.chekingDish(nameField, observableList, timeField);
+            if(error.equals("")) {
+                String name = nameField.getText();
+                ArrayList<DishComponent> components = new ArrayList<>();
+                components.addAll(observableList);
+                String time = timeField.getText();
+                dish = new Dish(components, name, time);
+                Message response = Messaging.execute(CommandEnum.EDIT_A_DISH, dish);
+                if (response.getFlag() == CommandEnum.OK) {
+                    Stage stage = (Stage) editButton.getScene().getWindow();
+                    stage.close();
+                } else {
+                    errorLabel.setText("Такое блюдо уже существует");
+                }
+            }
+            errorLabel.setText(error);
+        });
+
+    }
+
+    public static void setDish(Dish dish1){
         dish = dish1;
     }
-
-        @FXML
-        private ResourceBundle resources;
-
-        @FXML
-        private URL location;
-
-        @FXML
-        private Button addIngredientButton;
-
-        @FXML
-        private TextField nameField;
-
-        @FXML
-        private ComboBox<String> IngredientComboBox;
-
-        @FXML
-        private TextField numberField;
-
-        @FXML
-        private TextField unitField;
-
-        @FXML
-        private ImageView cancelButton;
-
-        @FXML
-        private TextField timeField;
-
-        @FXML
-        private Button editButton;
-
-        @FXML
-        private Label errorLabel;
-
-        @FXML
-        void initialize() {
-            try {
-                //TODO: сделать вывод изменяемого блюда
-                nameField.setText(this.dish.getName());
-                timeField.setText(this.dish.getCookingTime());
-                //вывести ингредиенты
-                InteractionClient client = InteractionClient.getInstance();
-                Message messageOut = new Message(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
-                client.messageRequest(messageOut);
-                Message messageIn = client.getMessage();
-                ArrayList<Ingredient> ingredientArrayList = (ArrayList<Ingredient>)messageIn.getObj();
-                ArrayList<String> namesArray = new ArrayList<>();
-                for(Ingredient ingredient : ingredientArrayList) {
-                    namesArray.add(ingredient.getName());
-                }
-                IngredientComboBox.setItems(FXCollections.observableList(namesArray));
-                StringBuffer ingredientNameBuffer = new StringBuffer();
-                IngredientComboBox.setOnAction(actionEvent -> {
-                    String nameOfIngredient1 = IngredientComboBox.getValue();
-                    ingredientNameBuffer.append(nameOfIngredient1);
-                    String nameIngredient = ingredientNameBuffer.toString();
-                    for(Ingredient ingredientItem : ingredientArrayList){
-                        if(ingredientItem.getName().equals(nameIngredient)){
-                            unitField.setText(ingredientItem.getUnit());
-                        }
-                    }
-
-                });
-
-                //TODO:сделать добавление нескольких ингредиентов
-                editButton.setOnAction(actionEvent -> {
-                    if(!nameField.getText().equals("") && !numberField.getText().equals("") && !timeField.getText().equals("")) {
-                        errorLabel.setText("");
-                        String name = nameField.getText();
-                        String time = timeField.getText();
-                        Ingredient ingredient = null;
-                        for(Ingredient ingredientItem : ingredientArrayList){
-                            if(ingredientItem.getName().equals(IngredientComboBox.getValue())){
-                                ingredient = ingredientItem;
-                            }
-                        }
-                        DishComponent dishComponent = new DishComponent(ingredient, Integer.parseInt(numberField.getText()));
-                        ArrayList<DishComponent> dishComponentArrayList = new ArrayList<DishComponent>();
-                        dishComponentArrayList.add(dishComponent);
-                        Dish dish = new Dish(this.dish.getId(), dishComponentArrayList, name, time);
-                        Message messageToServer = new Message(CommandEnum.EDIT_A_DISH, dish);
-                        try {
-                            client.messageRequest(messageToServer);
-                            Message messageFromServer = client.getMessage();
-                            if(messageFromServer.getFlag() == CommandEnum.OK) {
-                                Stage stageAdd = (Stage) editButton.getScene().getWindow();
-                                stageAdd.close();
-                            }
-                            else
-                                errorLabel.setText("Такое блюдо уже существует");
-
-                        } catch (IOException | ClassNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    else{
-                        errorLabel.setText("Заполнены не все поля");
-                    }
-                });
-            }catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-
-        }
-    }
-
+}

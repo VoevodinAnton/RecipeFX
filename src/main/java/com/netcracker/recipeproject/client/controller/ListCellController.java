@@ -68,7 +68,7 @@ public class ListCellController extends ListCell<Dish> {
             setText(null);
             setGraphic(pane);
 
-            /*deleteButton.setOnMouseClicked(mouseEvent -> {
+            deleteButton.setOnMouseClicked(mouseEvent -> {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/deleteFrame.fxml"));
                 Parent root = null;
@@ -98,7 +98,7 @@ public class ListCellController extends ListCell<Dish> {
                 stage.initModality(Modality.WINDOW_MODAL);
                 stage.initOwner(this.deleteButton.getScene().getWindow());
                 stage.showAndWait();
-            });*/
+            });
         }
     }
 

@@ -58,44 +58,41 @@ public class IngredientCellController extends ListCell<Ingredient> {
             nameLabel.setText(ingredient.getName());
             unitLable.setText(ingredient.getUnit());
 
-            setText(null);
-            setGraphic(pane);
-        }
 
-        /*deleteButton.setOnMouseClicked(mouseEvent -> {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/deleteFrame.fxml"));
-            Parent root = null;
-            try {
-                root = loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(this.deleteButton.getScene().getWindow());
-            DeleteDishController controllerDeleteDish = loader.getController(); //получаем контроллер для второй формы
-            //controllerDeleteDish.setDish(ingredient); // передаем необходимые параметры
-            stage.showAndWait();
+            deleteButton.setOnMouseClicked(mouseEvent -> {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/deleteIngredient.fxml"));
+                Parent root = null;
+                try {
+                    root = loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.initModality(Modality.WINDOW_MODAL);
+                stage.initOwner(this.deleteButton.getScene().getWindow());
+                stage.showAndWait();
+            });
+
+            editButton.setOnMouseClicked(mouseEvent -> {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/editIngredient.fxml"));
+                Parent root = null;
+                try {
+                    root = loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.initModality(Modality.WINDOW_MODAL);
+                stage.initOwner(this.deleteButton.getScene().getWindow());
+                stage.showAndWait();
         });
 
-        editButton.setOnMouseClicked(mouseEvent -> {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/editDishFrame.fxml"));
-            Parent root = null;
-            try {
-                root = loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(this.deleteButton.getScene().getWindow());
-            DeleteDishController controllerDeleteDish = loader.getController(); //получаем контроллер для второй формы
-            //controllerDeleteDish.setDish(d); // передаем необходимые параметры
-            stage.showAndWait();
-        });*/
+        setText(null);
+        setGraphic(pane);
+        }
     }
 }

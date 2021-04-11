@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.netcracker.recipeproject.client.model.InteractionClient;
+import com.netcracker.recipeproject.client.utils.Checks;
+import com.netcracker.recipeproject.client.utils.Messaging;
 import com.netcracker.recipeproject.library.CommandEnum;
 import com.netcracker.recipeproject.library.Ingredient;
 import com.netcracker.recipeproject.library.Message;
@@ -37,37 +39,18 @@ public class AddIngredientController {
     @FXML
     void initialize() {
          addButton.setOnAction(actionEvent -> {
-             if(!nameField.getText().equals("")) {
-                 errorLabel.setText("");
+             String error = Checks.checkingIngredient(nameField, unitField);
+             if(error.equals("")) {
                  String name = nameField.getText();
-                 if(!unitField.getText().equals("")){
-                     errorLabel.setText("");
-                     String unit = unitField.getText();
-                     Ingredient ingredient = new Ingredient(name, unit);
-                     try {
-                         InteractionClient client = InteractionClient.getInstance();
-                         Message messageOut = new Message(CommandEnum.ADD_AN_INGREDIENT, ingredient);
-                         client.messageRequest(messageOut);
-                         Message messageIn = client.getMessage();
-                         if(messageIn.getFlag() == CommandEnum.OK) {
-                             Stage stageIp = (Stage) addButton.getScene().getWindow();
-                             stageIp.close();
-                         }
-                         else
-                             errorLabel.setText("Такой ингредиент уже существует");
-                     }catch (IOException | ClassNotFoundException e)
-                     {
-                         e.printStackTrace();
-                     }
-                 }
-                 else {
-                     errorLabel.setText("Введите единицу измерения");
+                 String unit = unitField.getText();
+                 Ingredient ingredient = new Ingredient(name, unit);
+                 Message response = Messaging.execute(CommandEnum.ADD_AN_INGREDIENT, ingredient);
+                 if (response.getFlag() == CommandEnum.OK) {
+                     Stage stageIp = (Stage) addButton.getScene().getWindow();
+                     stageIp.close();
                  }
              }
-             else{
-                 errorLabel.setText("Введите название");
-             }
+             errorLabel.setText(error);
          });
-
     }
 }

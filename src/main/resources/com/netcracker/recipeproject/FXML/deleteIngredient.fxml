@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="182.0" prefWidth="359.0" style="-fx-background-color: FFFFFF;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.netcracker.recipeproject.client.controller.DeleteIngredientController">
+   <children>
+      <Label layoutX="22.0" layoutY="21.0" prefHeight="40.0" prefWidth="310.0" text="Вы точно хотите удалить этот ингредиент?">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="messageLabel" layoutX="22.0" layoutY="74.0" text="Это может привести к удалению нескольких блюд" />
+      <Button fx:id="yesButton" layoutX="30.0" layoutY="119.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="75.0" style="-fx-background-color: FDB687; -fx-background-radius: 10;" text="Да" />
+      <Button fx:id="noButton" layoutX="237.0" layoutY="119.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="75.0" style="-fx-background-color: FDB687; -fx-background-radius: 10;" text="Нет" />
+   </children>
+</AnchorPane>
