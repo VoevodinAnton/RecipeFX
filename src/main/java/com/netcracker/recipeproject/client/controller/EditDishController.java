@@ -89,26 +89,20 @@ public class EditDishController {
         });
 
         addIngredientButton.setOnAction(actionEvent -> {
-            String name = ingredientNameBuffer.toString();
-            ingredientNameBuffer.setLength(0);
-            if(Checks.checkingComponent(numberField, name).equals(""))
-            {
-                int number = Integer.parseInt(numberField.getText());
-                String unit = unitField.getText();
-                observableList.add(new DishComponent(new Ingredient(name, unit), number));
-            }
-            errorLabel.setText(Checks.checkingComponent(numberField, name));
-        });
-        DishComponent component = null;
+                    String name = ingredientNameBuffer.toString();
+                    ingredientNameBuffer.setLength(0);
+                    String error = Checks.checkingComponent(numberField, ingredientsComboBox.getValue(), observableList);
+                    if (error.equals("")) {
+                        int number = Integer.parseInt(numberField.getText());
+                        String unit = unitField.getText();
+                        observableList.add(new DishComponent(new Ingredient(name, unit), number));
+                    }
+                    errorLabel.setText(error);
+                });
 
         deleteIngredientButton.setOnAction(actionEvent -> {
-            listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<DishComponent>() {
-                @Override
-                public void changed(ObservableValue<? extends DishComponent> observableValue, DishComponent component, DishComponent t1) {
-                    component = t1;
-                }
-            });
-            observableList.remove(component);
+            DishComponent component1 = this.listView.getSelectionModel().getSelectedItem();
+            listView.getItems().remove(component1);
         });
 
         editButton.setOnAction(actionEvent -> {
@@ -118,7 +112,8 @@ public class EditDishController {
                 ArrayList<DishComponent> components = new ArrayList<>();
                 components.addAll(observableList);
                 String time = timeField.getText();
-                dish = new Dish(components, name, time);
+                int id = dish.getId();
+                dish = new Dish(id, components, name, time);
                 Message response = Messaging.execute(CommandEnum.EDIT_A_DISH, dish);
                 if (response.getFlag() == CommandEnum.OK) {
                     Stage stage = (Stage) editButton.getScene().getWindow();

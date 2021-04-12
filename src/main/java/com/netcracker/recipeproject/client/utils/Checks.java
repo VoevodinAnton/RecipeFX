@@ -1,17 +1,22 @@
 package com.netcracker.recipeproject.client.utils;
 
+import com.netcracker.recipeproject.library.Dish;
 import com.netcracker.recipeproject.library.DishComponent;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TextField;
 
 public class Checks {
 
-    public static String checkingComponent(TextField number, String name){
+    public static String checkingComponent(TextField number, String name, ObservableList<DishComponent> list){
         String error = "";
         if(number.getText().equals(""))
             error += "Введите количество ингредиента\n";
-        if(name.equals(""))
+        if(name == null || name.equals("") )
             error += "Выберите название ингредиента\n";
+        for(DishComponent component : list){
+            if(component.getIngredient().getName().equals(name))
+                error += "Нельзя добавлять одинаковые ингредиенты";
+        }
         return error;
     }
 

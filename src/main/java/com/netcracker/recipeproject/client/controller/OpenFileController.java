@@ -14,6 +14,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class OpenFileController {
@@ -28,7 +30,10 @@ public class OpenFileController {
     private ComboBox<String> fileNameComboBox;
 
     @FXML
-    private Button createButton;
+    private TextField fileNameField;
+
+    @FXML
+    private Label errorLabel;
 
     @FXML
     private Button okButton;
@@ -47,37 +52,57 @@ public class OpenFileController {
 
         okButton.setOnAction(actionEvent -> {
             String fileName = fileNameBuffer.toString();
-            Messaging.execute(CommandEnum.OPEN_A_FILE, fileName);
-            Stage stageIp = (Stage) okButton.getScene().getWindow();
-            stageIp.close();
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/primary.fxml"));
-            Parent root = null;
-            try {
-                root = loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
+            String fileNameNew = fileNameField.getText();
+            if(!fileNameComboBox.getValue().equals("") && !fileNameNew.equals(""))
+                errorLabel.setText("Выберите что-то одно");
+            else if (!fileNameComboBox.getValue().equals("")) {
+                errorLabel.setText("");
+                Message response = Messaging.execute(CommandEnum.OPEN_A_FILE, fileName);
+                if(response.getFlag() != CommandEnum.OK) {
+                    errorLabel.setText("Не удалось открыть файл");
+                }
+                else{
+                    Stage stageIp = (Stage) okButton.getScene().getWindow();
+                    stageIp.close();
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/primary.fxml"));
+                    Parent root = null;
+                    try {
+                        root = loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                }
             }
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
+            else if (fileNameNew.equals("")) {
+                errorLabel.setText("");
+                Messaging.execute(CommandEnum.OPEN_A_FILE, fileNameNew);
+                errorLabel.setText("");
+                Message response = Messaging.execute(CommandEnum.OPEN_A_FILE, fileName);
+                if(response.getFlag() != CommandEnum.OK) {
+                    errorLabel.setText("Не удалось открыть файл");
+                }
+                else{
+                    Stage stageIp = (Stage) okButton.getScene().getWindow();
+                    stageIp.close();
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/primary.fxml"));
+                    Parent root = null;
+                    try {
+                        root = loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                }
+            }
+
         });
 
-        createButton.setOnAction(actionEvent -> {
-            Messaging.execute(CommandEnum.OPEN_A_FILE, "");
-            Stage stageIp = (Stage) createButton.getScene().getWindow();
-            stageIp.close();
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/primary.fxml"));
-            Parent root = null;
-            try {
-                root = loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
-        });
     }
 }

@@ -86,24 +86,20 @@ public class AddDishController {
         addIngredientButton.setOnAction(actionEvent -> {
             String name = ingredientNameBuffer.toString();
             ingredientNameBuffer.setLength(0);
-            if(Checks.checkingComponent(numberField, name).equals(""))
+            String error = Checks.checkingComponent(numberField, ingredientsComboBox.getValue(), observableList);
+            if(error.equals(""))
             {
                 int number = Integer.parseInt(numberField.getText());
                 String unit = unitField.getText();
                 observableList.add(new DishComponent(new Ingredient(name, unit), number));
             }
-            errorLabel.setText(Checks.checkingComponent(numberField, name));
+            errorLabel.setText(error);
         });
-        DishComponent component = null;
 
         deleteIngredientButton.setOnAction(actionEvent -> {
-            listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<DishComponent>() {
-                @Override
-                public void changed(ObservableValue<? extends DishComponent> observableValue, DishComponent component, DishComponent t1) {
-                    component = t1;
-                }
-            });
-            observableList.remove(component);
+            //observableList.remove(component);
+            DishComponent component1 = this.listView.getSelectionModel().getSelectedItem();
+            listView.getItems().remove(component1);
         });
 
         addButton.setOnAction(actionEvent -> {

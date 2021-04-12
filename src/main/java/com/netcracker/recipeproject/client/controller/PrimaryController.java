@@ -60,7 +60,7 @@ public class PrimaryController{
         @FXML
         public void initialize(){
                 Object obj = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_DISHES, null).getObj();
-                if(obj != null){
+                if(!((List<Dish>)obj).isEmpty()){
                     errorLabel.setText("");
                     dishList.setVisible(true);
                     dishObservableList.removeAll();

@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -18,17 +19,15 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="32.0" layoutY="113.0" text="Выбрать:" />
-      <ComboBox fx:id="fileNameComboBox" layoutX="32.0" layoutY="140.0" prefHeight="26.0" prefWidth="293.0" />
-      <Button fx:id="createButton" layoutX="171.0" layoutY="195.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="157.0" style="-fx-background-color: FDB687; -fx-background-radius: 10;" text="Создать свою">
+      <Label layoutX="32.0" layoutY="101.0" text="Выбрать:" />
+      <ComboBox fx:id="fileNameComboBox" layoutX="32.0" layoutY="125.0" prefHeight="26.0" prefWidth="442.0" />
+      <Button fx:id="okButton" layoutX="32.0" layoutY="234.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="102.0" style="-fx-background-color: FDB687; -fx-background-radius: 10;" text="Окей">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="okButton" layoutX="359.0" layoutY="138.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="102.0" style="-fx-background-color: FDB687; -fx-background-radius: 10;" text="Окей">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
+      <Label layoutX="32.0" layoutY="163.0" text="Создать свою" />
+      <TextField fx:id="fileNameField" layoutX="32.0" layoutY="189.0" prefHeight="26.0" prefWidth="441.0" />
+      <Label fx:id="errorLabel" layoutX="165.0" layoutY="241.0" prefHeight="18.0" prefWidth="290.0" textFill="RED" />
    </children>
 </AnchorPane>
