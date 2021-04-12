@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 public class IngredientDictionaryTest {
+    /*
     private IngredientDictionary getIngredientDictionary(){
         IngredientDictionary ingredientDictionary = new IngredientDictionary();
         Ingredient cacao = new Ingredient("cacao", "300");
@@ -81,5 +82,7 @@ public class IngredientDictionaryTest {
 
     }
 
+
+     */
 
 }
