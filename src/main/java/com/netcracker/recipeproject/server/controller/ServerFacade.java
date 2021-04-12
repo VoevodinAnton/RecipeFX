@@ -1,7 +1,7 @@
 package com.netcracker.recipeproject.server.controller;
 
 import com.netcracker.recipeproject.library.Message;
-import com.netcracker.recipeproject.server.model.Store;
+import com.netcracker.recipeproject.server.model.Developer;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -10,12 +10,13 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class ServerFacade implements Closeable {
-
+    private Developer developer;
     private Socket socket;
     private ObjectInputStream objIn;
     private ObjectOutputStream objOut;
 
     public ServerFacade(Socket socket) throws IOException {
+        this.developer = new Developer();
         this.socket = socket;
         objIn = new ObjectInputStream(socket.getInputStream());
         objOut = new ObjectOutputStream(socket.getOutputStream());
@@ -27,7 +28,7 @@ public class ServerFacade implements Closeable {
 
     public void messageRequest(Message message) {
         try {
-            Message messageToClient = Store.getInstance().doCommand(message);
+            Message messageToClient = developer.doCommand(message);
             if(messageToClient.getObj() != null)
                 System.out.println(messageToClient.getObj().toString());
             objOut.writeObject(messageToClient);
