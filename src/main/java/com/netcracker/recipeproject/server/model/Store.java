@@ -101,10 +101,10 @@ public class Store implements Storage {
     public int findDish(Dish dish) throws IOException {
         int i = 0;
         for (Dish thisDish : DishDictionary.getInstance().getAllDishes()) {
-            i++;
             if (thisDish.getId() == dish.getId()) {
                break;
             }
+            i++;
         }
         return i;
     }
@@ -112,10 +112,10 @@ public class Store implements Storage {
     public int findIngredient(Ingredient ingredient) throws IOException {
         int i = 0;
         for (Ingredient thisIngredient: IngredientDictionary.getInstance().getAllIngredients()){
-            i++;
             if (thisIngredient.getId() == ingredient.getId()){
                 break;
             }
+            i++;
         }
         return i;
     }

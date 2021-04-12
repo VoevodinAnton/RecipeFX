@@ -90,7 +90,8 @@ public class IngredientCellController extends ListCell<Ingredient> {
                 stage.initOwner(this.deleteButton.getScene().getWindow());
                 stage.showAndWait();
         });
-
+        if(isSelected())
+            setStyle("-fx-background-color: white");
         setText(null);
         setGraphic(pane);
         }

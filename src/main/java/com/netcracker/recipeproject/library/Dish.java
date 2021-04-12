@@ -94,8 +94,10 @@ public class Dish implements Serializable, Comparable<Dish> {
 
     @Override
     public int compareTo(Dish dish) {
-        Integer thisTime = Integer.parseInt(cookingTime);
-        Integer anotherTime = Integer.parseInt(dish.getCookingTime());
+        String[] parts1 = cookingTime.split(" ");
+        Integer thisTime = Integer.parseInt(parts1[0]);
+        String[] parts2 = cookingTime.split(" ");
+        Integer anotherTime = Integer.parseInt(parts2[0]);
         return thisTime.compareTo(anotherTime);
     }
 }

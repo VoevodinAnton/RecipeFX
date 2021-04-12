@@ -65,6 +65,11 @@ public class ListCellController extends ListCell<Dish> {
             }
             ingrLabel.setText(ingrList);
 
+            if(isSelected()) {
+                setStyle("-fx-background-color: white");
+                setGraphic(pane);
+            }
+
             setText(null);
             setGraphic(pane);
 

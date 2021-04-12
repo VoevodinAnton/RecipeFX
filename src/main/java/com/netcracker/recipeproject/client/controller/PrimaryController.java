@@ -2,12 +2,14 @@ package com.netcracker.recipeproject.client.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.netcracker.recipeproject.client.model.InteractionClient;
 import com.netcracker.recipeproject.client.utils.Messaging;
 import com.netcracker.recipeproject.library.CommandEnum;
 import com.netcracker.recipeproject.library.Dish;
+import com.netcracker.recipeproject.library.DishComparator;
 import com.netcracker.recipeproject.library.Message;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
@@ -53,6 +55,8 @@ public class PrimaryController{
 
         private ObservableList<Dish> dishObservableList = FXCollections.observableArrayList();
 
+        int flag = 0;
+
         @FXML
         public void initialize(){
                 Object obj = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_DISHES, null).getObj();
@@ -95,6 +99,22 @@ public class PrimaryController{
                             dishList.setVisible(false);
                             errorLabel.setText("По вашему запросу ничего не найдено");
                         }
+                }
+            });
+
+            ObservableList<Dish> list = FXCollections.observableArrayList();
+            list.addAll(dishObservableList);
+            sortButton.setOnAction(actionEvent -> {
+                switch (flag){
+                    case 0:
+                        DishComparator comparator = new DishComparator();
+                        Collections.sort(dishObservableList, comparator);
+                        flag = 1;
+                        break;
+                    case 1:
+                        dishObservableList = list;
+                        flag = 0;
+                        break;
                 }
             });
             ingredientsButton.setOnAction(actionEvent -> {

@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 
 public class EditIngredientController {
     @FXML
-    private static Ingredient ingredient;
+    private static Ingredient ingredient = new Ingredient();
 
     @FXML
     private ResourceBundle resources;
@@ -52,8 +52,8 @@ public class EditIngredientController {
             if(error.equals("")) {
                 String name = nameField.getText();
                 String unit = unitField.getText();
-                Ingredient ingredient = new Ingredient(name, unit);
-                Message response = Messaging.execute(CommandEnum.EDIT_A_INGREDIENT, ingredient);
+                Ingredient ingredient1 = new Ingredient(ingredient.getId(),name, unit);
+                Message response = Messaging.execute(CommandEnum.EDIT_A_INGREDIENT, ingredient1);
                 if (response.getFlag() == CommandEnum.OK) {
                     Stage stageIp = (Stage) editButton.getScene().getWindow();
                     stageIp.close();
