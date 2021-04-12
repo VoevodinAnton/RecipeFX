@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="290.0" prefWidth="501.0" style="-fx-background-color: FFFFFF;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.netcracker.recipeproject.client.controller.OpenFileController">
+   <children>
+      <Label layoutX="26.0" layoutY="14.0" prefHeight="55.0" prefWidth="447.0" text="Вы можете открыть одну из имеющихся баз данных рецептов">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="186.0" layoutY="59.0" text="или создать свою!">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="32.0" layoutY="113.0" text="Выбрать:" />
+      <ComboBox fx:id="fileNameComboBox" layoutX="32.0" layoutY="140.0" prefHeight="26.0" prefWidth="293.0" />
+      <Button fx:id="createButton" layoutX="171.0" layoutY="195.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="157.0" style="-fx-background-color: FDB687; -fx-background-radius: 10;" text="Создать свою">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="okButton" layoutX="359.0" layoutY="138.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="102.0" style="-fx-background-color: FDB687; -fx-background-radius: 10;" text="Окей">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

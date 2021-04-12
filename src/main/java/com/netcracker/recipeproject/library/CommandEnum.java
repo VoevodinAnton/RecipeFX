@@ -14,5 +14,7 @@ public enum CommandEnum {
     ADDING_A_DUPLICATE_INGREDIENT,
     UPLOAD_TO_FILE,
     UPLOAD_FROM_FILE,
+    OUTPUT_OF_ALL_FILENAMES,
+    OPEN_A_FILE,
     OK
 }

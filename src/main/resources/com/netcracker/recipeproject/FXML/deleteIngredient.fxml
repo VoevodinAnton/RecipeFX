@@ -5,7 +5,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="182.0" prefWidth="359.0" style="-fx-background-color: FFFFFF;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.netcracker.recipeproject.client.controller.DeleteIngredientController">
    <children>
       <Label layoutX="22.0" layoutY="21.0" prefHeight="40.0" prefWidth="310.0" text="Вы точно хотите удалить этот ингредиент?">
