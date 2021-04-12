@@ -56,7 +56,8 @@ public class Store implements Storage {
     }
 
     public void removeDish(Ingredient ingredient) throws IOException {
-        for (Dish dish : Store.getInstance().getAllDishes()) {
+        ArrayList<Dish> dishes = Store.getInstance().cloneDishes(Store.getInstance().getAllDishes());
+        for (Dish dish : dishes) {
             if (dish.contains(ingredient.getName())) {
                 Store.getInstance().removeDish(dish);
             }
@@ -69,7 +70,7 @@ public class Store implements Storage {
     } //TODO: сделать удаление блюд с этим ингредиентов
 
 
-    public void editDish(Dish dish) throws IOException { //TODO: Разделить функцию поиска и функцию редактирования
+    public void editDish(Dish dish) throws IOException {
         int number = findDish(dish);
         DishDictionary.getInstance().getAllDishes().set(number, dish);
 
@@ -119,5 +120,15 @@ public class Store implements Storage {
         }
         return i;
     }
+
+    public ArrayList<Dish> cloneDishes(ArrayList<Dish> dishes){
+        ArrayList<Dish> newDishes = new ArrayList<>();
+        for(Dish dish: dishes){
+            newDishes.add(dish);
+        }
+        return newDishes;
+    }
+
+
 }
 
