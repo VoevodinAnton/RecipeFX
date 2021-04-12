@@ -159,11 +159,13 @@ public class Developer {
     private Message uploadFromFile(Message message)  {
         Object object = message.getObj();
         File fileDishes = new File("LibraryOfOutput/serialized dish dictionary.bin");
-
         try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(fileDishes))) {
-
             ArrayList<Dish> deserializedDishes = RecipeIO.deserializeDishDictionary(in);
-            System.out.println(deserializedDishes.size());
+            for (Dish dish: deserializedDishes){
+                if (!Store.getInstance().getAllDishes().contains(dish)){
+                    Store.getInstance().addDish(dish);
+                }
+            }
             int i = 0;
             for (Dish dish : deserializedDishes) {
                 System.out.println("Блюдо " + ++i + ": " + dish.getName());

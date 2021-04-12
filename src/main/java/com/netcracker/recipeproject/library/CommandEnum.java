@@ -15,5 +15,4 @@ public enum CommandEnum {
     UPLOAD_TO_FILE,
     UPLOAD_FROM_FILE,
     OK
-
 }
