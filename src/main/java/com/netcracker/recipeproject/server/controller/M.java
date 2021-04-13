@@ -17,7 +17,7 @@ public class M {
 
     public static void main(String[] args) throws IOException {
 
-        String fileName = "serialized dish dictionary1.bin";
+        String fileName = "serialized dish dictionary2.bin";
         File fileDishes = new File("LibraryOfDishes/" + fileName);
         File fileIngredients = new File("LibraryOfIngredients/" + "Ing" + fileName);
 
