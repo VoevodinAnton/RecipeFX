@@ -39,7 +39,7 @@ public class Developer {
             //case UPLOAD_TO_FILE:
                 //return uploadToFile(message);
             case OPEN_A_FILE:
-               // return uploadFromFile(message);
+                return uploadFromFile(message);
             case OUTPUT_OF_ALL_FILENAMES:
                 return outputOfAllFileNames(message);
             default:
