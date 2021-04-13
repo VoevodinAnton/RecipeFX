@@ -12,6 +12,7 @@ import com.netcracker.recipeproject.server.model.Store;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Developer {
     public Message doCommand(Message message) throws IOException {
@@ -35,10 +36,12 @@ public class Developer {
                 return editIngredient(message);
             case OUTPUT_OF_ALL_INGREDIENTS: //output of all ingredients
                 return ingredientsOutput();
-            case UPLOAD_TO_FILE:
-                return uploadToFile(message);
-            case UPLOAD_FROM_FILE:
-                return uploadFromFile(message);
+            //case UPLOAD_TO_FILE:
+                //return uploadToFile(message);
+            case OPEN_A_FILE:
+               // return uploadFromFile(message);
+            case OUTPUT_OF_ALL_FILENAMES:
+                return outputOfAllFileNames(message);
             default:
                 return null;
         }
@@ -156,9 +159,24 @@ public class Developer {
         return new Message(CommandEnum.OK, null);
     }
 
+    private Message outputOfAllFileNames(Message message){
+        ArrayList<String> results = new ArrayList();
+
+        File[] files = new File("LibraryOfOutput").listFiles();
+        //If this pathname does not denote a directory, then listFiles() returns null.
+        assert files != null;
+        for (File file : files) {
+            if (file.isFile()) {
+                results.add(file.getName());
+            }
+        }
+        return new Message(CommandEnum.OK, results);
+    }
+
     private Message uploadFromFile(Message message)  {
         Object object = message.getObj();
-        File fileDishes = new File("LibraryOfOutput/serialized dish dictionary.bin");
+        String fileName = (String) object;
+        File fileDishes = new File("LibraryOfOutput/" + fileName + ".bin");
         try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(fileDishes))) {
             ArrayList<Dish> deserializedDishes = RecipeIO.deserializeDishDictionary(in);
             for (Dish dish: deserializedDishes){
