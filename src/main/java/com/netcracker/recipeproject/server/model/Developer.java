@@ -38,10 +38,10 @@ public class Developer {
                 return ingredientsOutput();
             //case UPLOAD_TO_FILE:
                 //return uploadToFile(message);
-            case OPEN_A_FILE:
-                return uploadFromFile(message);
             case OUTPUT_OF_ALL_FILENAMES:
                 return outputOfAllFileNames(message);
+            case OPEN_A_FILE:
+                return uploadFromFile(message);
             default:
                 return null;
         }
@@ -178,7 +178,7 @@ public class Developer {
     private Message uploadFromFile(Message message)  {
         Object object = message.getObj();
         String fileName = (String) object;
-        File fileDishes = new File("LibraryOfOutput/" + fileName + ".bin");
+        File fileDishes = new File("LibraryOfOutput/" + fileName);
         try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(fileDishes))) {
             ArrayList<Dish> deserializedDishes = RecipeIO.deserializeDishDictionary(in);
             for (Dish dish: deserializedDishes){
