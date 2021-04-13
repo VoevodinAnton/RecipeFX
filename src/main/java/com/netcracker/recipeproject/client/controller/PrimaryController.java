@@ -122,6 +122,9 @@ public class PrimaryController{
             });
             ingredientsButton.setOnAction(actionEvent -> {
                 try {
+                    Stage stageP = (Stage) ingredientsButton.getScene().getWindow();
+                    stageP.close();
+
                     FXMLLoader loader = new FXMLLoader();
                     loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/ingredientsFrame.fxml"));
                     Parent root = loader.load();

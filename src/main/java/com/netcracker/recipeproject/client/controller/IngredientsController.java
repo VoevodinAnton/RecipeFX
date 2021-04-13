@@ -41,6 +41,9 @@ public class IngredientsController {
     private Button addButton;
 
     @FXML
+    private ImageView backButton;
+
+    @FXML
     private ListView<Ingredient> ingredientsList;
 
     @FXML
@@ -84,6 +87,22 @@ public class IngredientsController {
                     stage.showAndWait();
                 });
 
+                backButton.setOnMouseClicked(mouseEvent -> {
+                    Stage stageI = (Stage) backButton.getScene().getWindow();
+                    stageI.close();
+
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/primary.fxml"));
+                    Parent root = null;
+                    try {
+                        root = loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                });
 
     }
 }

@@ -2,11 +2,13 @@ package com.netcracker.recipeproject.client.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import com.netcracker.recipeproject.client.utils.Messaging;
 import com.netcracker.recipeproject.library.CommandEnum;
 import com.netcracker.recipeproject.library.Message;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,9 +43,10 @@ public class OpenFileController {
     @FXML
     void initialize() {
 
-        //Message response = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_FILENAMES, null);
-        //ObservableList<String> list = (ObservableList<String>)response.getObj();
-        //fileNameComboBox.setItems(list);
+        Message response = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_FILENAMES, null);
+        ObservableList<String> list = FXCollections.observableArrayList();
+        list.addAll((ArrayList<String>)response.getObj());
+        fileNameComboBox.setItems(list);
 
         StringBuffer fileNameBuffer = new StringBuffer();
         fileNameComboBox.setOnAction(actionEvent -> {
@@ -57,8 +60,8 @@ public class OpenFileController {
                 errorLabel.setText("Выберите что-то одно");
             else if (fileNameComboBox.getValue() != null) {
                 errorLabel.setText("");
-                Message response = Messaging.execute(CommandEnum.OPEN_A_FILE, fileName);
-                if(response.getFlag() != CommandEnum.OK) {
+                Message response1 = Messaging.execute(CommandEnum.OPEN_A_FILE, fileName);
+                if(response1.getFlag() != CommandEnum.OK) {
                     errorLabel.setText("Не удалось открыть файл");
                 }
                 else{
@@ -79,8 +82,8 @@ public class OpenFileController {
             }
             else if (fileNameNew.equals("")) {
                 errorLabel.setText("");
-                Message response = Messaging.execute(CommandEnum.OPEN_A_FILE, fileName);
-                if(response.getFlag() != CommandEnum.OK) {
+                Message response1 = Messaging.execute(CommandEnum.OPEN_A_FILE, fileName);
+                if(response1.getFlag() != CommandEnum.OK) {
                     errorLabel.setText("Не удалось открыть файл");
                 }
                 else{
