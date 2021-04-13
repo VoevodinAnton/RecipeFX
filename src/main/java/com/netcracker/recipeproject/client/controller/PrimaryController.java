@@ -53,6 +53,9 @@ public class PrimaryController{
         @FXML
         private Label errorLabel;
 
+        @FXML
+        private Button saveButton;
+
         private ObservableList<Dish> dishObservableList = FXCollections.observableArrayList();
 
         int flag = 0;
@@ -160,6 +163,15 @@ public class PrimaryController{
                         errorLabel.setText("Сейчас в нашей базе данных нет блюд! \nВы можете добавить свое!");
                     }
             });
+
+            saveButton.setOnAction(actionEvent -> {
+                Message response = Messaging.execute(CommandEnum.UPLOAD_TO_FILE, null);
+                if(response.getFlag() != CommandEnum.OK){
+                    dishList.setVisible(false);
+                    errorLabel.setText("Не удалось загрузить в файл");
+                }
+            });
+
         }
 }
 
