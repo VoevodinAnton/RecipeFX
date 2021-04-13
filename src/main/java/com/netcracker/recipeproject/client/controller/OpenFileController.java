@@ -46,6 +46,7 @@ public class OpenFileController {
 
         Message response = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_FILENAMES, null);
         ObservableList<String> list = FXCollections.observableArrayList();
+        list.add("Не выбирать файл");
         list.addAll((ArrayList<String>)response.getObj());
         fileNameComboBox.setItems(list);
 
@@ -58,9 +59,9 @@ public class OpenFileController {
         okButton.setOnAction(actionEvent -> {
             String fileName = fileNameBuffer.toString();
             String fileNameNew = fileNameField.getText();
-            if(fileNameComboBox.getValue() != null && !fileNameNew.equals(""))
+            if(fileNameComboBox.getValue() != null && !fileNameNew.equals("") && !fileName.equals("Не выбирать файл") )
                 errorLabel.setText("Выберите что-то одно");
-            else if (fileNameComboBox.getValue() != null) {
+            else if (fileNameComboBox.getValue() != null && !fileName.equals("Не выбирать файл")) {
                 errorLabel.setText("");
                 Message response1 = Messaging.execute(CommandEnum.OPEN_A_FILE, fileName);
                 if(response1.getFlag() != CommandEnum.OK) {
@@ -83,7 +84,7 @@ public class OpenFileController {
                     stage.show();
                 }
             }
-            else if (!fileNameNew.equals("")) {
+            else if (!fileNameNew.equals("") && (fileName.equals("Не выбирать файл") || fileNameComboBox.getValue() == null)) {
                 errorLabel.setText("");
                 Message response1 = Messaging.execute(CommandEnum.OPEN_A_FILE, fileNameNew);
                 if(response1.getFlag() != CommandEnum.OK) {

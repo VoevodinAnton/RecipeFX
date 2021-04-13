@@ -75,6 +75,7 @@ public class AddDishController {
 
         ingredientsComboBox.setOnAction(actionEvent -> {
             String nameIngredient = ingredientsComboBox.getValue();
+            ingredientNameBuffer.setLength(0);
             ingredientNameBuffer.append(nameIngredient);
             for(Ingredient ingredientItem : ingredientArrayList){
                 if(ingredientItem.getName().equals(nameIngredient)){
