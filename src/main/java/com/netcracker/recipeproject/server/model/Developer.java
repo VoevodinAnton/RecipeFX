@@ -139,19 +139,26 @@ public class Developer {
         Store.getInstance().removeIngredient(ingredient);
         return new Message(CommandEnum.OK, null);
     }
-/*
+
     private Message uploadToFile(Message message) {
         Object object = message.getObj();
-        File fileDishes = new File("LibraryOfOutput/serialized dish dictionary.bin");
-
-        try (BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(fileDishes))) {
+        String fileName = (String) object;
+        File fileDishes = new File("LibraryOfDishes/" + fileName);
+        File fileIngredients= new File("LibraryOfIngredients/" + "Ing" + fileName);
+        try (BufferedOutputStream outD = new BufferedOutputStream(new FileOutputStream(fileDishes));BufferedOutputStream outI = new BufferedOutputStream(new FileOutputStream(fileIngredients)) ) {
             int i = 0;
             ArrayList<Dish> dishes = new ArrayList<>();
+            ArrayList<Ingredient> ingredients  = new ArrayList<>();
             for (Dish dish : Store.getInstance().getAllDishes()) {
                 System.out.println("Блюдо " + ++i + ": " + dish.getName());
                 dishes.add(dish);
             }
-            RecipeIO.serializeDishDictionary(out, dishes);
+            for (Ingredient ingredient : Store.getInstance().getAllIngredients()) {
+                System.out.println("Блюдо " + ++i + ": " + ingredient.getName());
+                ingredients.add(ingredient);
+            }
+            RecipeIO.serializeDishDictionary(outD, dishes);
+            RecipeIO.serializeIngredientDictionary(outI, ingredients);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -159,12 +166,10 @@ public class Developer {
         return new Message(CommandEnum.OK, null);
     }
 
- */
 
     private Message outputOfAllFileNames(Message message){
         ArrayList<String> results = new ArrayList();
-
-        File[] files = new File("LibraryOfOutput").listFiles();
+        File[] files = new File("LibraryOfDishes").listFiles();
         //If this pathname does not denote a directory, then listFiles() returns null.
         assert files != null;
         for (File file : files) {
@@ -175,24 +180,45 @@ public class Developer {
         return new Message(CommandEnum.OUTPUT_OF_ALL_FILENAMES, results);
     }
 
-    private Message uploadFromFile(Message message)  {
+    private Message uploadFromFile(Message message) throws IOException {
         Object object = message.getObj();
         String fileName = (String) object;
-        File fileDishes = new File("LibraryOfOutput/" + fileName);
-        try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(fileDishes))) {
-            ArrayList<Dish> deserializedDishes = RecipeIO.deserializeDishDictionary(in);
-            for (Dish dish: deserializedDishes){
-                if (!Store.getInstance().getAllDishes().contains(dish)){
-                    Store.getInstance().addDish(dish);
+        File fileDishes = new File("LibraryOfDishes/" + fileName);
+        File fileIngredients = new File("LibraryOfIngredients/" + "Ing" + fileName);
+
+        if (fileDishes.exists() && fileIngredients.exists()){
+            if(RecipeIO.isFileEmpty(fileDishes)){
+                return new Message(CommandEnum.OK, null);
+            } else{
+                try (BufferedInputStream inD = new BufferedInputStream(new FileInputStream(fileDishes)); BufferedInputStream inI = new BufferedInputStream(new FileInputStream(fileIngredients))) {
+                    ArrayList<Dish> deserializedDishes = RecipeIO.deserializeDishDictionary(inD);
+                    for (Dish dish: deserializedDishes){
+                        if (!Store.getInstance().getAllDishes().contains(dish)){
+                            Store.getInstance().addDish(dish);
+                        }
+                    }
+                    ArrayList<Ingredient> deserializedIngredients = RecipeIO.deserializeIngredientDictionary(inI);
+                    for (Ingredient ingredient: deserializedIngredients){
+                        if (!Store.getInstance().getAllIngredients().contains(ingredient)){
+                            Store.getInstance().addIngredient(ingredient);
+                        }
+                    }
+                    int i = 0;
+                    for (Dish dish : deserializedDishes) {
+                        System.out.println("Блюдо " + ++i + ": " + dish.getName());
+                    }
+                    return new Message(CommandEnum.OK, null);
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
                 }
             }
-            int i = 0;
-            for (Dish dish : deserializedDishes) {
-                System.out.println("Блюдо " + ++i + ": " + dish.getName());
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+
+        } else {
+            fileDishes.createNewFile();
+            fileIngredients.createNewFile();
         }
         return new Message(CommandEnum.OK, null);
     }
+
+
 }

@@ -2,6 +2,7 @@ package com.netcracker.recipeproject.server.controller;
 
 import com.netcracker.recipeproject.library.CommandEnum;
 import com.netcracker.recipeproject.library.Dish;
+import com.netcracker.recipeproject.library.Ingredient;
 import com.netcracker.recipeproject.library.Message;
 import com.netcracker.recipeproject.server.IO.RecipeIO;
 import com.netcracker.recipeproject.server.model.Store;
@@ -16,38 +17,35 @@ public class M {
 
     public static void main(String[] args) throws IOException {
 
-        ArrayList<String> results = new ArrayList();
-        File[] files = new File("LibraryOfOutput").listFiles();
-        //If this pathname does not denote a directory, then listFiles() returns null.
-        assert files != null;
-        for (File file : files) {
-            if (file.isFile()) {
-                results.add(file.getName());
-            }
+        String fileName = "serialized dish dictionary1.bin";
+        File fileDishes = new File("LibraryOfDishes/" + fileName);
+        File fileIngredients = new File("LibraryOfIngredients/" + "Ing" + fileName);
 
-        }
-        System.out.println(results);
-
-
-        String fileName = "serialized dish dictionary.bin";
-        File fileDishes = new File("LibraryOfOutput/" + fileName);
-        try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(fileDishes))) {
-            ArrayList<Dish> deserializedDishes = RecipeIO.deserializeDishDictionary(in);
-            for (Dish dish: deserializedDishes){
-                if (!Store.getInstance().getAllDishes().contains(dish)){
-                    Store.getInstance().addDish(dish);
+        if (fileDishes.exists() && fileIngredients.exists()){
+            try (BufferedInputStream inD = new BufferedInputStream(new FileInputStream(fileDishes)); BufferedInputStream inI = new BufferedInputStream(new FileInputStream(fileIngredients))) {
+                ArrayList<Dish> deserializedDishes = RecipeIO.deserializeDishDictionary(inD);
+                for (Dish dish: deserializedDishes){
+                    if (!Store.getInstance().getAllDishes().contains(dish)){
+                        Store.getInstance().addDish(dish);
+                    }
                 }
+                ArrayList<Ingredient> deserializedIngredients = RecipeIO.deserializeIngredientDictionary(inI);
+                for (Ingredient ingredient: deserializedIngredients){
+                    if (!Store.getInstance().getAllIngredients().contains(ingredient)){
+                        Store.getInstance().addIngredient(ingredient);
+                    }
+                }
+                int i = 0;
+                for (Dish dish : deserializedDishes) {
+                    System.out.println("Блюдо " + ++i + ": " + dish.getName());
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
             }
-            int i = 0;
-            for (Dish dish : deserializedDishes) {
-                System.out.println("Блюдо " + ++i + ": " + dish.getName());
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+        } else {
+            fileDishes.createNewFile();
+            fileIngredients.createNewFile();
         }
-
-
-        System.out.println(Store.getInstance().getAllDishes().size());
     }
 }
 
