@@ -139,7 +139,7 @@ public class Developer {
         Store.getInstance().removeIngredient(ingredient);
         return new Message(CommandEnum.OK, null);
     }
-
+/*
     private Message uploadToFile(Message message) {
         Object object = message.getObj();
         File fileDishes = new File("LibraryOfOutput/serialized dish dictionary.bin");
@@ -159,6 +159,8 @@ public class Developer {
         return new Message(CommandEnum.OK, null);
     }
 
+ */
+
     private Message outputOfAllFileNames(Message message){
         ArrayList<String> results = new ArrayList();
 
@@ -170,7 +172,7 @@ public class Developer {
                 results.add(file.getName());
             }
         }
-        return new Message(CommandEnum.OK, results);
+        return new Message(CommandEnum.OUTPUT_OF_ALL_FILENAMES, results);
     }
 
     private Message uploadFromFile(Message message)  {
@@ -193,5 +195,4 @@ public class Developer {
         }
         return new Message(CommandEnum.OK, null);
     }
-
 }
