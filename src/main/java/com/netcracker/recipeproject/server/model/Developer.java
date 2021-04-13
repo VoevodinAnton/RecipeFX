@@ -36,8 +36,8 @@ public class Developer {
                 return editIngredient(message);
             case OUTPUT_OF_ALL_INGREDIENTS: //output of all ingredients
                 return ingredientsOutput();
-            //case UPLOAD_TO_FILE:
-                //return uploadToFile(message);
+            case UPLOAD_TO_FILE:
+                return uploadToFile(message);
             case OUTPUT_OF_ALL_FILENAMES:
                 return outputOfAllFileNames(message);
             case OPEN_A_FILE:
@@ -143,6 +143,7 @@ public class Developer {
     private Message uploadToFile(Message message) {
         Object object = message.getObj();
         String fileName = (String) object;
+        System.out.println(fileName);
         File fileDishes = new File("LibraryOfDishes/" + fileName);
         File fileIngredients= new File("LibraryOfIngredients/" + "Ing" + fileName);
         try (BufferedOutputStream outD = new BufferedOutputStream(new FileOutputStream(fileDishes));BufferedOutputStream outI = new BufferedOutputStream(new FileOutputStream(fileIngredients)) ) {
@@ -170,7 +171,7 @@ public class Developer {
     private Message outputOfAllFileNames(Message message){
         ArrayList<String> results = new ArrayList();
         File[] files = new File("LibraryOfDishes").listFiles();
-        //If this pathname does not denote a directory, then listFiles() returns null.
+        //If this pathname does not denote a directory, then listFiles() returns nul.
         assert files != null;
         for (File file : files) {
             if (file.isFile()) {
