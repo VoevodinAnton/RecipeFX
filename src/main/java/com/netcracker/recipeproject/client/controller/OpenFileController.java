@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import com.netcracker.recipeproject.client.model.InteractionClient;
 import com.netcracker.recipeproject.client.utils.Messaging;
 import com.netcracker.recipeproject.library.CommandEnum;
 import com.netcracker.recipeproject.library.Message;
@@ -60,9 +61,10 @@ public class OpenFileController {
                 errorLabel.setText("Выберите что-то одно");
             else if (fileNameComboBox.getValue() != null) {
                 errorLabel.setText("");
-                Message response1 = Messaging.execute(CommandEnum.OPEN_A_FILE, fileName);
+                Message response1 = Messaging.execute(CommandEnum.OPEN_A_FILE, fileNameComboBox.getValue());
                 if(response1.getFlag() != CommandEnum.OK) {
                     errorLabel.setText("Не удалось открыть файл");
+                    InteractionClient.getInstance().setFileName(fileNameComboBox.getValue());
                 }
                 else{
                     Stage stageIp = (Stage) okButton.getScene().getWindow();
@@ -85,6 +87,7 @@ public class OpenFileController {
                 Message response1 = Messaging.execute(CommandEnum.OPEN_A_FILE, fileNameNew);
                 if(response1.getFlag() != CommandEnum.OK) {
                     errorLabel.setText("Не удалось открыть файл");
+                    InteractionClient.getInstance().setFileName(fileNameNew);
                 }
                 else{
                     Stage stageIp = (Stage) okButton.getScene().getWindow();
@@ -101,6 +104,9 @@ public class OpenFileController {
                     stage.setScene(new Scene(root));
                     stage.show();
                 }
+            }
+            else{
+                errorLabel.setText("Выберите действие");
             }
 
         });

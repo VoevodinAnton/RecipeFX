@@ -168,7 +168,8 @@ public class PrimaryController{
             });
 
             saveButton.setOnAction(actionEvent -> {
-                Message response = Messaging.execute(CommandEnum.UPLOAD_TO_FILE, null);
+                String fileName = InteractionClient.getInstance().getFileName();
+                Message response = Messaging.execute(CommandEnum.UPLOAD_TO_FILE, fileName);
                 if(response.getFlag() != CommandEnum.OK){
                     dishList.setVisible(false);
                     errorLabel.setText("Не удалось загрузить в файл");

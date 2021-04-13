@@ -15,6 +15,7 @@ public class InteractionClient {//singletone
     private Socket socket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
+    private String fileName;
 
     private InteractionClient (){
     }
@@ -25,6 +26,14 @@ public class InteractionClient {//singletone
 
     public void setHost(String host) {
         this.host = host;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 
     public Message getMessage() throws IOException, ClassNotFoundException {
