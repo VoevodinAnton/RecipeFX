@@ -51,6 +51,7 @@ public class OpenFileController {
 
         StringBuffer fileNameBuffer = new StringBuffer();
         fileNameComboBox.setOnAction(actionEvent -> {
+            fileNameBuffer.setLength(0);
             fileNameBuffer.append(fileNameComboBox.getValue());
         });
 
@@ -61,10 +62,10 @@ public class OpenFileController {
                 errorLabel.setText("Выберите что-то одно");
             else if (fileNameComboBox.getValue() != null) {
                 errorLabel.setText("");
-                Message response1 = Messaging.execute(CommandEnum.OPEN_A_FILE, fileNameComboBox.getValue());
+                Message response1 = Messaging.execute(CommandEnum.OPEN_A_FILE, fileName);
                 if(response1.getFlag() != CommandEnum.OK) {
                     errorLabel.setText("Не удалось открыть файл");
-                    InteractionClient.getInstance().setFileName(fileNameComboBox.getValue());
+                    InteractionClient.getInstance().setFileName(fileName);
                 }
                 else{
                     Stage stageIp = (Stage) okButton.getScene().getWindow();
