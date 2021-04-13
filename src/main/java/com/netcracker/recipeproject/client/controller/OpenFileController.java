@@ -53,9 +53,9 @@ public class OpenFileController {
         okButton.setOnAction(actionEvent -> {
             String fileName = fileNameBuffer.toString();
             String fileNameNew = fileNameField.getText();
-            if(!fileNameComboBox.getValue().equals("") && !fileNameNew.equals(""))
+            if(fileNameComboBox.getValue() != null && !fileNameNew.equals(""))
                 errorLabel.setText("Выберите что-то одно");
-            else if (!fileNameComboBox.getValue().equals("")) {
+            else if (fileNameComboBox.getValue() != null) {
                 errorLabel.setText("");
                 Message response = Messaging.execute(CommandEnum.OPEN_A_FILE, fileName);
                 if(response.getFlag() != CommandEnum.OK) {
@@ -78,8 +78,6 @@ public class OpenFileController {
                 }
             }
             else if (fileNameNew.equals("")) {
-                errorLabel.setText("");
-                Messaging.execute(CommandEnum.OPEN_A_FILE, fileNameNew);
                 errorLabel.setText("");
                 Message response = Messaging.execute(CommandEnum.OPEN_A_FILE, fileName);
                 if(response.getFlag() != CommandEnum.OK) {
