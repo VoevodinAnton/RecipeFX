@@ -65,9 +65,9 @@ public class OpenFileController {
                 Message response1 = Messaging.execute(CommandEnum.OPEN_A_FILE, fileName);
                 if(response1.getFlag() != CommandEnum.OK) {
                     errorLabel.setText("Не удалось открыть файл");
-                    InteractionClient.getInstance().setFileName(fileName);
                 }
                 else{
+                    InteractionClient.getInstance().setFileName(fileName);
                     Stage stageIp = (Stage) okButton.getScene().getWindow();
                     stageIp.close();
                     FXMLLoader loader = new FXMLLoader();
@@ -88,9 +88,9 @@ public class OpenFileController {
                 Message response1 = Messaging.execute(CommandEnum.OPEN_A_FILE, fileNameNew);
                 if(response1.getFlag() != CommandEnum.OK) {
                     errorLabel.setText("Не удалось открыть файл");
-                    InteractionClient.getInstance().setFileName(fileNameNew);
                 }
                 else{
+                    InteractionClient.getInstance().setFileName(fileNameNew);
                     Stage stageIp = (Stage) okButton.getScene().getWindow();
                     stageIp.close();
                     FXMLLoader loader = new FXMLLoader();
