@@ -80,9 +80,9 @@ public class OpenFileController {
                     stage.show();
                 }
             }
-            else if (fileNameNew.equals("")) {
+            else if (!fileNameNew.equals("")) {
                 errorLabel.setText("");
-                Message response1 = Messaging.execute(CommandEnum.OPEN_A_FILE, fileName);
+                Message response1 = Messaging.execute(CommandEnum.OPEN_A_FILE, fileNameNew);
                 if(response1.getFlag() != CommandEnum.OK) {
                     errorLabel.setText("Не удалось открыть файл");
                 }
