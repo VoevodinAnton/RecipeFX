@@ -33,6 +33,17 @@ public class DishTest {
         return new Dish(ingredientsOfOmeletteDuplicate, "omelette", "10");
     }
 
+    private Dish getRiceWithMeat(){
+        Ingredient rice = new Ingredient("рис", "гр");
+        Ingredient meat = new Ingredient("мясо", "гр");
+        DishComponent riceComponent = new DishComponent(rice, 4);
+        DishComponent meatComponent = new DishComponent(meat, 1);
+        ArrayList<DishComponent> ingredientsOfRwM = new ArrayList<>();
+        ingredientsOfRwM.add(riceComponent);
+        ingredientsOfRwM.add(meatComponent);
+        return new Dish(ingredientsOfRwM, "Рис с мясом", "10 минут");
+    }
+
 
     @DataProvider
     public Object[][] nameOfIngredientsToArrayData(){
@@ -63,7 +74,7 @@ public class DishTest {
     @Test(dataProvider = "containsData")
     public void testContains(String searchString) {
         Dish omelette = getDishOmelette();
-        assertTrue(omelette.contains(searchString));
+        System.out.println(searchString);
         assertTrue(omelette.contains(searchString));
     }
 

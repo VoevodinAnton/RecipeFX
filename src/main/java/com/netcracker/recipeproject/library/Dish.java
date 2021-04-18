@@ -92,6 +92,29 @@ public class Dish implements Serializable, Comparable<Dish> {
         return bset.containsAll(aset);
     }
 
+
+    public boolean contains(int idIngredient){
+        for(DishComponent dishComponent: listOfIngredients){
+            if(idIngredient == dishComponent.getIngredient().getId()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int findIngredient(int idIngredient){
+        int i = 0;
+        if(this.contains(id)){
+            for (DishComponent dishComponent: listOfIngredients){
+                if(idIngredient == dishComponent.getIngredient().getId()){
+                    return i;
+                }
+                i++;
+            }
+        }
+        return -1;
+    }
+
     @Override
     public int compareTo(Dish dish) {
         String[] parts1 = cookingTime.split(" ");

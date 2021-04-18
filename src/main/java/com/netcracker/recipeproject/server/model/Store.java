@@ -27,6 +27,7 @@ public class Store implements Storage {
         return IngredientDictionary.getInstance().getAllIngredients();
     }
 
+    @Override
     public void addDish(Dish dish) throws IOException {
         if (!(DishDictionary.getInstance().getAllDishes().isEmpty())) {
             for (Dish thisDish : DishDictionary.getInstance().getAllDishes()) {
@@ -39,6 +40,7 @@ public class Store implements Storage {
         DishDictionary.getInstance().getAllDishes().add(dish);
     }
 
+    @Override
     public void addIngredient(Ingredient ingredient) throws IOException {
         if (!IngredientDictionary.getInstance().getAllIngredients().isEmpty()) {
             for (Ingredient thisIngredient : IngredientDictionary.getInstance().getAllIngredients()) {
@@ -51,12 +53,13 @@ public class Store implements Storage {
         IngredientDictionary.getInstance().getAllIngredients().add(ingredient);
     }
 
+    @Override
     public void removeDish(Dish dish) throws IOException {
         DishDictionary.getInstance().getAllDishes().remove(dish);
     }
 
-    public void removeDish(Ingredient ingredient) throws IOException {
-        ArrayList<Dish> dishes = Store.getInstance().cloneDishes(Store.getInstance().getAllDishes());
+    private void removeDish(Ingredient ingredient) throws IOException {
+        ArrayList<Dish> dishes = new ArrayList<>(Store.getInstance().getAllDishes());
         for (Dish dish : dishes) {
             if (dish.contains(ingredient.getName())) {
                 Store.getInstance().removeDish(dish);
@@ -64,22 +67,31 @@ public class Store implements Storage {
         }
     }
 
+    @Override
     public void removeIngredient(Ingredient ingredient) throws IOException {
         IngredientDictionary.getInstance().getAllIngredients().remove(ingredient);
         removeDish(ingredient);
-    } //TODO: сделать удаление блюд с этим ингредиентов
+    }
 
 
-    public void editDish(Dish dish) throws IOException {
+    @Override
+    public synchronized void editDish(Dish dish) throws IOException {
         int number = findDish(dish);
         DishDictionary.getInstance().getAllDishes().set(number, dish);
 
     }
 
-    public void editIngredient(Ingredient ingredient) throws IOException {
+    @Override
+    public synchronized void editIngredient(Ingredient ingredient) throws IOException {
         int number = findIngredient(ingredient);
         IngredientDictionary.getInstance().getAllIngredients().set(number, ingredient);
-    }
+        for (Dish thisDish : Store.instance.getAllDishes()) {
+            if (thisDish.contains(ingredient.getId())) {
+                int numberIngredient = thisDish.findIngredient(ingredient.getId());
+                thisDish.getListOfIngredients().get(numberIngredient).setIngredient(ingredient);
+            }
+        }
+    } //TODO: протестить все!!!!!!!!
 
     public int lastIdOfLastDish() throws IOException {
         if (DishDictionary.getInstance().getAllDishes().isEmpty()) {
@@ -103,17 +115,6 @@ public class Store implements Storage {
         int i = 0;
         for (Dish thisDish : DishDictionary.getInstance().getAllDishes()) {
             if (thisDish.getId() == dish.getId()) {
-               break;
-            }
-            i++;
-        }
-        return i;
-    }
-
-    public int findIngredient(Ingredient ingredient) throws IOException {
-        int i = 0;
-        for (Ingredient thisIngredient: IngredientDictionary.getInstance().getAllIngredients()){
-            if (thisIngredient.getId() == ingredient.getId()){
                 break;
             }
             i++;
@@ -121,9 +122,22 @@ public class Store implements Storage {
         return i;
     }
 
-    public ArrayList<Dish> cloneDishes(ArrayList<Dish> dishes){
+
+    public int findIngredient(Ingredient ingredient) throws IOException {
+        int i = 0;
+        for (Ingredient thisIngredient : IngredientDictionary.getInstance().getAllIngredients()) {
+
+            if (thisIngredient.getId() == ingredient.getId()) {
+                break;
+            }
+            i++;
+        }
+        return i;
+    }
+
+    private ArrayList<Dish> cloneDishes(ArrayList<Dish> dishes) {
         ArrayList<Dish> newDishes = new ArrayList<>();
-        for(Dish dish: dishes){
+        for (Dish dish : dishes) {
             newDishes.add(dish);
         }
         return newDishes;
