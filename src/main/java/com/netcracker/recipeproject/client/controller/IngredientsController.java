@@ -16,6 +16,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -35,9 +36,6 @@ public class IngredientsController {
     private URL location;
 
     @FXML
-    private ImageView refreshButton;
-
-    @FXML
     private Button addButton;
 
     @FXML
@@ -46,20 +44,20 @@ public class IngredientsController {
     @FXML
     private ListView<Ingredient> ingredientsList;
 
+    private static ObservableList<Ingredient> ingredientObservableList = FXCollections.observableArrayList();
+
+    public void setIngredientObservableList(List<Ingredient> list) {
+        ingredientsList.getItems().clear();
+        ingredientObservableList.removeAll();
+        ingredientObservableList.addAll(list);
+        ingredientsList.setItems(ingredientObservableList);
+        ingredientsList.setCellFactory(ingredientListView -> new IngredientCellController());
+    }
+
     @FXML
     void initialize() {
             Message response = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
-            ingredientsList.getItems().clear();
-            ingredientsList.setItems(FXCollections.observableArrayList((List<Ingredient>) response.getObj()));
-            ingredientsList.setCellFactory(ingredientListView -> new IngredientCellController());
-
-            refreshButton.setOnMouseClicked(mouseEvent -> {
-                    Message messageIn = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
-                    System.out.println("Принят список ингредиентов. Размер списка: " + ((List<Ingredient>) messageIn.getObj()).size());
-                    ingredientsList.getItems().clear();
-                    ingredientsList.setItems(FXCollections.observableArrayList((List<Ingredient>) messageIn.getObj()));
-                    ingredientsList.setCellFactory(ingredientListView -> new IngredientCellController());
-            });
+            setIngredientObservableList((List<Ingredient>)response.getObj());
 
         ingredientsList.getSelectionModel().selectedItemProperty().addListener(
                 new ChangeListener<Ingredient>() {
@@ -93,9 +91,13 @@ public class IngredientsController {
 
                     FXMLLoader loader = new FXMLLoader();
                     loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/primary.fxml"));
+
                     Parent root = null;
                     try {
                         root = loader.load();
+                        PrimaryController controller = loader.getController();
+                        Message message = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_DISHES, null);
+                        controller.setDishObservableList((List<Dish>) message.getObj());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

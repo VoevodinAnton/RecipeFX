@@ -1,5 +1,6 @@
 package com.netcracker.recipeproject.client.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +14,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class AddDishController {
@@ -72,7 +75,7 @@ public class AddDishController {
         }
         ingredientsComboBox.setItems(FXCollections.observableList(namesArray));
         StringBuffer ingredientNameBuffer = new StringBuffer();
-
+        StringBuffer id = new StringBuffer();
         ingredientsComboBox.setOnAction(actionEvent -> {
             String nameIngredient = ingredientsComboBox.getValue();
             ingredientNameBuffer.setLength(0);
@@ -80,6 +83,7 @@ public class AddDishController {
             for(Ingredient ingredientItem : ingredientArrayList){
                 if(ingredientItem.getName().equals(nameIngredient)){
                     unitField.setText(ingredientItem.getUnit());
+                    id.append(ingredientItem.getId());
                 }
             }
         });
@@ -92,7 +96,7 @@ public class AddDishController {
             {
                 int number = Integer.parseInt(numberField.getText());
                 String unit = unitField.getText();
-                observableList.add(new DishComponent(new Ingredient(name, unit), number));
+                observableList.add(new DishComponent(new Ingredient(Integer.parseInt(id.toString()), name, unit), number));
             }
             errorLabel.setText(error);
         });
@@ -115,6 +119,18 @@ public class AddDishController {
                 if (response.getFlag() == CommandEnum.OK) {
                     Stage stage = (Stage) addButton.getScene().getWindow();
                     stage.close();
+
+                    //обновляем данные списка блюд
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/primary.fxml"));
+                    try {
+                        loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    PrimaryController controller = loader.getController();
+                    Message message = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_DISHES, null);
+                    controller.setDishObservableList((List<Dish>)message.getObj());
                 } else {
                     errorLabel.setText("Такое блюдо уже существует");
                 }

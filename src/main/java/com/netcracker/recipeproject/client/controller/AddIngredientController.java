@@ -2,6 +2,7 @@ package com.netcracker.recipeproject.client.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import com.netcracker.recipeproject.client.model.InteractionClient;
@@ -11,6 +12,7 @@ import com.netcracker.recipeproject.library.CommandEnum;
 import com.netcracker.recipeproject.library.Ingredient;
 import com.netcracker.recipeproject.library.Message;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -46,8 +48,19 @@ public class AddIngredientController {
                  Ingredient ingredient = new Ingredient(name, unit);
                  Message response = Messaging.execute(CommandEnum.ADD_AN_INGREDIENT, ingredient);
                  if (response.getFlag() == CommandEnum.OK) {
-                     Stage stageIp = (Stage) addButton.getScene().getWindow();
-                     stageIp.close();
+                     Stage stage = (Stage) addButton.getScene().getWindow();
+                     stage.close();
+
+                     FXMLLoader loader = new FXMLLoader();
+                     loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/ingredientsFrame.fxml"));
+                     try {
+                         loader.load();
+                     } catch (IOException e) {
+                         e.printStackTrace();
+                     }
+                     IngredientsController controller = loader.getController();
+                     Message message = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
+                     controller.setIngredientObservableList((List<Ingredient>)message.getObj());
                  }
              }
              errorLabel.setText(error);

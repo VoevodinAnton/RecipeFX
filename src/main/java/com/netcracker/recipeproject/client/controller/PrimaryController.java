@@ -56,25 +56,31 @@ public class PrimaryController{
         @FXML
         private Button saveButton;
 
-        private ObservableList<Dish> dishObservableList = FXCollections.observableArrayList();
+        private static ObservableList<Dish> dishObservableList = FXCollections.observableArrayList();
 
         int flag = 0;
+
+        public void setDishObservableList(List<Dish> list){
+            if(!list.isEmpty()){
+                errorLabel.setText("");
+                dishList.setVisible(true);
+            }
+            else{
+                dishList.setVisible(false);
+                errorLabel.setText("Сейчас в нашей базе данных нет блюд! \nВы можете добавить свое!");
+            }
+
+            dishList.getItems().clear();
+            dishObservableList.removeAll();
+            dishObservableList.addAll(list);
+        }
 
         @FXML
         public void initialize(){
                 Object obj = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_DISHES, null).getObj();
-                if(!((List<Dish>)obj).isEmpty()){
-                    errorLabel.setText("");
-                    dishList.setVisible(true);
-                    dishObservableList.removeAll();
-                    dishObservableList.addAll((List<Dish>)obj);
-                    dishList.setItems(dishObservableList);
-                    dishList.setCellFactory(dishListView -> new ListCellController());
-                }
-                else{
-                    dishList.setVisible(false);
-                    errorLabel.setText("Сейчас в нашей базе данных нет блюд! \nВы можете добавить свое!");
-                }
+                setDishObservableList((List<Dish>)obj);
+                dishList.setItems(dishObservableList);
+                dishList.setCellFactory(dishListView -> new ListCellController());
 
             dishList.getSelectionModel().selectedItemProperty().addListener(
                     new ChangeListener<Dish>() {
@@ -90,11 +96,7 @@ public class PrimaryController{
                         Object object = Messaging.execute(CommandEnum.SEARCH, search).getObj();
                         dishList.getItems().clear();
                         if(!((List<Dish>)object).isEmpty()){
-                            dishList.setVisible(true);
-                            errorLabel.setText("");
-                            dishList.getItems().clear();
-                            dishObservableList.removeAll();
-                            dishObservableList.addAll((List<Dish>)object);
+                            setDishObservableList((List<Dish>)object);
                             dishList.setItems(dishObservableList);
                             dishList.setCellFactory(dishListView -> new ListCellController());
                         }
@@ -152,19 +154,7 @@ public class PrimaryController{
             });
             allDishButton.setOnAction(actionEvent -> {
                     Object object = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_DISHES, null).getObj();
-                    if(!((List<Dish>)object).isEmpty()){
-                        dishList.setVisible(true);
-                        errorLabel.setText("");
-                        dishList.getItems().clear();
-                        dishObservableList.removeAll();
-                        dishObservableList.addAll((List<Dish>)object);
-                        dishList.setItems(dishObservableList);
-                        dishList.setCellFactory(dishListView -> new ListCellController());
-                    }
-                    else {
-                        dishList.setVisible(false);
-                        errorLabel.setText("Сейчас в нашей базе данных нет блюд! \nВы можете добавить свое!");
-                    }
+                    setDishObservableList((List<Dish>)object);
             });
 
             saveButton.setOnAction(actionEvent -> {

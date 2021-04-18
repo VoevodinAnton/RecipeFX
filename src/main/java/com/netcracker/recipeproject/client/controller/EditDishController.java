@@ -1,5 +1,6 @@
 package com.netcracker.recipeproject.client.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -119,6 +121,17 @@ public class EditDishController {
                 if (response.getFlag() == CommandEnum.OK) {
                     Stage stage = (Stage) editButton.getScene().getWindow();
                     stage.close();
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/primary.fxml"));
+                    try {
+                        loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    PrimaryController controller = loader.getController();
+
+                    Message message = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_DISHES, null);
+                    controller.setDishObservableList((List<Dish>)message.getObj());
                 } else {
                     errorLabel.setText("Такое блюдо уже существует");
                 }
