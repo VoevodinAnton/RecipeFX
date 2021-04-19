@@ -152,5 +152,14 @@ public class Store implements Storage {
         }
         return false;
     }
+
+    public boolean isExistDish(Dish dish) throws IOException {
+        for (Dish thisDish: Store.instance.getAllDishes()){
+            if (thisDish.getId() == dish.getId()){
+                return true;
+            }
+        }
+        return false;
+    }
 }
 

@@ -115,8 +115,11 @@ public class Developer {
     private Message editDish(Message message) throws IOException {
         Object object = message.getObj();
         Dish dishEdit = (Dish) object;
-        Store.getInstance().editDish(dishEdit);
-        return new Message(CommandEnum.OK, null);
+        if (Store.getInstance().isExistDish(dishEdit)){
+            Store.getInstance().editDish(dishEdit);
+            return new Message(CommandEnum.OK, null);
+        }
+        return new Message(CommandEnum.NOT_OK, null);
     }
 
     private Message editIngredient(Message message) throws IOException {
