@@ -48,7 +48,8 @@ public class IngredientsController {
 
     public void setIngredientObservableList(List<Ingredient> list) {
         ingredientsList.getItems().clear();
-        ingredientObservableList.removeAll();
+        List<Ingredient> ingredientList = ingredientObservableList;
+        ingredientObservableList.removeAll(ingredientList);
         ingredientObservableList.addAll(list);
     }
 

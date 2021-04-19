@@ -61,17 +61,9 @@ public class PrimaryController{
         int flag = 0;
 
         public void setDishObservableList(List<Dish> list){
-            if(!list.isEmpty()){
-                errorLabel.setText("");
-                dishList.setVisible(true);
-            }
-            else{
-                dishList.setVisible(false);
-                errorLabel.setText("Сейчас в нашей базе данных нет блюд! \nВы можете добавить свое!");
-            }
-
             dishList.getItems().clear();
-            dishObservableList.removeAll();
+            List<Dish> dishList = dishObservableList;
+            dishObservableList.removeAll(dishList);
             dishObservableList.addAll(list);
         }
 

@@ -57,7 +57,7 @@ public class OpenFileController {
                 controller.setDishObservableList((List<Dish>)message.getObj());
 
                 FXMLLoader loader2 = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/ingredientsFrame.fxml"));
+                loader2.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/ingredientsFrame.fxml"));
                 try {
                     loader2.load();
                 } catch (IOException e) {
