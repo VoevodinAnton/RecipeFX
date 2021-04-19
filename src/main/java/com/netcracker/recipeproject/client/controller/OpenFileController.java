@@ -56,6 +56,7 @@ public class OpenFileController {
                 Message message = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_DISHES, null);
                 controller.setDishObservableList((List<Dish>)message.getObj());
 
+                /*
                 FXMLLoader loader2 = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/ingredientsFrame.fxml"));
                 try {
@@ -66,6 +67,8 @@ public class OpenFileController {
                 IngredientsController controller2 = loader.getController();
                 Message message2 = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
                 controller2.setIngredientObservableList((List<Ingredient>)message2.getObj());
+
+                 */
                 Stage stage = (Stage) downloadButton.getScene().getWindow();
                 stage.close();
             }
