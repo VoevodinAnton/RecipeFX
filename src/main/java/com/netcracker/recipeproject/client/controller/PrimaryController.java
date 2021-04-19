@@ -97,8 +97,6 @@ public class PrimaryController{
                         dishList.getItems().clear();
                         if(!((List<Dish>)object).isEmpty()){
                             setDishObservableList((List<Dish>)object);
-                            dishList.setItems(dishObservableList);
-                            dishList.setCellFactory(dishListView -> new ListCellController());
                         }
                         else{
                             dishList.setVisible(false);

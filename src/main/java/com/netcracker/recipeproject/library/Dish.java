@@ -2,6 +2,8 @@ package com.netcracker.recipeproject.library;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Dish implements Serializable, Comparable<Dish> {
@@ -84,12 +86,27 @@ public class Dish implements Serializable, Comparable<Dish> {
 
 
     public boolean contains(String ingredientsSearch) {
-        List<String> listOfIngredients = Arrays.asList(ingredientsSearch.split("\\s*,\\s*")); //
+        List<String> listOfIngredients = Arrays.asList(ingredientsSearch.split("\\s*,\\s*"));
         List<String> nameOfIngredientsDish = this.nameOfIngredientsToArray();
+        boolean result = false;
+        for(String item : listOfIngredients){
+            item = item.toLowerCase();
+            if(item.contains("\\*") || item.contains("\\?")) {
+                item = item.replace("*", ".*");
+                item = item.replace("?", ".?");
+            }
+            else
+                item = ".*" + item + ".*";
+            Pattern pattern = Pattern.compile(item);
+            for(String itemDish:nameOfIngredientsDish) {
+                Matcher matcher = pattern.matcher(itemDish.toLowerCase());
+                if (matcher.find()){
+                    result = true;
+                }
+            }
+        }
 
-        Set<String> aset = listOfIngredients.stream().map(String::toLowerCase).collect(Collectors.toCollection(HashSet::new));
-        Set<String> bset = nameOfIngredientsDish.stream().map(String::toLowerCase).collect(Collectors.toCollection(HashSet::new));
-        return bset.containsAll(aset);
+        return result;
     }
 
 

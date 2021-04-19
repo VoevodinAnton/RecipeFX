@@ -56,7 +56,6 @@ public class IngredientsController {
     void initialize() {
             Message response = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
             setIngredientObservableList((List<Ingredient>)response.getObj());
-
             ingredientsList.setItems(ingredientObservableList);
             ingredientsList.setCellFactory(ingredientListView -> new IngredientCellController());
 
