@@ -41,7 +41,7 @@ public class Developer {
                 return uploadToFile(message);
             case OUTPUT_OF_ALL_FILENAMES:
                 return outputOfAllFileNames(message);
-            case OPEN_A_FILE:
+            case UPLOAD_FROM_FILE:
                 return uploadFromFile(message);
             default:
                 return null;
@@ -188,7 +188,6 @@ public class Developer {
     private Message uploadFromFile(Message message) throws IOException {
         File fileDishes = new File("LibraryOfDishes/" + Constants.fileNameDishes);
         File fileIngredients = new File("LibraryOfIngredients/" + Constants.fileNameIngredients);
-
         if (RecipeIO.isFileEmpty(fileDishes)) {
             return new Message(CommandEnum.NOT_OK, null);
         }
