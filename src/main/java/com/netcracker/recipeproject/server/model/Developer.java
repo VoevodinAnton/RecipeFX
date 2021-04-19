@@ -171,10 +171,7 @@ public class Developer {
         return new Message(CommandEnum.OK, null);
 
     }
-
-
-
-
+    
 
     private Message outputOfAllFileNames(Message message) {
         ArrayList<String> results = new ArrayList();
