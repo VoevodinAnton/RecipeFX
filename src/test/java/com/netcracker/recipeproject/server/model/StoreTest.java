@@ -4,9 +4,7 @@ import com.netcracker.recipeproject.library.Dish;
 import com.netcracker.recipeproject.library.DishComponent;
 import com.netcracker.recipeproject.library.Ingredient;
 import com.netcracker.recipeproject.server.Exceptions.DuplicateFoundException;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +13,7 @@ import static org.testng.Assert.*;
 
 public class StoreTest {
 
-    @BeforeTest
+    @BeforeMethod
     public void initializeDictionary() throws IOException {
         Ingredient egg = new Ingredient("яйцо", "шт");
         Ingredient chicken = new Ingredient("курица", "гр");
@@ -24,7 +22,7 @@ public class StoreTest {
         ArrayList<DishComponent> ingredientsOfOmelette = new ArrayList<>();
         ingredientsOfOmelette.add(eggComponent);
         ingredientsOfOmelette.add(chickenComponent);
-        Dish omlette = new Dish(ingredientsOfOmelette, "Омлет", "10 минут");
+        Dish omelette = new Dish(ingredientsOfOmelette, "Омлет", "10 минут");
 
 
         Ingredient rice = new Ingredient("рис", "гр");
@@ -36,13 +34,28 @@ public class StoreTest {
         ingredientsOfRwM.add(meatComponent);
         Dish riceWithMeat = new Dish(ingredientsOfRwM, "Рис с мясом", "10 минут");
 
+        Ingredient noodles = new Ingredient("лапша", "шт");
+        Ingredient cheese = new Ingredient("сыр", "кг");
+        DishComponent noodlesComponent = new DishComponent(noodles, 1);
+        DishComponent cheeseComponent = new DishComponent(cheese, 1);
+        ArrayList<DishComponent> ingredientsOfNwCh = new ArrayList<>();
+        ingredientsOfNwCh.add(noodlesComponent);
+        ingredientsOfNwCh.add(cheeseComponent);
+        Dish noodlesWithCheese = new Dish(ingredientsOfNwCh, "Лапша с сыром", "15 минут");
+
+
+
         Store.getInstance().addIngredient(egg);
         Store.getInstance().addIngredient(chicken);
-        Store.getInstance().addDish(omlette);
+        Store.getInstance().addDish(omelette);
 
         Store.getInstance().addIngredient(rice);
         Store.getInstance().addIngredient(meat);
         Store.getInstance().addDish(riceWithMeat);
+
+        Store.getInstance().addIngredient(noodles);
+        Store.getInstance().addIngredient(cheese);
+        Store.getInstance().addDish(noodlesWithCheese);
 
     }
 
@@ -52,6 +65,7 @@ public class StoreTest {
         try {
             assertEquals(Store.getInstance().getAllDishes().get(0).getName(), "Омлет");
             assertEquals(Store.getInstance().getAllDishes().get(1).getName(), "Рис с мясом");
+            assertEquals(Store.getInstance().getAllDishes().get(2).getName(), "Лапша с сыром");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -69,14 +83,23 @@ public class StoreTest {
         ingredientsOfOmeletteDuplicate.add(egg3Duplicate);
         Dish omeletteDuplicate = new Dish(ingredientsOfOmeletteDuplicate, "ОмлЕт", "10 минут");
 
-        assertThrows(DuplicateFoundException.class, () -> {
-            Store.getInstance().addIngredient(eggDuplicate);
-        });
-        assertThrows(DuplicateFoundException.class, () -> {
-            Store.getInstance().addIngredient(chickenDuplicate);
-        });
+        Ingredient rice = new Ingredient("Рис", "гр");
+        Ingredient meat = new Ingredient("Мясо", "гр");
+        DishComponent riceComponent = new DishComponent(rice, 4);
+        DishComponent meatComponent = new DishComponent(meat, 1);
+        ArrayList<DishComponent> ingredientsOfRwM = new ArrayList<>();
+        ingredientsOfRwM.add(riceComponent);
+        ingredientsOfRwM.add(meatComponent);
+        Dish riceWithMeat = new Dish(ingredientsOfRwM, "Рис С мясом", "10 минут");
+
+
+
         assertThrows(DuplicateFoundException.class, () -> {
             Store.getInstance().addDish(omeletteDuplicate);
+        });
+
+        assertThrows(DuplicateFoundException.class, () ->{
+            Store.getInstance().addDish(riceWithMeat);
         });
     }
 
@@ -87,10 +110,28 @@ public class StoreTest {
             assertEquals(Store.getInstance().getAllIngredients().get(1).getName(), "курица");
             assertEquals(Store.getInstance().getAllIngredients().get(2).getName(), "рис");
             assertEquals(Store.getInstance().getAllIngredients().get(3).getName(), "мясо");
-
+            assertEquals(Store.getInstance().getAllIngredients().get(4).getName(), "лапша");
+            assertEquals(Store.getInstance().getAllIngredients().get(5).getName(), "сыр");
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testAddDuplicationIngredient(){
+        Ingredient eggDuplicate = new Ingredient("ЯйЦо", "шт");
+        Ingredient chickenDuplicate = new Ingredient("КуриЦа", "гр");
+        Ingredient noodlesDuplicate = new Ingredient("лаПша", "шт");
+
+        assertThrows(DuplicateFoundException.class, () -> {
+            Store.getInstance().addIngredient(eggDuplicate);
+        });
+        assertThrows(DuplicateFoundException.class, () -> {
+            Store.getInstance().addIngredient(chickenDuplicate);
+        });
+        assertThrows(DuplicateFoundException.class, () ->{
+            Store.getInstance().addIngredient(noodlesDuplicate);
+        });
 
     }
 
@@ -103,12 +144,12 @@ public class StoreTest {
         ArrayList<DishComponent> ingredientsOfOmelette = new ArrayList<>();
         ingredientsOfOmelette.add(eggComponent);
         ingredientsOfOmelette.add(chickenComponent);
-        Dish omlette = new Dish(ingredientsOfOmelette, "Омлет", "10 минут");
+        Dish omelette = new Dish(ingredientsOfOmelette, "Омлет", "10 минут");
 
         try {
-            Store.getInstance().removeDish(omlette);
+            assertEquals(Store.getInstance().getAllDishes().get(0).getName(), "Омлет");
+            Store.getInstance().removeDish(Store.getInstance().getAllDishes().get(0));
             assertEquals(Store.getInstance().getAllDishes().get(0).getName(), "Рис с мясом");
-            assertEquals(Store.getInstance().lastIdOfLastDish(), 2);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -163,8 +204,6 @@ public class StoreTest {
             e.printStackTrace();
         }
 
-
-
         try {
             //System.out.println(Store.getInstance().findIngredient(egg));
             for (Ingredient ingredient: Store.getInstance().getAllIngredients()){
@@ -185,5 +224,11 @@ public class StoreTest {
 
         }
 
+    }
+
+    @AfterMethod
+    public  void clean() throws IOException {
+        Store.getInstance().getAllDishes().clear();
+        Store.getInstance().getAllIngredients().clear();
     }
 }

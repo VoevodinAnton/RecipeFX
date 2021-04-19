@@ -9,6 +9,7 @@ import com.netcracker.recipeproject.server.IO.RecipeIO;
 import com.netcracker.recipeproject.server.model.DishDictionary;
 import com.netcracker.recipeproject.server.model.IngredientDictionary;
 import com.netcracker.recipeproject.server.model.Store;
+import com.netcracker.recipeproject.server.model.utils.Constants;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -115,7 +116,7 @@ public class Developer {
     private Message editDish(Message message) throws IOException {
         Object object = message.getObj();
         Dish dishEdit = (Dish) object;
-        if (Store.getInstance().isExistDish(dishEdit)){
+        if (Store.getInstance().isExistDish(dishEdit)) {
             Store.getInstance().editDish(dishEdit);
             return new Message(CommandEnum.OK, null);
         }
@@ -125,7 +126,7 @@ public class Developer {
     private Message editIngredient(Message message) throws IOException {
         Object object = message.getObj();
         Ingredient ingredientEdit = (Ingredient) object;
-        if (Store.getInstance().isExistIngredient(ingredientEdit)){
+        if (Store.getInstance().isExistIngredient(ingredientEdit)) {
             Store.getInstance().editIngredient(ingredientEdit);
             return new Message(CommandEnum.OK, null);
         }
@@ -148,15 +149,12 @@ public class Developer {
     }
 
     private Message uploadToFile(Message message) {
-        Object object = message.getObj();
-        String fileName = (String) object;
-        System.out.println(fileName);
-        File fileDishes = new File("LibraryOfDishes/" + fileName);
-        File fileIngredients= new File("LibraryOfIngredients/" + "Ing" + fileName);
-        try (BufferedOutputStream outD = new BufferedOutputStream(new FileOutputStream(fileDishes));BufferedOutputStream outI = new BufferedOutputStream(new FileOutputStream(fileIngredients)) ) {
+        File fileDishes = new File("LibraryOfDishes/" + Constants.fileNameDishes);
+        File fileIngredients = new File("LibraryOfIngredients/" + Constants.fileNameIngredients);
+        try (BufferedOutputStream outD = new BufferedOutputStream(new FileOutputStream(fileDishes)); BufferedOutputStream outI = new BufferedOutputStream(new FileOutputStream(fileIngredients))) {
             int i = 0;
             ArrayList<Dish> dishes = new ArrayList<>();
-            ArrayList<Ingredient> ingredients  = new ArrayList<>();
+            ArrayList<Ingredient> ingredients = new ArrayList<>();
             for (Dish dish : Store.getInstance().getAllDishes()) {
                 System.out.println("Блюдо " + ++i + ": " + dish.getName());
                 dishes.add(dish);
@@ -167,15 +165,18 @@ public class Developer {
             }
             RecipeIO.serializeDishDictionary(outD, dishes);
             RecipeIO.serializeIngredientDictionary(outI, ingredients);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
         return new Message(CommandEnum.OK, null);
+
     }
 
 
-    private Message outputOfAllFileNames(Message message){
+
+
+
+    private Message outputOfAllFileNames(Message message) {
         ArrayList<String> results = new ArrayList();
         File[] files = new File("LibraryOfDishes").listFiles();
         //If this pathname does not denote a directory, then listFiles() returns nul.
@@ -187,46 +188,35 @@ public class Developer {
         }
         return new Message(CommandEnum.OUTPUT_OF_ALL_FILENAMES, results);
     }
-
     private Message uploadFromFile(Message message) throws IOException {
-        Object object = message.getObj();
-        String fileName = (String) object;
-        File fileDishes = new File("LibraryOfDishes/" + fileName);
-        File fileIngredients = new File("LibraryOfIngredients/" + "Ing" + fileName);
+        File fileDishes = new File("LibraryOfDishes/" + Constants.fileNameDishes);
+        File fileIngredients = new File("LibraryOfIngredients/" + Constants.fileNameIngredients);
 
-        if (fileDishes.exists() && fileIngredients.exists()){
-            if(RecipeIO.isFileEmpty(fileDishes)){
-                return new Message(CommandEnum.OK, null);
-            } else{
-                try (BufferedInputStream inD = new BufferedInputStream(new FileInputStream(fileDishes)); BufferedInputStream inI = new BufferedInputStream(new FileInputStream(fileIngredients))) {
-                    ArrayList<Dish> deserializedDishes = RecipeIO.deserializeDishDictionary(inD);
-                    for (Dish dish: deserializedDishes){
-                        if (!Store.getInstance().getAllDishes().contains(dish)){
-                            Store.getInstance().addDish(dish);
-                        }
-                    }
-                    ArrayList<Ingredient> deserializedIngredients = RecipeIO.deserializeIngredientDictionary(inI);
-                    for (Ingredient ingredient: deserializedIngredients){
-                        if (!Store.getInstance().getAllIngredients().contains(ingredient)){
-                            Store.getInstance().addIngredient(ingredient);
-                        }
-                    }
-                    int i = 0;
-                    for (Dish dish : deserializedDishes) {
-                        System.out.println("Блюдо " + ++i + ": " + dish.getName());
-                    }
-                    return new Message(CommandEnum.OK, null);
-                } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
+        if (RecipeIO.isFileEmpty(fileDishes)) {
+            return new Message(CommandEnum.NOT_OK, null);
+        }
+        try (BufferedInputStream inD = new BufferedInputStream(new FileInputStream(fileDishes)); BufferedInputStream inI = new BufferedInputStream(new FileInputStream(fileIngredients))) {
+            ArrayList<Dish> deserializedDishes = RecipeIO.deserializeDishDictionary(inD);
+            for (Dish dish : deserializedDishes) {
+                if (!Store.getInstance().getAllDishes().contains(dish)) {
+                    Store.getInstance().addDish(dish);
                 }
             }
-
-        } else {
-            fileDishes.createNewFile();
-            fileIngredients.createNewFile();
+            ArrayList<Ingredient> deserializedIngredients = RecipeIO.deserializeIngredientDictionary(inI);
+            for (Ingredient ingredient : deserializedIngredients) {
+                if (!Store.getInstance().getAllIngredients().contains(ingredient)) {
+                    Store.getInstance().addIngredient(ingredient);
+                }
+            }
+            int i = 0;
+            for (Dish dish : deserializedDishes) {
+                System.out.println("Блюдо " + ++i + ": " + dish.getName());
+            }
+            return new Message(CommandEnum.OK, null);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
         return new Message(CommandEnum.OK, null);
     }
-
 
 }
