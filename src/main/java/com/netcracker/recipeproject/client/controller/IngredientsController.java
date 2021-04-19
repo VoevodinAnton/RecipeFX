@@ -50,14 +50,15 @@ public class IngredientsController {
         ingredientsList.getItems().clear();
         ingredientObservableList.removeAll();
         ingredientObservableList.addAll(list);
-        ingredientsList.setItems(ingredientObservableList);
-        ingredientsList.setCellFactory(ingredientListView -> new IngredientCellController());
     }
 
     @FXML
     void initialize() {
             Message response = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
             setIngredientObservableList((List<Ingredient>)response.getObj());
+
+            ingredientsList.setItems(ingredientObservableList);
+            ingredientsList.setCellFactory(ingredientListView -> new IngredientCellController());
 
         ingredientsList.getSelectionModel().selectedItemProperty().addListener(
                 new ChangeListener<Ingredient>() {

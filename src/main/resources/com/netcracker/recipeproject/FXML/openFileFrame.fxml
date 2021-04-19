@@ -1,33 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="290.0" prefWidth="501.0" style="-fx-background-color: FFFFFF;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.netcracker.recipeproject.client.controller.OpenFileController">
+<AnchorPane prefHeight="199.0" prefWidth="351.0" style="-fx-background-color: FFFFFF;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.netcracker.recipeproject.client.controller.OpenFileController">
    <children>
-      <Label layoutX="26.0" layoutY="14.0" prefHeight="55.0" prefWidth="447.0" text="Вы можете открыть одну из имеющихся баз данных рецептов">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="186.0" layoutY="59.0" text="или создать свою!">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="32.0" layoutY="101.0" text="Выбрать:" />
-      <ComboBox fx:id="fileNameComboBox" layoutX="32.0" layoutY="125.0" prefHeight="26.0" prefWidth="442.0" />
-      <Button fx:id="okButton" layoutX="32.0" layoutY="234.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="102.0" style="-fx-background-color: FDB687; -fx-background-radius: 10;" text="Окей">
+      <Button fx:id="downloadButton" layoutX="50.0" layoutY="38.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="252.0" style="-fx-background-color: FDB687; -fx-background-radius: 10;" text="Загрузить в файл">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Label layoutX="32.0" layoutY="163.0" text="Создать свою" />
-      <TextField fx:id="fileNameField" layoutX="32.0" layoutY="189.0" prefHeight="26.0" prefWidth="441.0" />
-      <Label fx:id="errorLabel" layoutX="165.0" layoutY="241.0" prefHeight="18.0" prefWidth="290.0" textFill="RED" />
+      <Button fx:id="uploadButton" layoutX="50.0" layoutY="100.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="252.0" style="-fx-background-color: FDB687; -fx-background-radius: 10;" text="Выгрузить из файла">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
