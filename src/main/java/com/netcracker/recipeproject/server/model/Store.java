@@ -4,7 +4,6 @@ import com.netcracker.recipeproject.library.*;
 import com.netcracker.recipeproject.server.Exceptions.DuplicateFoundException;
 
 import java.io.IOException;
-import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -29,7 +28,7 @@ public class Store implements Storage {
     }
 
     @Override
-    public void addDish(Dish dish) throws IOException {
+    public synchronized void addDish(Dish dish) throws IOException {
         if (!(DishDictionary.getInstance().getAllDishes().isEmpty())) {
             for (Dish thisDish : DishDictionary.getInstance().getAllDishes()) {
                 if (thisDish.equals(dish)) {
@@ -42,7 +41,7 @@ public class Store implements Storage {
     }
 
     @Override
-    public void addIngredient(Ingredient ingredient) throws IOException {
+    public synchronized void addIngredient(Ingredient ingredient) throws IOException {
         if (!IngredientDictionary.getInstance().getAllIngredients().isEmpty()) {
             for (Ingredient thisIngredient : IngredientDictionary.getInstance().getAllIngredients()) {
                 if (thisIngredient.getName().equalsIgnoreCase(ingredient.getName())) {
@@ -69,7 +68,7 @@ public class Store implements Storage {
     }
 
     @Override
-    public void removeIngredient(Ingredient ingredient) throws IOException {
+    public synchronized void removeIngredient(Ingredient ingredient) throws IOException {
         IngredientDictionary.getInstance().getAllIngredients().remove(ingredient);
         removeDish(ingredient);
     }
@@ -94,7 +93,7 @@ public class Store implements Storage {
         }
     } //TODO: протестить все!!!!!!!!
 
-    public int lastIdOfLastDish() throws IOException {
+    private int lastIdOfLastDish() throws IOException {
         if (DishDictionary.getInstance().getAllDishes().isEmpty()) {
             return 0;
         }
@@ -103,7 +102,7 @@ public class Store implements Storage {
         return DishDictionary.getInstance().getAllDishes().get(DishDictionary.getInstance().getAllDishes().size() - 1).getId();
     }
 
-    public int lastIdOfLastIngredient() throws IOException {
+    private int lastIdOfLastIngredient() throws IOException {
         if (IngredientDictionary.getInstance().getAllIngredients().isEmpty()) {
             return 0;
         }
@@ -112,7 +111,7 @@ public class Store implements Storage {
         return IngredientDictionary.getInstance().getAllIngredients().get(IngredientDictionary.getInstance().getAllIngredients().size() - 1).getId();
     }
 
-    public int findDish(Dish dish) throws IOException {
+    private int findDish(Dish dish) throws IOException {
         int i = 0;
         for (Dish thisDish : DishDictionary.getInstance().getAllDishes()) {
             if (thisDish.getId() == dish.getId()) {
@@ -124,7 +123,7 @@ public class Store implements Storage {
     }
 
 
-    public int findIngredient(Ingredient ingredient) throws IOException {
+    private int findIngredient(Ingredient ingredient) throws IOException {
         int i = 0;
         for (Ingredient thisIngredient : IngredientDictionary.getInstance().getAllIngredients()) {
 
@@ -136,13 +135,6 @@ public class Store implements Storage {
         return i;
     }
 
-    private ArrayList<Dish> cloneDishes(ArrayList<Dish> dishes) {
-        ArrayList<Dish> newDishes = new ArrayList<>();
-        for (Dish dish : dishes) {
-            newDishes.add(dish);
-        }
-        return newDishes;
-    }
 
     public boolean isExistIngredient(Ingredient ingredient) throws IOException {
         for (Ingredient thisIngredient: Store.getInstance().getAllIngredients()){
