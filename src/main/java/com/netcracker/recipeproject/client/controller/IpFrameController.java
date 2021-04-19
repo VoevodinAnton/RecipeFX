@@ -33,7 +33,7 @@ public class IpFrameController {
                 Stage stageIp = (Stage) okeyButton.getScene().getWindow();
                 stageIp.close();
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/openFileFrame.fxml"));
+                loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/primary.fxml"));
                 Parent root = null;
                 try {
                     root = loader.load();

@@ -47,7 +47,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Button fx:id="saveButton" layoutX="563.0" layoutY="91.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="154.0" style="-fx-background-color: #FDB687; -fx-background-radius: 10;" text="Сохранить">
+      <Button fx:id="saveButton" layoutX="563.0" layoutY="91.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="154.0" style="-fx-background-color: #FDB687; -fx-background-radius: 10;" text="Работа с файлами">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

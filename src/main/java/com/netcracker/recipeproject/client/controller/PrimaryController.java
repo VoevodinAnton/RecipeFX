@@ -158,11 +158,17 @@ public class PrimaryController{
             });
 
             saveButton.setOnAction(actionEvent -> {
-                String fileName = InteractionClient.getInstance().getFileName();
-                Message response = Messaging.execute(CommandEnum.UPLOAD_TO_FILE, fileName);
-                if(response.getFlag() != CommandEnum.OK){
-                    dishList.setVisible(false);
-                    errorLabel.setText("Не удалось загрузить в файл");
+                try {
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/openFileFrame.fxml"));
+                    Parent root = loader.load();
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.initModality(Modality.WINDOW_MODAL);
+                    stage.initOwner(this.saveButton.getScene().getWindow());
+                    stage.showAndWait();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             });
 
