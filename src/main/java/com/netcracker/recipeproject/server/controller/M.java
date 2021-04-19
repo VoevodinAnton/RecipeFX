@@ -66,12 +66,36 @@ public class M {
                 dishes.add(dish);
             }
             for (Ingredient ingredient : Store.getInstance().getAllIngredients()) {
-                System.out.println("Блюдо " + ++i + ": " + ingredient.getName());
+                System.out.println("Ингредиент " + ++i + ": " + ingredient.getName());
                 ingredients.add(ingredient);
             }
             RecipeIO.serializeDishDictionary(outD, dishes);
             RecipeIO.serializeIngredientDictionary(outI, ingredients);
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+        try (BufferedInputStream inD = new BufferedInputStream(new FileInputStream(fileDishes)); BufferedInputStream inI = new BufferedInputStream(new FileInputStream(fileIngredients))) {
+            ArrayList<Dish> deserializedDishes = RecipeIO.deserializeDishDictionary(inD);
+            for (Dish dish : deserializedDishes) {
+                if (!Store.getInstance().getAllDishes().contains(dish)) {
+                    Store.getInstance().addDish(dish);
+                }
+            }
+            ArrayList<Ingredient> deserializedIngredients = RecipeIO.deserializeIngredientDictionary(inI);
+            for (Ingredient ingredient : deserializedIngredients) {
+                if (!Store.getInstance().getAllIngredients().contains(ingredient)) {
+                    Store.getInstance().addIngredient(ingredient);
+                }
+            }
+            int i = 0;
+            for (Dish dish : deserializedDishes) {
+                System.out.println("Блюдо " + ++i + ": " + dish.getName());
+            }
+
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

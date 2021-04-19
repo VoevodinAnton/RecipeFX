@@ -160,7 +160,7 @@ public class Developer {
                 dishes.add(dish);
             }
             for (Ingredient ingredient : Store.getInstance().getAllIngredients()) {
-                System.out.println("Блюдо " + ++i + ": " + ingredient.getName());
+                System.out.println("Ингредиент " + ++i + ": " + ingredient.getName());
                 ingredients.add(ingredient);
             }
             RecipeIO.serializeDishDictionary(outD, dishes);
@@ -171,7 +171,7 @@ public class Developer {
         return new Message(CommandEnum.OK, null);
 
     }
-    
+
 
     private Message outputOfAllFileNames(Message message) {
         ArrayList<String> results = new ArrayList();
