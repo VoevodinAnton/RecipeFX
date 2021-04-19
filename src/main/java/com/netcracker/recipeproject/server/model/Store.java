@@ -4,6 +4,7 @@ import com.netcracker.recipeproject.library.*;
 import com.netcracker.recipeproject.server.Exceptions.DuplicateFoundException;
 
 import java.io.IOException;
+import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -54,11 +55,11 @@ public class Store implements Storage {
     }
 
     @Override
-    public void removeDish(Dish dish) throws IOException {
+    public synchronized void removeDish(Dish dish) throws IOException {
         DishDictionary.getInstance().getAllDishes().remove(dish);
     }
 
-    private void removeDish(Ingredient ingredient) throws IOException {
+    private synchronized void removeDish(Ingredient ingredient) throws IOException {
         ArrayList<Dish> dishes = new ArrayList<>(Store.getInstance().getAllDishes());
         for (Dish dish : dishes) {
             if (dish.contains(ingredient.getName())) {
@@ -143,6 +144,13 @@ public class Store implements Storage {
         return newDishes;
     }
 
-
+    public boolean isExistIngredient(Ingredient ingredient) throws IOException {
+        for (Ingredient thisIngredient: Store.getInstance().getAllIngredients()){
+            if (thisIngredient.getId() == ingredient.getId()){
+                return true;
+            }
+        }
+        return false;
+    }
 }
 

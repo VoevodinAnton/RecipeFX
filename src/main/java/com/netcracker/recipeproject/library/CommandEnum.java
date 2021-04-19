@@ -16,5 +16,7 @@ public enum CommandEnum {
     UPLOAD_FROM_FILE,
     OUTPUT_OF_ALL_FILENAMES,
     OPEN_A_FILE,
-    OK
-}
+    OK,
+    NOT_OK
+    }
+

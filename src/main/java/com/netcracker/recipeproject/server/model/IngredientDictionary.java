@@ -23,9 +23,8 @@ public class IngredientDictionary {
         return instance;
     }
 
-    public ArrayList<Ingredient> getAllIngredients() {
+    public synchronized ArrayList<Ingredient> getAllIngredients() {
         return ingredients;
     }
-
 
 }

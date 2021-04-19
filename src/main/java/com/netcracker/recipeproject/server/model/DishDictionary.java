@@ -20,7 +20,7 @@ public class DishDictionary {
         return instance;
     }
 
-    public ArrayList<Dish> getAllDishes() {
+    public synchronized ArrayList<Dish> getAllDishes() {
         return dishes;
     }
 

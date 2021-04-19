@@ -72,6 +72,8 @@ public class EditIngredientController {
                     Message message = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
                     controller.setIngredientObservableList((List<Ingredient>)message.getObj());
 
+                } else {
+                    System.out.println("Невозможно отредактировать ингредиент"); //TODO: нужно вывести на экран
                 }
             }
             errorLabel.setText(error);

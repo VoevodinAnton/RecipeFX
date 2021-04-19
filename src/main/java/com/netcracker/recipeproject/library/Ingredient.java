@@ -1,5 +1,8 @@
 package com.netcracker.recipeproject.library;
 
+import com.netcracker.recipeproject.server.model.Store;
+
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -71,4 +74,6 @@ public class Ingredient implements Serializable, Comparable<Ingredient> {
         return thisName.compareToIgnoreCase(anotherName);
     }
     //подумать нужен ли метод
+
+
 }

@@ -176,4 +176,14 @@ public class StoreTest {
 
 
     }
+
+    @Test
+    public void testIsExistIngredient() {
+        try{
+            assertTrue(Store.getInstance().isExistIngredient(Store.getInstance().getAllIngredients().get(0)));
+        } catch (Exception e){
+
+        }
+
+    }
 }

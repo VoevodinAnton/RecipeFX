@@ -122,8 +122,12 @@ public class Developer {
     private Message editIngredient(Message message) throws IOException {
         Object object = message.getObj();
         Ingredient ingredientEdit = (Ingredient) object;
-        Store.getInstance().editIngredient(ingredientEdit);
-        return new Message(CommandEnum.OK, null);
+        if (Store.getInstance().isExistIngredient(ingredientEdit)){
+            Store.getInstance().editIngredient(ingredientEdit);
+            return new Message(CommandEnum.OK, null);
+        }
+        return new Message(CommandEnum.NOT_OK, null);
+
     }
 
     private Message removeDish(Message message) throws IOException {
