@@ -83,6 +83,7 @@ public class AddDishController {
             for(Ingredient ingredientItem : ingredientArrayList){
                 if(ingredientItem.getName().equals(nameIngredient)){
                     unitField.setText(ingredientItem.getUnit());
+                    id.setLength(0);
                     id.append(ingredientItem.getId());
                 }
             }
@@ -97,6 +98,7 @@ public class AddDishController {
                 int number = Integer.parseInt(numberField.getText());
                 String unit = unitField.getText();
                 observableList.add(new DishComponent(new Ingredient(Integer.parseInt(id.toString()), name, unit), number));
+                System.out.println("Добавлен ингредиент " + id);
             }
             errorLabel.setText(error);
         });
