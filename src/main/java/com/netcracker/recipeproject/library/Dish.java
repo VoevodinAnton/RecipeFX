@@ -91,19 +91,28 @@ public class Dish implements Serializable, Comparable<Dish> {
         boolean result = false;
         for(String item : listOfIngredients){
             item = item.toLowerCase();
-            if(item.contains("\\*") || item.contains("\\?")) {
+            if(item.contains("*") || item.contains("?")) {
                 item = item.replace("*", ".*");
                 item = item.replace("?", ".?");
-            }
-            else
-                item = ".*" + item + ".*";
-            Pattern pattern = Pattern.compile(item);
-            for(String itemDish:nameOfIngredientsDish) {
-                Matcher matcher = pattern.matcher(itemDish.toLowerCase());
-                if (matcher.find()){
-                    result = true;
+                Pattern pattern = Pattern.compile(item);
+                for(String itemDish:nameOfIngredientsDish) {
+                    Matcher matcher = pattern.matcher(itemDish.toLowerCase());
+                    if (matcher.find()){
+                        String str = itemDish.substring(matcher.start(), matcher.end());
+                        if(itemDish.toLowerCase().equals(str))
+                            result = true;
+                    }
                 }
             }
+            else {
+                item = item;
+                for(String itemDish:nameOfIngredientsDish) {
+                    if (item.equals(itemDish.toLowerCase())){
+                        result = true;
+                    }
+                }
+            }
+
         }
 
         return result;

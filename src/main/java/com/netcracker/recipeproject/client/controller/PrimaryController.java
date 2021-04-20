@@ -88,6 +88,8 @@ public class PrimaryController{
                         Object object = Messaging.execute(CommandEnum.SEARCH, search).getObj();
                         dishList.getItems().clear();
                         if(!((List<Dish>)object).isEmpty()){
+                            dishList.setVisible(true);
+                            errorLabel.setText("");
                             setDishObservableList((List<Dish>)object);
                         }
                         else{
@@ -98,7 +100,9 @@ public class PrimaryController{
             });
 
             ObservableList<Dish> list = FXCollections.observableArrayList();
-            list.addAll(dishObservableList);
+            for(Dish item : dishObservableList){
+                list.add(item);
+            }
             sortButton.setOnAction(actionEvent -> {
                 switch (flag){
                     case 0:
@@ -107,7 +111,7 @@ public class PrimaryController{
                         flag = 1;
                         break;
                     case 1:
-                        dishObservableList = list;
+                        setDishObservableList((List<Dish>)Messaging.execute(CommandEnum.OUTPUT_OF_ALL_DISHES, null).getObj());
                         flag = 0;
                         break;
                 }

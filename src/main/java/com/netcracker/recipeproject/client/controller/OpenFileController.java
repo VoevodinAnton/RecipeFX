@@ -63,7 +63,7 @@ public class OpenFileController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                IngredientsController controller2 = loader.getController();
+                IngredientsController controller2 = loader2.getController();
                 Message message2 = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
                 controller2.setIngredientObservableList((List<Ingredient>)message2.getObj());
                 Stage stage = (Stage) downloadButton.getScene().getWindow();
