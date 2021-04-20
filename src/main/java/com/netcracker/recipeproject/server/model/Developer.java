@@ -66,7 +66,7 @@ public class Developer {
         for (Dish dish : Store.getInstance().getAllDishes()) {
             System.out.println("Блюдо " + ++i + ": " + dish.getName());
             for (int j = 0; j < dish.getListOfIngredients().size(); j++){
-                System.out.println("Ингредиенты блюда " + i + "(id): " + dish.getListOfIngredients().get(j).getIngredient().getId());
+                System.out.println("Ингредиенты блюда " + i + "(name): " + dish.getListOfIngredients().get(j).getIngredient().getName());
             }
             dishes.add(dish);
         }
@@ -172,13 +172,13 @@ public class Developer {
 
     }
 
-    private Message uploadFromFile(Message message) throws IOException {
+    private Message uploadFromFile(Message message){
         File fileDishes = new File("LibraryOfDishes/" + Constants.fileNameDishes);
         File fileIngredients = new File("LibraryOfIngredients/" + Constants.fileNameIngredients);
-        if (RecipeIO.isFileEmpty(fileDishes)) {
-            return new Message(CommandEnum.NOT_OK, null);
-        }
         try (BufferedInputStream inD = new BufferedInputStream(new FileInputStream(fileDishes)); BufferedInputStream inI = new BufferedInputStream(new FileInputStream(fileIngredients))) {
+            if (RecipeIO.isFileEmpty(fileDishes)) {
+                return new Message(CommandEnum.NOT_OK, null);
+            }
             ArrayList<Dish> deserializedDishes = RecipeIO.deserializeDishDictionary(inD);
             for (Dish dish : deserializedDishes) {
                 if (!Store.getInstance().getAllDishes().contains(dish)) {
