@@ -121,7 +121,7 @@ public class Dish implements Serializable, Comparable<Dish> {
 
     public int findIngredient(int idIngredient){
         int i = 0;
-        if(this.contains(id)){
+        if(this.contains(idIngredient)){
             for (DishComponent dishComponent: listOfIngredients){
                 if(idIngredient == dishComponent.getIngredient().getId()){
                     return i;

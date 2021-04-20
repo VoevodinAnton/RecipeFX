@@ -44,7 +44,6 @@ public class StoreTest {
         Dish noodlesWithCheese = new Dish(ingredientsOfNwCh, "Лапша с сыром", "15 минут");
 
 
-
         Store.getInstance().addIngredient(egg);
         Store.getInstance().addIngredient(chicken);
         Store.getInstance().addDish(omelette);
@@ -93,12 +92,11 @@ public class StoreTest {
         Dish riceWithMeat = new Dish(ingredientsOfRwM, "Рис С мясом", "10 минут");
 
 
-
         assertThrows(DuplicateFoundException.class, () -> {
             Store.getInstance().addDish(omeletteDuplicate);
         });
 
-        assertThrows(DuplicateFoundException.class, () ->{
+        assertThrows(DuplicateFoundException.class, () -> {
             Store.getInstance().addDish(riceWithMeat);
         });
     }
@@ -118,7 +116,7 @@ public class StoreTest {
     }
 
     @Test
-    public void testAddDuplicationIngredient(){
+    public void testAddDuplicationIngredient() {
         Ingredient eggDuplicate = new Ingredient("ЯйЦо", "шт");
         Ingredient chickenDuplicate = new Ingredient("КуриЦа", "гр");
         Ingredient noodlesDuplicate = new Ingredient("лаПша", "шт");
@@ -129,7 +127,7 @@ public class StoreTest {
         assertThrows(DuplicateFoundException.class, () -> {
             Store.getInstance().addIngredient(chickenDuplicate);
         });
-        assertThrows(DuplicateFoundException.class, () ->{
+        assertThrows(DuplicateFoundException.class, () -> {
             Store.getInstance().addIngredient(noodlesDuplicate);
         });
 
@@ -187,7 +185,6 @@ public class StoreTest {
         try {
             Store.getInstance().editDish(omelette);
             assertEquals(Store.getInstance().getAllDishes().get(0).getName(), "Яичница");
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -198,36 +195,27 @@ public class StoreTest {
         Ingredient egg = new Ingredient("яйцоо", "шт");
         egg.setId(1);
         try {
-            //Store.getInstance().editIngredient(egg);
-            //System.out.println(Store.getInstance().getAllDishes().get(1).getListOfIngredients().get(1).getIngredient().getId());
-        } catch (Exception e){
+            Store.getInstance().editIngredient(egg);
+            assertEquals(Store.getInstance().getAllDishes().get(0).getListOfIngredients().get(1).getIngredient().getName(), "яйцоо");
+            assertEquals(Store.getInstance().getAllIngredients().get(0).getName(), "яйцоо");
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-        try {
-            //System.out.println(Store.getInstance().findIngredient(egg));
-            for (Ingredient ingredient: Store.getInstance().getAllIngredients()){
-                System.out.println(ingredient.getId());
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-
 
     }
 
     @Test
     public void testIsExistIngredient() {
-        try{
+        try {
             assertTrue(Store.getInstance().isExistIngredient(Store.getInstance().getAllIngredients().get(0)));
-        } catch (Exception e){
+        } catch (Exception e) {
 
         }
 
     }
 
     @AfterMethod
-    public  void clean() throws IOException {
+    public void clean() throws IOException {
         Store.getInstance().getAllDishes().clear();
         Store.getInstance().getAllIngredients().clear();
     }

@@ -39,8 +39,6 @@ public class Developer {
                 return ingredientsOutput();
             case UPLOAD_TO_FILE:
                 return uploadToFile(message);
-            case OUTPUT_OF_ALL_FILENAMES:
-                return outputOfAllFileNames(message);
             case UPLOAD_FROM_FILE:
                 return uploadFromFile(message);
             default:
@@ -59,8 +57,6 @@ public class Developer {
                 dishesToClient.add(dish);
             }
         }
-        System.out.println(
-                "Отправлен список всех блюд");
         return new Message(CommandEnum.SEARCH, dishesToClient);
     }
 
@@ -69,6 +65,9 @@ public class Developer {
         ArrayList<Dish> dishes = new ArrayList<>();
         for (Dish dish : Store.getInstance().getAllDishes()) {
             System.out.println("Блюдо " + ++i + ": " + dish.getName());
+            for (int j = 0; j < dish.getListOfIngredients().size(); j++){
+                System.out.println("Ингредиенты блюда " + i + "(id): " + dish.getListOfIngredients().get(j).getIngredient().getId());
+            }
             dishes.add(dish);
         }
         return new Message(CommandEnum.OUTPUT_OF_ALL_DISHES, dishes);
@@ -126,6 +125,7 @@ public class Developer {
     private Message editIngredient(Message message) throws IOException {
         Object object = message.getObj();
         Ingredient ingredientEdit = (Ingredient) object;
+        System.out.println("ID редактируемого ингредиента: " + ingredientEdit.getId());
         if (Store.getInstance().isExistIngredient(ingredientEdit)) {
             Store.getInstance().editIngredient(ingredientEdit);
             return new Message(CommandEnum.OK, null);
@@ -172,19 +172,6 @@ public class Developer {
 
     }
 
-
-    private Message outputOfAllFileNames(Message message) {
-        ArrayList<String> results = new ArrayList();
-        File[] files = new File("LibraryOfDishes").listFiles();
-        //If this pathname does not denote a directory, then listFiles() returns nul.
-        assert files != null;
-        for (File file : files) {
-            if (file.isFile()) {
-                results.add(file.getName());
-            }
-        }
-        return new Message(CommandEnum.OUTPUT_OF_ALL_FILENAMES, results);
-    }
     private Message uploadFromFile(Message message) throws IOException {
         File fileDishes = new File("LibraryOfDishes/" + Constants.fileNameDishes);
         File fileIngredients = new File("LibraryOfIngredients/" + Constants.fileNameIngredients);

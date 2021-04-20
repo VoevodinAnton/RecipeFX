@@ -14,6 +14,8 @@ public class DishTest {
     private Dish getDishOmelette(){
         Ingredient egg = new Ingredient("яйцо", "шт");
         Ingredient sausage = new Ingredient("колбаса", "гр");
+        egg.setId(1);
+        sausage.setId(2);
         DishComponent sausage1 = new DishComponent(sausage, 1);
         DishComponent egg3 = new DishComponent(egg, 3);
         ArrayList<DishComponent> ingredientsOfOmelette = new ArrayList<>();
@@ -61,7 +63,9 @@ public class DishTest {
     public Object[][] containsData(){
         String search1 = "яйцо";
         String search2 = "яЙцо    , КоЛбаса";
-        return new Object[][]{{search1}, {search2}};
+        String search3 = "я?";
+        String search4 = "к*олбаса";
+        return new Object[][]{{search1}, {search2}, {search3}, {search4}};
     }
 
     @DataProvider
@@ -87,8 +91,18 @@ public class DishTest {
     public void testEquals(Dish dish) {
         Dish omelette = getDishOmelette();
         assertTrue(omelette.equals(dish));
-        assertTrue(omelette.equals(dish));
     }
 
 
+    @Test
+    public void testFindIngredient() {
+        Dish omelette = getDishOmelette();
+        assertEquals(omelette.findIngredient(omelette.getListOfIngredients().get(0).getIngredient().getId()), 0);
+    }
+
+    @Test
+    public void testTestContains() {
+        Dish omelette = getDishOmelette();
+        assertTrue(omelette.contains(omelette.getListOfIngredients().get(0).getIngredient().getId()));
+    }
 }

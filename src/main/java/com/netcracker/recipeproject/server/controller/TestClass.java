@@ -8,7 +8,7 @@ import com.netcracker.recipeproject.server.model.utils.Constants;
 import java.io.*;
 import java.util.ArrayList;
 
-public class M {
+public class TestClass {
 
 
 
