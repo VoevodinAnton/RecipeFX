@@ -62,6 +62,8 @@ public class AddIngredientController {
                      Message message = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
                      controller.setIngredientObservableList((List<Ingredient>)message.getObj());
                  }
+                 else if(response.getFlag() == CommandEnum.ADDING_A_DUPLICATE_INGREDIENT)
+                     errorLabel.setText("Такой ингредиент уже существует");
              }
              errorLabel.setText(error);
          });

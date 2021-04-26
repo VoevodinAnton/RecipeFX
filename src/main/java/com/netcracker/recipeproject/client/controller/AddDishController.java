@@ -134,7 +134,7 @@ public class AddDishController {
                     Message message = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_DISHES, null);
                     controller.setDishObservableList((List<Dish>)message.getObj());
                 } else {
-                    errorLabel.setText("Такое блюдо уже существует");
+                    error += "Такое блюдо уже существует";
                 }
             }
             errorLabel.setText(error);

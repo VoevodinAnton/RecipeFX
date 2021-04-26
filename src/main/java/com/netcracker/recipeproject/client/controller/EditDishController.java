@@ -132,9 +132,11 @@ public class EditDishController {
 
                     Message message = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_DISHES, null);
                     controller.setDishObservableList((List<Dish>)message.getObj());
-                } else {
-                    errorLabel.setText("Такое блюдо уже существует");
                 }
+                else if(response.getFlag() == CommandEnum.ADDING_A_DUPLICATE_DISH)
+                    error += "Такое блюдо уже существует";
+                else if(response.getFlag() == CommandEnum.NOT_OK)
+                    error += "В данный момент редактирование блюда недоступно";
             }
             errorLabel.setText(error);
         });

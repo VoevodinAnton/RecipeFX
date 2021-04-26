@@ -7,10 +7,7 @@ import java.util.List;
 
 import com.netcracker.recipeproject.client.model.InteractionClient;
 import com.netcracker.recipeproject.client.utils.Messaging;
-import com.netcracker.recipeproject.library.CommandEnum;
-import com.netcracker.recipeproject.library.Dish;
-import com.netcracker.recipeproject.library.DishComparator;
-import com.netcracker.recipeproject.library.Message;
+import com.netcracker.recipeproject.library.*;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -65,6 +62,11 @@ public class PrimaryController{
             List<Dish> dishList = dishObservableList;
             dishObservableList.removeAll(dishList);
             dishObservableList.addAll(list);
+            for(Dish d : list){
+                System.out.println("Блюдо" + d.getName());
+                for(DishComponent component : d.getListOfIngredients())
+                    System.out.println("Ингредиент" + component.getIngredient().getName());
+            }
         }
 
         @FXML

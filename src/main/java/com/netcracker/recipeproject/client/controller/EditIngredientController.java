@@ -72,9 +72,21 @@ public class EditIngredientController {
                     Message message = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_INGREDIENTS, null);
                     controller.setIngredientObservableList((List<Ingredient>)message.getObj());
 
-                } else {
-                    System.out.println("Невозможно отредактировать ингредиент"); //TODO: нужно вывести на экран
-                }
+                    FXMLLoader loader2 = new FXMLLoader();
+                    loader2.setLocation(getClass().getResource("/com/netcracker/recipeproject/FXML/primary.fxml"));
+                    try {
+                        loader2.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    PrimaryController controller2 = loader2.getController();
+                    Message message2 = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_DISHES, null);
+                    controller2.setDishObservableList((List<Dish>)message2.getObj());
+
+                } else if(response.getFlag() == CommandEnum.ADDING_A_DUPLICATE_INGREDIENT)
+                    error += "Такой ингредиент уже существует";
+                    else if(response.getFlag() == CommandEnum.NOT_OK)
+                    error += "В данный момент редактирование ингредиента недоступно";
             }
             errorLabel.setText(error);
         });
