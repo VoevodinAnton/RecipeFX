@@ -79,6 +79,7 @@ public class EditDishController {
         }
         ingredientsComboBox.setItems(FXCollections.observableList(namesArray));
         StringBuffer ingredientNameBuffer = new StringBuffer();
+        StringBuffer idI = new StringBuffer();
 
         ingredientsComboBox.setOnAction(actionEvent -> {
             String nameIngredient = ingredientsComboBox.getValue();
@@ -87,6 +88,8 @@ public class EditDishController {
             for(Ingredient ingredientItem : ingredientArrayList){
                 if(ingredientItem.getName().equals(nameIngredient)){
                     unitField.setText(ingredientItem.getUnit());
+                    idI.setLength(0);
+                    idI.append(ingredientItem.getId());
                 }
             }
         });
@@ -98,7 +101,7 @@ public class EditDishController {
                     if (error.equals("")) {
                         int number = Integer.parseInt(numberField.getText());
                         String unit = unitField.getText();
-                        observableList.add(new DishComponent(new Ingredient(name, unit), number));
+                        observableList.add(new DishComponent(new Ingredient(Integer.parseInt(idI.toString()),name, unit), number));
                     }
                     errorLabel.setText(error);
                 });
