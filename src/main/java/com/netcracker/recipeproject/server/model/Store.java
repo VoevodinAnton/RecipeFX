@@ -2,6 +2,7 @@ package com.netcracker.recipeproject.server.model;
 
 import com.netcracker.recipeproject.library.*;
 import com.netcracker.recipeproject.server.Exceptions.DuplicateFoundException;
+import com.netcracker.recipeproject.server.Exceptions.IngredientDoesNotExistException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class Store implements Storage {
     }
 
     @Override
-    public synchronized void addDish(Dish dish) throws IOException {
+    public synchronized void addDish(Dish dish) throws IOException, DuplicateFoundException, IngredientDoesNotExistException {
         if (!(DishDictionary.getInstance().getAllDishes().isEmpty())) {
             for (Dish thisDish : DishDictionary.getInstance().getAllDishes()) {
                 if (thisDish.equals(dish)) {
@@ -36,12 +37,19 @@ public class Store implements Storage {
                 }
             }
         }
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+        for (DishComponent dishComponent : dish.getListOfIngredients()) {
+            ingredients.add(dishComponent.getIngredient());
+        }
+        if (!Store.getInstance().getAllIngredients().containsAll(ingredients)) {
+            throw new IngredientDoesNotExistException();
+        }
         dish.setId(this.lastIdOfLastDish() + 1);
         DishDictionary.getInstance().getAllDishes().add(dish);
     }
 
     @Override
-    public synchronized void addIngredient(Ingredient ingredient) throws IOException {
+    public synchronized void addIngredient(Ingredient ingredient) throws IOException, DuplicateFoundException {
         if (!IngredientDictionary.getInstance().getAllIngredients().isEmpty()) {
             for (Ingredient thisIngredient : IngredientDictionary.getInstance().getAllIngredients()) {
                 if (thisIngredient.getName().equalsIgnoreCase(ingredient.getName())) {
@@ -137,8 +145,8 @@ public class Store implements Storage {
 
 
     public boolean isExistIngredient(Ingredient ingredient) throws IOException {
-        for (Ingredient thisIngredient: Store.getInstance().getAllIngredients()){
-            if (thisIngredient.getId() == ingredient.getId()){
+        for (Ingredient thisIngredient : Store.getInstance().getAllIngredients()) {
+            if (thisIngredient.getId() == ingredient.getId()) {
                 return true;
             }
         }
@@ -146,8 +154,8 @@ public class Store implements Storage {
     }
 
     public boolean isExistDish(Dish dish) throws IOException {
-        for (Dish thisDish: Store.instance.getAllDishes()){
-            if (thisDish.getId() == dish.getId()){
+        for (Dish thisDish : Store.instance.getAllDishes()) {
+            if (thisDish.getId() == dish.getId()) {
                 return true;
             }
         }
