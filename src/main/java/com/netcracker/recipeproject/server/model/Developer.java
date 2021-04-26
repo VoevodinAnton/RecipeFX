@@ -5,6 +5,7 @@ import com.netcracker.recipeproject.library.Dish;
 import com.netcracker.recipeproject.library.Ingredient;
 import com.netcracker.recipeproject.library.Message;
 import com.netcracker.recipeproject.server.Exceptions.DuplicateFoundException;
+import com.netcracker.recipeproject.server.Exceptions.IngredientDoesNotExistException;
 import com.netcracker.recipeproject.server.IO.RecipeIO;
 import com.netcracker.recipeproject.server.model.DishDictionary;
 import com.netcracker.recipeproject.server.model.IngredientDictionary;
@@ -65,7 +66,7 @@ public class Developer {
         ArrayList<Dish> dishes = new ArrayList<>();
         for (Dish dish : Store.getInstance().getAllDishes()) {
             System.out.println("Блюдо " + ++i + ": " + dish.getName());
-            for (int j = 0; j < dish.getListOfIngredients().size(); j++){
+            for (int j = 0; j < dish.getListOfIngredients().size(); j++) {
                 System.out.println("Ингредиенты блюда " + i + "(name): " + dish.getListOfIngredients().get(j).getIngredient().getName());
             }
             dishes.add(dish);
@@ -88,6 +89,9 @@ public class Developer {
         Dish dishAdd = (Dish) object;
         try {
             Store.getInstance().addDish(dishAdd);
+        } catch (IngredientDoesNotExistException e) {
+            System.out.println("В блюде, которое вы хотите добавить, есть несуществующий ингредиент");
+            return new Message(CommandEnum.NOT_OK, null);
         } catch (DuplicateFoundException e) {
             System.out.println("Обнаружен  дупликат");
             return new Message(CommandEnum.ADDING_A_DUPLICATE_DISH, dishAdd);
@@ -155,14 +159,15 @@ public class Developer {
             int i = 0;
             ArrayList<Dish> dishes = new ArrayList<>();
             ArrayList<Ingredient> ingredients = new ArrayList<>();
-            for (Dish dish : Store.getInstance().getAllDishes()) {
-                System.out.println("Блюдо " + ++i + ": " + dish.getName());
-                dishes.add(dish);
-            }
             for (Ingredient ingredient : Store.getInstance().getAllIngredients()) {
                 System.out.println("Ингредиент " + ++i + ": " + ingredient.getName());
                 ingredients.add(ingredient);
             }
+            for (Dish dish : Store.getInstance().getAllDishes()) {
+                System.out.println("Блюдо " + ++i + ": " + dish.getName());
+                dishes.add(dish);
+            }
+
             RecipeIO.serializeDishDictionary(outD, dishes);
             RecipeIO.serializeIngredientDictionary(outI, ingredients);
         } catch (IOException e) {
@@ -172,18 +177,12 @@ public class Developer {
 
     }
 
-    private Message uploadFromFile(Message message){
+    private Message uploadFromFile(Message message) {
         File fileDishes = new File("LibraryOfDishes/" + Constants.fileNameDishes);
         File fileIngredients = new File("LibraryOfIngredients/" + Constants.fileNameIngredients);
         try (BufferedInputStream inD = new BufferedInputStream(new FileInputStream(fileDishes)); BufferedInputStream inI = new BufferedInputStream(new FileInputStream(fileIngredients))) {
             if (RecipeIO.isFileEmpty(fileDishes)) {
                 return new Message(CommandEnum.NOT_OK, null);
-            }
-            ArrayList<Dish> deserializedDishes = RecipeIO.deserializeDishDictionary(inD);
-            for (Dish dish : deserializedDishes) {
-                if (!Store.getInstance().getAllDishes().contains(dish)) {
-                    Store.getInstance().addDish(dish);
-                }
             }
             ArrayList<Ingredient> deserializedIngredients = RecipeIO.deserializeIngredientDictionary(inI);
             for (Ingredient ingredient : deserializedIngredients) {
@@ -191,6 +190,13 @@ public class Developer {
                     Store.getInstance().addIngredient(ingredient);
                 }
             }
+            ArrayList<Dish> deserializedDishes = RecipeIO.deserializeDishDictionary(inD);
+            for (Dish dish : deserializedDishes) {
+                if (!Store.getInstance().getAllDishes().contains(dish)) {
+                    Store.getInstance().addDish(dish);
+                }
+            }
+
             int i = 0;
             for (Dish dish : deserializedDishes) {
                 System.out.println("Блюдо " + ++i + ": " + dish.getName());
