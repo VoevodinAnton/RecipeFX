@@ -98,9 +98,7 @@ public class Dish implements Serializable, Comparable<Dish> {
                 for(String itemDish:nameOfIngredientsDish) {
                     Matcher matcher = pattern.matcher(itemDish.toLowerCase());
                     if (matcher.find()){
-                        String str = itemDish.substring(matcher.start(), matcher.end());
-                        if(itemDish.toLowerCase().equals(str))
-                            result = true;
+                        result = true;
                     }
                 }
             }

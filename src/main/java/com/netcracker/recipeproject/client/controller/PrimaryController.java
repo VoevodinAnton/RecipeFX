@@ -150,7 +150,15 @@ public class PrimaryController{
             });
             allDishButton.setOnAction(actionEvent -> {
                     Object object = Messaging.execute(CommandEnum.OUTPUT_OF_ALL_DISHES, null).getObj();
-                    setDishObservableList((List<Dish>)object);
+                    if(!((List<Dish>)object).isEmpty()) {
+                        errorLabel.setText("");
+                        dishList.setVisible(true);
+                        setDishObservableList((List<Dish>) object);
+                    }
+                    else{
+                        dishList.setVisible(false);
+                        errorLabel.setText("База данных рецептов пуста");
+                    }
             });
 
             saveButton.setOnAction(actionEvent -> {
